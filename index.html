@@ -109,7 +109,7 @@ const seed=()=>({fs:17,verses:{},hl:[],arts:[{id:'a1',label:'12. Caleb',sub:'Sea
 {type:'p',text:'Cuando Moisés envió a doce hombres a explorar Canaán, diez volvieron con miedo. Caleb, en cambio, habló con valor y confianza (Números 13:30). Su lealtad no dependía de lo que veían, sino de en quién confiaban.'},
 {type:'p',text:'Prueba a seleccionar texto para resaltarlo o añadir una nota. Toca cualquier texto bíblico en azul para verlo en la pestaña de estudio.'}]}]});
 let S;try{S=JSON.parse(localStorage.getItem('jwl2'))||seed()}catch(e){S=seed()}
-const save=()=>{try{localStorage.setItem('jwl2',JSON.stringify(S))}catch(e){}};
+const save=()=>{try{localStorage.setItem('jwl2',JSON.stringify(S))}catch(e){}window.SYNC&&SYNC.track()};
 let cur=null,ns=false,nsf='',q='',sv0=null,edit=false,pend=null,sOpen=true,sOn=false,lc='yellow',ri=-1;
 const A=()=>S.arts.find(a=>a.id==cur),uid=()=>Math.random().toString(36).slice(2,9);
 const toast=m=>{const t=$('#ts');t.textContent=m;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',1800)};
@@ -280,4 +280,64 @@ addEventListener('keydown',e=>{if(e.key=='Escape')closeLb()});
 document.addEventListener('change',e=>{if(e.target.dataset&&(e.target.dataset.t!=null||e.target.dataset.bf!=null)){const r=$('#rl');if(r)r.innerHTML=refsHtml(A())}});
 document.documentElement.style.setProperty('--fs',S.fs+'px');
 cur=S.arts[0]&&S.arts[0].id;render();
-</script></body></html>
+</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+window.SYNC=(()=>{
+const URL_='https://ixqglgsogfazmdhcftyc.supabase.co',KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4cWdsZ3NvZ2Zhem1kaGNmdHljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIzNjMxNjQsImV4cCI6MjEwNzkzOTE2NH0.vJCudg1rr7LCH0rsec7aFfjKIzQX9U3WIIaFfCCkObA';
+if(!window.supabase)return{track(){}};
+const sb=supabase.createClient(URL_,KEY,{auth:{persistSession:true,autoRefreshToken:true}});
+const MK='jwl2meta',PK='jwl2pull';
+let meta={},cursor='1970-01-01T00:00:00Z',user=null,busy=false,again=false,tm=null,rt=null,chan=null,st='off',msg='';
+try{meta=JSON.parse(localStorage.getItem(MK))||{};cursor=localStorage.getItem(PK)||cursor}catch(e){}
+const persist=()=>{try{localStorage.setItem(MK,JSON.stringify(meta));localStorage.setItem(PK,cursor)}catch(e){}};
+const hash=s=>{let h=5381;for(let i=0;i<s.length;i++)h=(h*33^s.charCodeAt(i))>>>0;return h.toString(36)+s.length};
+const items=()=>{const m={};S.arts.forEach(a=>m['a|'+a.id]=a);S.hl.forEach(h=>m['h|'+h.id]=h);Object.keys(S.verses||{}).forEach(r=>m['v|'+r]=S.verses[r]);m['p|fs']=S.fs;return m};
+function track(){const first=!Object.keys(meta).length,cur=items(),now=Date.now();
+ for(const k in cur){const h=hash(JSON.stringify(cur[k])),m=meta[k];if(!m||m.del||m.h!=h)meta[k]={h,ts:(!m&&first)?1:now,d:1}}
+ for(const k in meta)if(!(k in cur)&&!meta[k].del)meta[k]={del:1,ts:now,d:1};
+ persist();schedule()}
+function schedule(){if(!user)return;setSt('sync');clearTimeout(tm);tm=setTimeout(sync,1500)}
+function apply(k,x){const id=x.item_id,t=x.kind;
+ if(t=='a'){const i=S.arts.findIndex(a=>a.id==id);if(x.deleted){if(i>=0)S.arts.splice(i,1)}else if(i>=0)S.arts[i]=x.data;else S.arts.push(x.data)}
+ else if(t=='h'){S.hl=S.hl.filter(h=>h.id!=id);if(!x.deleted)S.hl.push(x.data)}
+ else if(t=='v'){S.verses=S.verses||{};if(x.deleted)delete S.verses[id];else S.verses[id]=x.data}
+ else if(t=='p'&&id=='fs'&&!x.deleted){S.fs=x.data;document.documentElement.style.setProperty('--fs',S.fs+'px')}
+ meta[k]=x.deleted?{del:1,ts:x.ts}:{h:hash(JSON.stringify(x.data)),ts:x.ts}}
+function softRender(){const e=document.activeElement;if(e&&/INPUT|TEXTAREA/.test(e.tagName)||e&&e.isContentEditable||(typeof edit!='undefined'&&edit))return setTimeout(softRender,3000);
+ if(!S.arts.find(a=>a.id==cur))cur=S.arts[0]&&S.arts[0].id;render()}
+async function sync(){if(!user)return;if(busy){again=true;return}busy=true;setSt('sync');
+ try{let ch=false;
+  for(;;){const r=await sb.from('sync_items').select('kind,item_id,data,ts,deleted,synced_at').gte('synced_at',cursor).order('synced_at').limit(500);
+   if(r.error)throw r.error;
+   for(const x of r.data){const k=x.kind+'|'+x.item_id,m=meta[k];if(!m||m.ts<x.ts){apply(k,x);ch=true}if(x.synced_at>cursor)cursor=x.synced_at}
+   if(r.data.length<500)break}
+  if(ch){try{localStorage.setItem('jwl2',JSON.stringify(S))}catch(e){}}
+  const cur_=items(),dirty=Object.keys(meta).filter(k=>meta[k].d);
+  for(let i=0;i<dirty.length;i+=10){const part=dirty.slice(i,i+10),rows=part.map(k=>{const j=k.indexOf('|'),m=meta[k];return{user_id:user.id,kind:k.slice(0,j),item_id:k.slice(j+1),data:m.del?null:cur_[k],ts:m.ts,deleted:!!m.del}});
+   const w=await sb.from('sync_items').upsert(rows,{onConflict:'user_id,kind,item_id'});if(w.error)throw w.error;
+   part.forEach(k=>{if(meta[k]&&meta[k].ts==rows[part.indexOf(k)].ts)delete meta[k].d})}
+  persist();if(ch)softRender();setSt('ok');
+ }catch(e){console.error(e);msg=e.message||'Error';setSt('err')}
+ busy=false;if(again){again=false;sync()}}
+function sub(){unsub();chan=sb.channel('si-'+user.id).on('postgres_changes',{event:'*',schema:'public',table:'sync_items',filter:'user_id=eq.'+user.id},()=>{clearTimeout(rt);rt=setTimeout(sync,400)}).subscribe()}
+function unsub(){if(chan){sb.removeChannel(chan);chan=null}}
+sb.auth.onAuthStateChange((ev,s)=>{const u=s&&s.user;if(u&&(!user||user.id!=u.id)){user=u;track();sub();sync()}else if(!u&&user){user=null;unsub();setSt('off')}paintModal()});
+addEventListener('online',sync);document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()});setInterval(()=>{if(!document.hidden)sync()},60000);
+// ---- UI ----
+const css=document.createElement('style');css.textContent=`#sy{position:fixed;left:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ic);display:flex;align-items:center;justify-content:center;z-index:50;cursor:pointer;box-shadow:0 2px 8px #0003}#sy i{position:absolute;right:6px;top:6px;width:10px;height:10px;border-radius:50%;background:#999;border:2px solid var(--card)}#sy.ok i{background:#4cae5a}#sy.sync i{background:#f08a1c}#sy.err i{background:#d33}#symd{position:fixed;inset:0;background:#0006;z-index:60;display:none;align-items:center;justify-content:center;padding:16px}#symd.on{display:flex}#symd .bx{background:var(--card);color:var(--ink);border-radius:14px;padding:20px;width:100%;max-width:340px;font:15px Figtree,system-ui,sans-serif}#symd h3{margin:0 0 6px;font-size:18px}#symd p{margin:0 0 12px;color:var(--mut);font-size:13px}#symd input{width:100%;padding:10px;margin-bottom:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-size:15px}#symd button{padding:10px 14px;border-radius:8px;border:0;background:var(--ic);color:#fff;font-size:14px;cursor:pointer;margin:4px 6px 0 0}#symd button.g{background:var(--chip);color:var(--ink)}#symd .m{color:#d33;font-size:13px;min-height:18px;margin-top:6px}`;document.head.appendChild(css);
+const b=document.createElement('button');b.id='sy';b.setAttribute('aria-label','Sincronización');b.innerHTML='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10a6 6 0 0 0-11.6-1.5A4.5 4.5 0 0 0 7 18h11a4 4 0 0 0 0-8z"/></svg><i></i>';
+const md=document.createElement('div');md.id='symd';md.innerHTML='<div class="bx"></div>';document.body.append(b,md);
+const bx=md.firstChild;
+function setSt(s){st=s;b.className=s=='off'?'':s;if(s=='err')b.title=msg;paintModal()}
+b.onclick=()=>{md.classList.add('on');paintModal()};md.onclick=e=>{if(e.target==md)md.classList.remove('on')};
+function paintModal(){if(!md.classList.contains('on'))return;
+ if(user){bx.innerHTML=`<h3>Sincronización</h3><p>${user.email}<br>${st=='ok'?'Todo sincronizado ✓':st=='sync'?'Sincronizando…':st=='err'?'Error: '+msg:''}</p><button id="sn">Sincronizar ahora</button><button class="g" id="so">Cerrar sesión</button>`;
+  bx.querySelector('#sn').onclick=sync;bx.querySelector('#so').onclick=async()=>{await sb.auth.signOut();md.classList.remove('on')}}
+ else if(!bx.querySelector('#se')){bx.innerHTML=`<h3>Sincronizar dispositivos</h3><p>Inicia sesión para acceder a tus notas, subrayados y artículos en cualquier dispositivo.</p><input id="se" type="email" placeholder="Correo" autocomplete="email"><input id="sp" type="password" placeholder="Contraseña (mín. 6)" autocomplete="current-password"><button id="si">Entrar</button><button class="g" id="su">Crear cuenta</button><div class="m" id="sm"></div>`;
+  const go=async up=>{const m=bx.querySelector('#sm'),e=bx.querySelector('#se').value.trim(),p=bx.querySelector('#sp').value;m.style.color='#d33';m.textContent='';
+   const r=up?await sb.auth.signUp({email:e,password:p}):await sb.auth.signInWithPassword({email:e,password:p});
+   if(r.error)m.textContent=r.error.message;else if(up&&!r.data.session){m.style.color='var(--mut)';m.textContent='Revisa tu correo para confirmar la cuenta y luego pulsa Entrar.'}else md.classList.remove('on')};
+  bx.querySelector('#si').onclick=()=>go(0);bx.querySelector('#su').onclick=()=>go(1)}}
+return{track,sync}})();
+</script>
+</body></html>
