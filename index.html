@@ -137,7 +137,7 @@ const vtext=r=>S.verses[r]||VS[r]||(window.BIB&&BIB.verse(r));
 
 function adjLinks(b,o,n){if(!b.links||!b.links.length)return;const m=Math.min(o.length,n.length);let p=0;while(p<m&&o[p]==n[p])p++;let q2=0;while(q2<m-p&&o[o.length-1-q2]==n[n.length-1-q2])q2++;const oe=o.length-q2,d=n.length-o.length;b.links=b.links.filter(l=>l.e<=p||l.s>=oe).map(l=>l.s>=oe?{...l,s:l.s+d,e:l.e+d}:l);if(!b.links.length)delete b.links}
 const LKI='<svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>';
-const LKH=(b,i)=>{if(!['p','quote','box','q'].includes(b.type)||!(b.links&&b.links.length))return'';const t=b.text||'';return b.links.map((l,j)=>{let x=t.slice(l.s,l.e);if(x.length>26)x=x.slice(0,25)+'…';return `<button class="lkc2" data-a="elk" data-v="${i}|${j}">${LKI}<span>“${E(x)}”</span><b>${E(l.r||'Imagen')}${l.img?' 🖼':''}</b></button>`}).join('')};
+const LKH=(b,i)=>{if(!['p','quote','box','q'].includes(b.type)||!(b.links&&b.links.length))return'';const t=b.text||'';return b.links.map((l,j)=>{let x=t.slice(l.s,l.e);if(x.length>26)x=x.slice(0,25)+'…';return `<button class="lkc2" data-a="elk" data-v="${i}|${j}">${LKI}<span>“${E(x)}”</span><b>${E(l.r||'Imagen')}</b></button>`}).join('')};
 const ETB=()=>`<div class="etb" role="toolbar" aria-label="Herramientas de edición"><button class="btn" data-a="edit">Listo</button><button class="btn s lkb" data-a="lnk">${LKI}Enlazar</button><button class="btn s" data-a="addp">${ic('pl')} Párrafo</button><button class="btn s" data-a="addimg">${ic('im')} Imagen</button><button class="btn s" data-a="addurl">Imagen por enlace</button><button class="btn s" data-a="addb" data-v="song">Canción</button><button class="btn s" data-a="addb" data-v="quote">Cita</button><button class="btn s" data-a="addb" data-v="box">Recuadro</button><button class="btn s" data-a="addb" data-v="h">Subtítulo</button><button class="btn s" data-a="addb" data-v="q">Pregunta</button></div>`;
 function seg(a,bi,na){const t=a.blocks[bi].text||'',P=new Set([0,t.length]),H=S.hl.filter(h=>h.art==a.id&&h.b==bi&&!h.kind),R=[...(a.blocks[bi].links||[]).filter(l=>l.s<t.length).map(l=>({s:l.s,e:Math.min(l.e,t.length),r:l.r,im:l.img?bi+'|'+a.blocks[bi].links.indexOf(l):''})),...(na?[]:[...t.matchAll(RE)]).map(m=>({s:m.index,e:m.index+m[0].length,r:m[0]}))],Q=[];
  if(q.length>1){const lo=fold(t),k=fold(q);let i=-1;while((i=lo.indexOf(k,i+1))>=0)Q.push({s:i,e:i+k.length})}
@@ -660,7 +660,6 @@ body{overscroll-behavior-y:contain;-webkit-tap-highlight-color:transparent}
 @media(max-width:600px){#lkm{align-items:flex-end;padding:8px}}
 #lkp img{max-width:100%;max-height:140px;border-radius:12px;display:block;margin:0 0 8px}
 .lki{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.lki input{flex:1;min-width:140px}
-.ref[data-lim]::after{content:" 🖼";font-size:.75em}
 #lkv{position:fixed;inset:0;z-index:96;background:#000d;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px;cursor:zoom-out}
 #lkv.on{display:flex}#lkv img{max-width:100%;max-height:80dvh;object-fit:contain;border-radius:12px}
 #lkv p{color:#fff;font-size:14px;max-width:560px;text-align:center;margin:0}
