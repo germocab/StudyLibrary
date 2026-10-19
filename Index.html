@@ -129,7 +129,7 @@ function header(){const a=A(),b=(n,l,x='',c='')=>`<button class="ib ${c}" data-a
  :`<div class="t"><b>Mi biblioteca</b><small>Tus artículos de estudio</small></div>`+b('pl','Nuevo artículo','new')+`<button class="ib" data-a="theme" aria-label="Tema">◐</button>`;
  $('#hd').insertAdjacentHTML('beforeend','<div class="menu" id="mn"></div>')}
 function menu(){$('#mn').innerHTML=`<div class="tsz"><span class="tl">Tamaño del texto</span><div class="trow"><span style="font-size:13px">A</span><input type="range" id="fsr" min="13" max="30" step="1" value="${S.fs}" aria-label="Tamaño del texto"><span style="font-size:23px">A</span></div></div>
-<button data-a="fs">${ic('fs')}Pantalla completa</button><button data-a="anote">${ic('note')}Nueva nota</button><button data-a="edit">${ic('ed')}${edit?'Terminar edición':'Editar artículo'}</button><div class="ver">Versión 1.1.1</div>`}
+<button data-a="fs">${ic('fs')}Pantalla completa</button><button data-a="anote">${ic('note')}Nueva nota</button><button data-a="edit">${ic('ed')}${edit?'Terminar edición':'Editar artículo'}</button><div class="ver">Versión 1.1.1.0</div>`}
 const TN={p:'Párrafo',img:'Imagen',song:'Canción',quote:'Cita',box:'Recuadro',h:'Subtítulo',q:'Pregunta'},SW=['#e37b00','#5b3c88','#2a6fc4','#2f8f5b','#d6457f','#c0392b','#2f4f4f'];
 const DEF={song:()=>({type:'song',n:'',text:''}),quote:()=>({type:'quote',text:''}),box:()=>({type:'box',label:'TEMA',text:''}),h:()=>({type:'h',text:''}),q:()=>({type:'q',text:'',ans:''})};
 function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;return n}if(b.type=='q'){const nx=a.blocks.slice(i+1).find(k=>k.type=='p'||k.type=='q');return nx&&nx.type=='p'&&nx.num?n+1:0}return 0})}
