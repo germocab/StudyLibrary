@@ -138,6 +138,8 @@ const vtext=r=>S.verses[r]||VS[r]||(window.BIB&&BIB.verse(r));
 function adjLinks(b,o,n){if(!b.links||!b.links.length)return;const m=Math.min(o.length,n.length);let p=0;while(p<m&&o[p]==n[p])p++;let q2=0;while(q2<m-p&&o[o.length-1-q2]==n[n.length-1-q2])q2++;const oe=o.length-q2,d=n.length-o.length;b.links=b.links.filter(l=>l.e<=p||l.s>=oe).map(l=>l.s>=oe?{...l,s:l.s+d,e:l.e+d}:l);if(!b.links.length)delete b.links}
 const LKI='<svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>';
 const LKH=(b,i)=>{if(!['p','quote','box','q'].includes(b.type)||!(b.links&&b.links.length))return'';const t=b.text||'';return b.links.map((l,j)=>{let x=t.slice(l.s,l.e);if(x.length>26)x=x.slice(0,25)+'…';return `<button class="lkc2" data-a="elk" data-v="${i}|${j}">${LKI}<span>“${E(x)}”</span><b>${E(l.r||'Imagen')}</b></button>`}).join('')};
+const COV=x=>`<button class="card cv" data-a="open" data-v="${x.id}" aria-label="${E(x.title)}" style="--or:${E(x.accent||'#e37b00')}"><span class="cvi">${x.cover?`<img src="${E(x.cover)}" alt="">`:`<span class="cvl">${E(x.label||'')}</span><b class="cvt">${E(x.title)}</b>`}</span></button>`;
+const CVE=a=>`<div class="cve"><div class="cvp">${a.cover?`<img src="${E(a.cover)}" alt="">`:'<span>Sin portada</span>'}</div><div class="cvb"><b>Portada</b><small>Se muestra en tu biblioteca. Mejor en formato vertical 2:3.</small><div class="cvx"><button class="btn s" data-a="cvup">${a.cover?'Cambiar portada':'Subir portada'}</button>${a.cover?'<button class="btn s" data-a="cvrm">Quitar</button>':''}</div></div></div>`;
 const ETB=()=>`<div class="etb" role="toolbar" aria-label="Herramientas de edición"><button class="btn" data-a="edit">Listo</button><button class="btn s lkb" data-a="lnk">${LKI}Enlazar</button><button class="btn s" data-a="addp">${ic('pl')} Párrafo</button><button class="btn s" data-a="addimg">${ic('im')} Imagen</button><button class="btn s" data-a="addurl">Imagen por enlace</button><button class="btn s" data-a="addb" data-v="song">Canción</button><button class="btn s" data-a="addb" data-v="quote">Cita</button><button class="btn s" data-a="addb" data-v="box">Recuadro</button><button class="btn s" data-a="addb" data-v="h">Subtítulo</button><button class="btn s" data-a="addb" data-v="q">Pregunta</button></div>`;
 function seg(a,bi,na){const t=a.blocks[bi].text||'',P=new Set([0,t.length]),H=S.hl.filter(h=>h.art==a.id&&h.b==bi&&!h.kind),R=[...(a.blocks[bi].links||[]).filter(l=>l.s<t.length).map(l=>({s:l.s,e:Math.min(l.e,t.length),r:l.r,im:l.img?bi+'|'+a.blocks[bi].links.indexOf(l):''})),...(na?[]:[...t.matchAll(RE)]).map(m=>({s:m.index,e:m.index+m[0].length,r:m[0]}))],Q=[];
  if(q.length>1){const lo=fold(t),k=fold(q);let i=-1;while((i=lo.indexOf(k,i+1))>=0)Q.push({s:i,e:i+k.length})}
@@ -161,11 +163,11 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():S.arts.map(x=>`<button class="card" data-a="open" data-v="${x.id}"><span class="lb">${E(x.label)}</span><span><b>${E(x.title)}</b><br><small style="color:var(--mut)">${x.blocks.length} bloques</small></span></button>`).join(''))+`<p class="hint" style="text-align:center;margin-top:28px">Versión 2.0.1</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 2.0.1</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
-<div class="acc"><span>Color del título</span>${SW.map(c=>`<button class="sw${c==ac?' s':''}" style="background:${c}" data-a="acc" data-v="${c}" aria-label="Color ${c}"></button>`).join('')}<input type="color" id="e-c" value="${ac}" aria-label="Color personalizado"></div>`+
+<div class="acc"><span>Color del título</span>${SW.map(c=>`<button class="sw${c==ac?' s':''}" style="background:${c}" data-a="acc" data-v="${c}" aria-label="Color ${c}"></button>`).join('')}<input type="color" id="e-c" value="${ac}" aria-label="Color personalizado"></div>`+CVE(a)+
   a.blocks.map((b,i)=>{const f=(k,ph)=>`<input class="li" data-bf="${i}|${k}" value="${E(b[k]||'')}" placeholder="${ph}">`,ta=(k,ph,r)=>`<textarea class="ed" data-bf="${i}|${k}" rows="${r||3}" placeholder="${ph}">${E(b[k]||'')}</textarea>`;
    const body=b.type=='img'?`<figure><img src="${b.src}" alt=""></figure>`+f('cap','Pie de imagen'):b.type=='song'?f('n','Número de canción')+f('text','Título de la canción'):b.type=='box'?f('label','Etiqueta (ej. TEMA)')+ta('text','Texto del recuadro'):b.type=='h'?f('text','Subtítulo'):b.type=='quote'?ta('text','Texto de la cita, con el texto bíblico entre paréntesis',2):b.type=='q'?ta('text','Pregunta',2):`<textarea class="ed" data-t="${i}" rows="3" placeholder="Escribe un párrafo">${E(b.text)}</textarea>`;
    return `<div data-i="${i}"><div class="bar"><button data-a="up" data-v="${i}" aria-label="Subir">${ic('up')}</button><button data-a="dn" data-v="${i}" aria-label="Bajar">${ic('dn')}</button><button data-a="rm" data-v="${i}" aria-label="Borrar">${ic('tr')}</button>${b.type=='p'?`<button class="${b.num?'on':''}" data-a="num" data-v="${i}" aria-pressed="${!!b.num}">Numerar</button>`:''}<span class="bt">${TN[b.type]}</span></div>${body}<div class="lks">${LKH(b,i)}</div></div>`}).join('')+
@@ -290,7 +292,7 @@ document.addEventListener('click',e=>{
  case'note':{let h;if(pend.p){h={id:uid(),art:cur,b:pend.b,kind:'p',c:lc,note:'',title:''};S.hl.push(h)}else if(pend.h){h=S.hl.find(x=>x.id==pend.h);if(h.note==null)h.note=''}else h=mk(lc,true);getSelection().removeAllRanges();hideTb();pend=null;newNote(h);break}
  case'anote':{const h={id:uid(),art:cur,b:0,kind:'a',c:'purple',note:'',title:''};S.hl.push(h);newNote(h);break}
  case'num':art.blocks[+v].num=!art.blocks[+v].num;sv();break;
- case'acc':art.accent=v;sv();break;
+ case'acc':art.accent=v;sv();break;case'cvup':$('#cvf').click();break;case'cvrm':delete art.cover;sv();break;
  case'addb':addAt(DEF[v]());break;
  case'unhl':S.hl=S.hl.filter(h=>h.id!=pend.h);hideTb();pend=null;sv();break;
   case'goto':gotoN(S.hl.find(h=>h.id==v));break
@@ -377,7 +379,7 @@ window.LIBX={tab:'a',q:'',
   if(q)L=L.filter(h=>((h.title||'')+' '+(h.note||'')+' '+S.arts[ix(h.art)].title).toLowerCase().includes(q));
   L.sort((a,b)=>ix(a.art)-ix(b.art)||(a.kind=='a'?-1:a.b||0)-(b.kind=='a'?-1:b.b||0)||(a.s||0)-(b.s||0));
   return L.length?L.map(h=>{const a=S.arts[ix(h.art)];return `<button class="card nc${h.kind=='a'?'':' bx c-'+h.c}" data-a="lnote" data-v="${h.id}"><div class="ntt">${h.title?E(h.title):'Sin título'}</div><div class="nv2">${h.note?E(h.note):'<span style="color:var(--mut)">Nota vacía</span>'}</div>${h.img?`<img class="nim sm" src="${h.img}" alt="">`:''}${TG(h)}<div class="src">${E(a.label)} · ${E(a.title)}</div></button>`}).join(''):`<p class="hint" style="text-align:center">${q?'Sin resultados.':'Aún no tienes notas. Crea una desde cualquier artículo.'}</p>`},
- other(){if(LIBX.tab=='n')return LIBX.notes();const L=S.arts.filter(a=>a.saved);return L.length?L.map(x=>`<button class="card" data-a="open" data-v="${x.id}"><span class="lb">${E(x.label)}</span><span><b>${E(x.title)}</b><br><small style="color:var(--mut)">${x.blocks.length} bloques</small></span></button>`).join(''):'<p class="hint" style="text-align:center">Aún no has guardado artículos. Toca el marcador en la barra superior de un artículo para guardarlo.</p>'},
+ other(){if(LIBX.tab=='n')return LIBX.notes();const L=S.arts.filter(a=>a.saved);return L.length?'<div class="shelf">'+L.map(COV).join('')+'</div>':'<p class="hint" style="text-align:center">Aún no has guardado artículos. Toca el marcador en la barra superior de un artículo para guardarlo.</p>'},
  fill(){const n=$('#nl');if(n)n.innerHTML=LIBX.list()}};
 const css=document.createElement('style');css.textContent=`.bx{background:color-mix(in srgb,var(--c) 30%,var(--card));border-color:color-mix(in srgb,var(--c) 55%,var(--line))}.lib .card.nc{display:block}
 .ltabs{display:flex;gap:6px;background:var(--chip);border-radius:99px;padding:4px;margin:0 0 14px}.ltabs button{flex:1;padding:9px;border:0;border-radius:99px;background:transparent;color:var(--ink);font:600 14px Figtree,system-ui,sans-serif;cursor:pointer}.ltabs button.on{background:var(--card);box-shadow:0 1px 4px #0003}
@@ -557,6 +559,24 @@ study();
 #lsb b{flex:1;font-size:17px}
 #lsb button{border-radius:99px;padding:9px 16px;font-weight:600;background:var(--chip)}
 #lsb .del{background:#c0392b;color:#fff}#lsb .del:disabled{opacity:.4}
+/* Portadas (biblioteca) */
+.lib .shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:24px 16px;align-items:start}
+.lib .card.cv{display:block;width:100%;padding:0;background:none;border:0;box-shadow:none;border-radius:0;text-align:left;transition:transform .18s}
+.lib .card.cv:active{transform:scale(.97)}
+.cvi{position:relative;display:flex;flex-direction:column;aspect-ratio:2/3;overflow:hidden;border-radius:4px 12px 12px 4px;background:linear-gradient(155deg,var(--or),color-mix(in srgb,var(--or) 62%,#000));color:#fff;box-shadow:0 8px 18px #0003,0 1px 3px #0003;padding:16px 14px 16px 22px}
+.cvi::after{content:"";position:absolute;inset:0 auto 0 0;width:10px;background:linear-gradient(90deg,#0004,#fff2 55%,transparent);pointer-events:none}
+.cvi img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cvl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+.cvt{margin:auto 0;font-size:18px;line-height:1.2;font-weight:700;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.lsel .lib .card.cv{padding-right:0}
+.lib .card.cv .lck{right:8px;top:8px;margin-top:0;background:#0007;border-color:#fff;z-index:2}
+.lib .card.cv.selc{background:none}
+.lib .card.cv.selc .lck{background:var(--ic);border-color:var(--ic)}
+.lib .card.cv.selc .cvi{outline:3px solid var(--ic);outline-offset:3px}
+.cve{display:flex;gap:14px;align-items:center;margin:0 0 14px}
+.cvp{flex:none;width:72px;aspect-ratio:2/3;border-radius:4px 10px 10px 4px;overflow:hidden;background:var(--chip);color:var(--mut);font-size:12px;display:flex;align-items:center;justify-content:center;text-align:center}
+.cvp img{width:100%;height:100%;object-fit:cover}
+.cvb{display:flex;flex-direction:column;gap:4px;min-width:0}.cvb small{color:var(--mut)}.cvx{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
 </style>
 <script>
 {
@@ -713,5 +733,9 @@ const lkv=document.createElement('div');lkv.id='lkv';lkv.innerHTML='<button clas
 window.openLkImg=(bi,j)=>{const b=A().blocks[bi],l=b&&(b.links||[])[j];if(!l||!l.img)return;lkv.querySelector('img').src=l.img;const vt=l.r?vtext(l.r):'';lkv.querySelector('p').textContent=l.r?l.r+(vt?' — '+vt:''):(b.text||'').slice(l.s,l.e);lkv.classList.add('on')};
 lkv.addEventListener('click',()=>lkv.classList.remove('on'));
 document.addEventListener('keydown',e=>{if(e.key=='Escape')lkv.classList.remove('on')});
+
+/* Portada del artículo */
+const cvf=document.createElement('input');cvf.type='file';cvf.accept='image/*';cvf.id='cvf';cvf.hidden=true;document.body.appendChild(cvf);
+cvf.onchange=()=>{const f=cvf.files[0];cvf.value='';if(!f)return;const a=A();if(!a)return;const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,800/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);a.cover=c.toDataURL('image/jpeg',.85);save();render();toast('Portada guardada')};im.onerror=()=>toast('No se pudo leer la imagen');im.src=rd.result};rd.readAsDataURL(f)};
 </script>
 </body></html>
