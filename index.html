@@ -135,7 +135,11 @@ const A=()=>S.arts.find(a=>a.id==cur),uid=()=>Math.random().toString(36).slice(2
 const toast=m=>{const t=$('#ts');t.textContent=m;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',1800)};
 const vtext=r=>S.verses[r]||VS[r]||(window.BIB&&BIB.verse(r));
 
-function seg(a,bi){const t=a.blocks[bi].text||'',P=new Set([0,t.length]),H=S.hl.filter(h=>h.art==a.id&&h.b==bi&&!h.kind),R=[...t.matchAll(RE)].map(m=>({s:m.index,e:m.index+m[0].length,r:m[0]})),Q=[];
+function adjLinks(b,o,n){if(!b.links||!b.links.length)return;const m=Math.min(o.length,n.length);let p=0;while(p<m&&o[p]==n[p])p++;let q2=0;while(q2<m-p&&o[o.length-1-q2]==n[n.length-1-q2])q2++;const oe=o.length-q2,d=n.length-o.length;b.links=b.links.filter(l=>l.e<=p||l.s>=oe).map(l=>l.s>=oe?{...l,s:l.s+d,e:l.e+d}:l);if(!b.links.length)delete b.links}
+const LKI='<svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>';
+const LKH=(b,i)=>{if(!['p','quote','box'].includes(b.type)||!(b.links&&b.links.length))return'';const t=b.text||'';return b.links.map((l,j)=>{let x=t.slice(l.s,l.e);if(x.length>26)x=x.slice(0,25)+'…';return `<button class="lkc2" data-a="elk" data-v="${i}|${j}">${LKI}<span>“${E(x)}”</span><b>${E(l.r)}</b></button>`}).join('')};
+const ETB=()=>`<div class="etb" role="toolbar" aria-label="Herramientas de edición"><button class="btn" data-a="edit">Listo</button><button class="btn s lkb" data-a="lnk">${LKI}Enlazar</button><button class="btn s" data-a="addp">${ic('pl')} Párrafo</button><button class="btn s" data-a="addimg">${ic('im')} Imagen</button><button class="btn s" data-a="addurl">Imagen por enlace</button><button class="btn s" data-a="addb" data-v="song">Canción</button><button class="btn s" data-a="addb" data-v="quote">Cita</button><button class="btn s" data-a="addb" data-v="box">Recuadro</button><button class="btn s" data-a="addb" data-v="h">Subtítulo</button><button class="btn s" data-a="addb" data-v="q">Pregunta</button></div>`;
+function seg(a,bi){const t=a.blocks[bi].text||'',P=new Set([0,t.length]),H=S.hl.filter(h=>h.art==a.id&&h.b==bi&&!h.kind),R=[...(a.blocks[bi].links||[]).filter(l=>l.s<t.length).map(l=>({s:l.s,e:Math.min(l.e,t.length),r:l.r})),...[...t.matchAll(RE)].map(m=>({s:m.index,e:m.index+m[0].length,r:m[0]}))],Q=[];
  if(q.length>1){const lo=fold(t),k=fold(q);let i=-1;while((i=lo.indexOf(k,i+1))>=0)Q.push({s:i,e:i+k.length})}
  [...H,...R,...Q].forEach(x=>{P.add(Math.min(x.s,t.length));P.add(Math.min(x.e,t.length))});
  const p=[...P].sort((x,y)=>x-y);let o='';
@@ -144,27 +148,28 @@ function seg(a,bi){const t=a.blocks[bi].text||'',P=new Set([0,t.length]),H=S.hl.
   o+=`<span class="${h?'hl c-'+h.c+(h.note!=null?' hn':''):''}${r?' ref':''}${z?' sr':''}"${h?` data-h="${h.id}"`:''}${r?` data-r="${E(r.r)}"`:''}>${tx}</span>`}
  return o}
 
+const THI='<svg viewBox="0 0 24 24" style="width:24px;height:24px"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>',isDark=()=>{const t=document.documentElement.dataset.theme;return t?t=='dark':matchMedia('(prefers-color-scheme:dark)').matches};
 function header(){const a=A(),b=(n,l,x='',c='')=>`<button class="ib ${c}" data-a="${x||n}" aria-label="${l}">${ic(n)}</button>`;
  $('#hd').innerHTML=ns?b('back','Volver','back')+`<div class="t"><b>Nuevo artículo</b><small>Importa o crea desde cero</small></div>`:a?b('back','Volver','back')+`<div class="t"><b>${E(a.title)}</b><small>${E(a.sub||'')}</small></div>`+b('head','Medios','media')+b('srch','Buscar','search',sOn?'on':'')+b('bm','Guardar artículo','save',a.saved?'on':'')+`<span class="opt">${b('lang','Idioma','lang')}</span>`+b('dots','Más opciones','menu')
- :`<div class="t"><b>Mi biblioteca</b><small>Tus artículos de estudio</small></div>`+b('pl','Nuevo artículo','new')+`<button class="ib" data-a="theme" aria-label="Tema">◐</button>`;
+ :`<div class="t"><b>Mi biblioteca</b><small>Tus artículos de estudio</small></div>`+b('pl','Nuevo artículo','new')+`<button class="ib" data-a="theme" aria-label="Cambiar tema">${THI}</button>`;
  $('#hd').insertAdjacentHTML('beforeend','<div class="menu" id="mn"></div>')}
 function menu(){$('#mn').innerHTML=`<div class="tsz"><span class="tl">Tamaño del texto</span><div class="trow"><span style="font-size:13px">A</span><input type="range" id="fsr" min="13" max="30" step="1" value="${S.fs}" aria-label="Tamaño del texto"><span style="font-size:23px">A</span></div></div>
-<button class="mlang" data-a="lang">${ic('lang')}Idioma</button><button data-a="fs">${ic('fs')}Pantalla completa</button><button data-a="anote">${ic('note')}Nueva nota</button><button data-a="edit">${ic('ed')}${edit?'Terminar edición':'Editar artículo'}</button>`}
+<button class="mlang" data-a="lang">${ic('lang')}Idioma</button><button data-a="fs">${ic('fs')}Pantalla completa</button><button data-a="anote">${ic('note')}Nueva nota</button><button data-a="edit">${ic('ed')}${edit?'Terminar edición':'Editar artículo'}</button><button data-a="theme">${THI.replace('24px;height:24px','20px;height:20px')}${isDark()?'Modo claro':'Modo oscuro'}</button>`}
 const TN={p:'Párrafo',img:'Imagen',song:'Canción',quote:'Cita',box:'Recuadro',h:'Subtítulo',q:'Pregunta'},SW=['#e37b00','#5b3c88','#2a6fc4','#2f8f5b','#d6457f','#c0392b','#2f4f4f'];
 const DEF={song:()=>({type:'song',n:'',text:''}),quote:()=>({type:'quote',text:''}),box:()=>({type:'box',label:'TEMA',text:''}),h:()=>({type:'h',text:''}),q:()=>({type:'q',text:'',ans:''})};
 function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;return n}if(b.type=='q'){const nx=a.blocks.slice(i+1).find(k=>k.type=='p'||k.type=='q');return nx&&nx.type=='p'&&nx.num?n+1:0}return 0})}
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():S.arts.map(x=>`<button class="card" data-a="open" data-v="${x.id}"><span class="lb">${E(x.label)}</span><span><b>${E(x.title)}</b><br><small style="color:var(--mut)">${x.blocks.length} bloques</small></span></button>`).join(''))+`<p class="hint" style="text-align:center;margin-top:28px">Versión 1.9</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():S.arts.map(x=>`<button class="card" data-a="open" data-v="${x.id}"><span class="lb">${E(x.label)}</span><span><b>${E(x.title)}</b><br><small style="color:var(--mut)">${x.blocks.length} bloques</small></span></button>`).join(''))+`<p class="hint" style="text-align:center;margin-top:28px">Versión 2.0</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
-  pg.innerHTML=`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se convierten en enlaces bíblicos automáticamente.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
+  pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
 <div class="acc"><span>Color del título</span>${SW.map(c=>`<button class="sw${c==ac?' s':''}" style="background:${c}" data-a="acc" data-v="${c}" aria-label="Color ${c}"></button>`).join('')}<input type="color" id="e-c" value="${ac}" aria-label="Color personalizado"></div>`+
   a.blocks.map((b,i)=>{const f=(k,ph)=>`<input class="li" data-bf="${i}|${k}" value="${E(b[k]||'')}" placeholder="${ph}">`,ta=(k,ph,r)=>`<textarea class="ed" data-bf="${i}|${k}" rows="${r||3}" placeholder="${ph}">${E(b[k]||'')}</textarea>`;
    const body=b.type=='img'?`<figure><img src="${b.src}" alt=""></figure>`+f('cap','Pie de imagen'):b.type=='song'?f('n','Número de canción')+f('text','Título de la canción'):b.type=='box'?f('label','Etiqueta (ej. TEMA)')+ta('text','Texto del recuadro'):b.type=='h'?f('text','Subtítulo'):b.type=='quote'?ta('text','Texto de la cita, con el texto bíblico entre paréntesis',2):b.type=='q'?ta('text','Pregunta',2):`<textarea class="ed" data-t="${i}" rows="3" placeholder="Escribe un párrafo">${E(b.text)}</textarea>`;
-   return `<div data-i="${i}"><div class="bar"><button data-a="up" data-v="${i}" aria-label="Subir">${ic('up')}</button><button data-a="dn" data-v="${i}" aria-label="Bajar">${ic('dn')}</button><button data-a="rm" data-v="${i}" aria-label="Borrar">${ic('tr')}</button>${b.type=='p'?`<button class="${b.num?'on':''}" data-a="num" data-v="${i}" aria-pressed="${!!b.num}">Numerar</button>`:''}<span class="bt">${TN[b.type]}</span></div>${body}</div>`}).join('')+
-  `<div id="rl">${refsHtml(a)}</div><div class="add"><button class="btn" data-a="addp">${ic('pl')} Párrafo</button><button class="btn s" data-a="addimg">${ic('im')} Imagen</button><button class="btn s" data-a="addurl">Imagen por enlace</button><button class="btn s" data-a="addb" data-v="song">Canción</button><button class="btn s" data-a="addb" data-v="quote">Cita</button><button class="btn s" data-a="addb" data-v="box">Recuadro</button><button class="btn s" data-a="addb" data-v="h">Subtítulo</button><button class="btn s" data-a="addb" data-v="q">Pregunta</button><button class="btn s" data-a="edit">Listo</button></div>`;
+   return `<div data-i="${i}"><div class="bar"><button data-a="up" data-v="${i}" aria-label="Subir">${ic('up')}</button><button data-a="dn" data-v="${i}" aria-label="Bajar">${ic('dn')}</button><button data-a="rm" data-v="${i}" aria-label="Borrar">${ic('tr')}</button>${b.type=='p'?`<button class="${b.num?'on':''}" data-a="num" data-v="${i}" aria-pressed="${!!b.num}">Numerar</button>`:''}<span class="bt">${TN[b.type]}</span></div>${body}<div class="lks">${LKH(b,i)}</div></div>`}).join('')+
+  `<div id="rl">${refsHtml(a)}</div>`;
   pg.querySelectorAll('textarea').forEach(rs);return}
  pg.innerHTML=`<div class="lab">${E(a.label)}</div><h1>${E(a.title)}</h1>`+a.blocks.map((b,i)=>{
   if(b.type=='img')return `<figure><img src="${b.src}" alt="${E(b.cap)}">${b.cap?`<figcaption>${E(b.cap)}</figcaption>`:''}</figure>`;
@@ -178,7 +183,7 @@ function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a)
 const rs=t=>{t.style.height='auto';t.style.height=t.scrollHeight+'px'};
 function cnt(){const n=document.querySelectorAll('.sr').length;$('#qc').textContent=q.length>1?n+' result.':''}
 
-function refsHtml(a){const m=new Set();a.blocks.forEach(b=>(b.text||'').match(RE)?.forEach(r=>m.add(r)));if(!m.size)return'';return `<h2 style="font-size:18px;margin:22px 0 10px">Textos bíblicos</h2>`+[...m].map(r=>`<div class="card"><div class="rf">${E(r)}</div><textarea data-vt="${E(r)}" rows="2" placeholder="Escribe el texto bíblico">${E(vtext(r)||'')}</textarea></div>`).join('')}
+function refsHtml(a){const m=new Set();a.blocks.forEach(b=>{(b.text||'').match(RE)?.forEach(r=>m.add(r));(b.links||[]).forEach(l=>m.add(l.r))});if(!m.size)return'';return `<h2 style="font-size:18px;margin:22px 0 10px">Textos bíblicos</h2>`+[...m].map(r=>`<div class="card"><div class="rf">${E(r)}</div><textarea data-vt="${E(r)}" rows="2" placeholder="Escribe el texto bíblico">${E(vtext(r)||'')}</textarea></div>`).join('')}
 let stFull=false;const isPort=()=>matchMedia('(orientation:portrait)').matches;
 function study(){const st=$('#st'),on=sOpen&&!!cur,a=A();if(!on)stFull=false;st.classList.toggle('full',stFull&&isPort());st.classList.toggle('cl',!on);st.classList.toggle('left',S.side=='left');$('#app').classList.toggle('lf',S.side=='left');$('#app').classList.toggle('op',on);$('#fab').style.display=(!sOpen&&cur)?'':'none';
  const back=`<div class="bar" style="margin:0 0 10px"><button data-a="ov">${ic('back')}Notas</button></div>`,dot=k=>'';
@@ -234,14 +239,18 @@ const hideHm=()=>hm.classList.remove('on');
 document.addEventListener('pointerdown',e=>{if(!e.target.closest('#hm'))hideHm()});
 hm.addEventListener('click',e=>{const b=e.target.closest('[data-hm]');if(!b)return;hideHm();if(b.dataset.hm=='x'){sOpen=false;study()}else if(b.dataset.hm=='p'){S.dock=(S.side=='left')?'left':'right';save();study()}else{S.side=S.dock;S.dock=null;save();study()}});
 const sideOf=x=>x<innerWidth*.5?'left':'right';
-st.addEventListener('pointerdown',e=>{if(!e.target.closest('.hdl'))return;x0=e.clientX;y0=e.clientY;dx=dy=0;mv=false;st.setPointerCapture(e.pointerId);st.style.transition='none'});
-st.addEventListener('pointermove',e=>{if(x0==null)return;if(S.dock){if(Math.hypot(e.clientX-x0,e.clientY-y0)>14)mv=true;return}dx=e.clientX-x0;dy=Math.max(0,e.clientY-y0);if(!mv&&Math.hypot(dx,e.clientY-y0)>14)mv=true;st.style.transform=`translate(${dx}px,${dy}px)`});
-const end=e=>{if(x0==null)return;x0=null;const sd=sideOf(e.clientX);st.style.transition='';st.style.transform='';
- if(!mv&&e.type=='pointerup'){hm.innerHTML=`<button data-hm="x">${ic('x')||''}Cerrar</button><button data-hm="${S.dock?'u':'p'}">${S.dock?'Soltar':'Fijar'}</button>`;hm.classList.add('on');const r=st.querySelector('.hdl').getBoundingClientRect();hm.style.left=Math.max(8,Math.min(innerWidth-hm.offsetWidth-8,r.left+r.width/2-hm.offsetWidth/2))+'px';hm.style.top=(r.bottom+4)+'px';dx=dy=0;return}
- const flip=()=>{const r0=st.getBoundingClientRect();save();study();const r1=st.getBoundingClientRect();st.style.transition='none';st.style.transform=`translate(${r0.left-r1.left}px,${r0.top-r1.top}px)`;st.offsetWidth;st.style.transition='';st.style.transform=''};
- if(S.dock){}
- else if(dy>70&&dy>Math.abs(dx)){sOpen=false;study()}
- else if(Math.abs(dx)>40&&sd!=(S.side||'right')){S.side=sd;flip()}
+let r0=null,gl=0;
+const place=(cx,cy)=>{st.style.transform='none';const rl=st.getBoundingClientRect();st.style.transform=`translate(${cx-x0+r0.left-rl.left}px,${Math.max(0,cy-y0)+r0.top-rl.top}px)`};
+st.addEventListener('pointerdown',e=>{if(!e.target.closest('.hdl'))return;gl++;x0=e.clientX;y0=e.clientY;dx=dy=0;mv=false;r0=st.getBoundingClientRect();st.setPointerCapture(e.pointerId);st.style.transition='none'});
+st.addEventListener('pointermove',e=>{if(x0==null)return;dx=e.clientX-x0;dy=Math.max(0,e.clientY-y0);if(!mv&&Math.hypot(dx,e.clientY-y0)>14)mv=true;if(S.dock||!mv)return;
+ const sd=sideOf(e.clientX);if(sd!=(S.side||'right')){S.side=sd;st.classList.toggle('left',sd=='left');$('#app').classList.toggle('lf',sd=='left')}
+ place(e.clientX,e.clientY)});
+const end=e=>{if(x0==null)return;x0=null;st.style.transition='';
+ if(!mv&&e.type=='pointerup'){hm.innerHTML=`<button data-hm="x">${ic('x')||''}Cerrar</button><button data-hm="${S.dock?'u':'p'}">${S.dock?'Soltar':'Fijar'}</button>`;hm.classList.add('on');const r=st.querySelector('.hdl').getBoundingClientRect();hm.style.left=Math.max(8,Math.min(innerWidth-hm.offsetWidth-8,r.left+r.width/2-hm.offsetWidth/2))+'px';hm.style.top=(r.bottom+4)+'px';st.style.transform='';dx=dy=0;return}
+ if(S.dock){st.style.transform='';dx=dy=0;return}
+ save();
+ if(dy>70&&dy>Math.abs(dx)){st.style.transform='';sOpen=false;study();dx=dy=0;return}
+ if(mv){const g=++gl,fin=ev=>{if(ev&&(ev.target!==st||ev.propertyName!='transform'))return;if(g!=gl)return;st.removeEventListener('transitionend',fin);st.style.transition='';st.style.transform=''};st.addEventListener('transitionend',fin);st.style.transition='transform .5s cubic-bezier(.22,1,.36,1)';st.style.transform='translate(0px,0px)';setTimeout(()=>fin(),650)}
  dx=dy=0};
 st.addEventListener('pointerup',end);st.addEventListener('pointercancel',end)}
 document.addEventListener('pointerdown',e=>{if(!e.target.closest('#tb,#mn,[data-a=menu]'))hideTb();if(!e.target.closest('#mn,[data-a=menu]'))$('#mn').classList.remove('on')});
@@ -261,7 +270,7 @@ document.addEventListener('click',e=>{
  case'blank':{const n={id:uid(),label:'Nuevo',sub:'',title:'Artículo sin título',saved:false,blocks:[{type:'p',text:''}]};S.arts.push(n);cur=n.id;ns=false;edit=true;sv0=null;sOpen=true;sv();break}
  case'imp':impLink();break;
  case'impt':doImport($('#jt').value);break;
- case'theme':{const d=document.documentElement;d.dataset.theme=(d.dataset.theme=='dark')?'light':'dark';break}
+ case'theme':{const d=document.documentElement;d.dataset.theme=isDark()?'light':'dark';menu();break}
  case'media':case'lang':toast('Próximamente');$('#mn').classList.remove('on');break;
  case'search':window.toggleSearch();break;
  case'nx':{const m=[...document.querySelectorAll('.sr')];if(m.length){ri=(ri+1)%m.length;m[ri].scrollIntoView({block:'center',behavior:'smooth'})}break}
@@ -270,9 +279,9 @@ document.addEventListener('click',e=>{
  case'fs+':case'fs-':S.fs=Math.max(13,Math.min(30,S.fs+(a=='fs+'?2:-2)));document.documentElement.style.setProperty('--fs',S.fs+'px');save();break;
  case'fs':{$('#mn').classList.remove('on');const d=document.documentElement;if(document.fullscreenElement)document.exitFullscreen();else if(d.requestFullscreen)d.requestFullscreen().catch(()=>toast('No se pudo activar la pantalla completa'));else toast('Tu dispositivo no permite pantalla completa');break}
  case'edit':edit=!edit;$('#mn').classList.remove('on');hideTb();sv();break;
-  case'addp':art.blocks.push({type:'p',text:''});sv();break;
+  case'addp':addAt({type:'p',text:''});break;
  case'addimg':$('#fi').click();break;
- case'addurl':{const u=prompt('Dirección de la imagen (https://…)');if(u){art.blocks.push({type:'img',src:u,cap:''});sv()}break}
+ case'addurl':{const u=prompt('Dirección de la imagen (https://…)');if(u)addAt({type:'img',src:u,cap:''});break}
  case'rm':art.blocks.splice(+v,1);S.hl=S.hl.filter(h=>h.art!=cur||h.kind=='a');sv();break;
  case'up':case'dn':{const i=+v,j=a=='up'?i-1:i+1;if(j>=0&&j<art.blocks.length){[art.blocks[i],art.blocks[j]]=[art.blocks[j],art.blocks[i]];S.hl=S.hl.filter(h=>h.art!=cur||h.kind=='a');sv()}break}
  case'study':sOpen=true;study();break;case'ov':sv0=null;study();break;case'opennote':{sv0={t:'note',id:v,mode:'view'};study();gotoN(S.hl.find(h=>h.id==v));break}case'done':sv0.mode='view';save();study();break;
@@ -281,9 +290,10 @@ document.addEventListener('click',e=>{
  case'anote':{const h={id:uid(),art:cur,b:0,kind:'a',c:'purple',note:'',title:''};S.hl.push(h);newNote(h);break}
  case'num':art.blocks[+v].num=!art.blocks[+v].num;sv();break;
  case'acc':art.accent=v;sv();break;
- case'addb':art.blocks.push(DEF[v]());sv();break;
+ case'addb':addAt(DEF[v]());break;
  case'unhl':S.hl=S.hl.filter(h=>h.id!=pend.h);hideTb();pend=null;sv();break;
   case'goto':gotoN(S.hl.find(h=>h.id==v));break
+ case'lnk':window.openLk&&openLk();break;case'elk':{const q3=v.split('|');window.openLk&&openLk(+q3[0],+q3[1]);break}
  case'enote':sv0.mode='edit';hidePm();study();{const t=document.querySelector('input[data-nt]');t&&t.focus()}break;
  case'dnote':{const x=S.hl.find(h=>h.id==sv0.id);if(x){if(x.kind)S.hl=S.hl.filter(h=>h!==x);else x.note=null}sv0=null;hidePm();sv();break}
  
@@ -292,14 +302,14 @@ document.addEventListener('input',e=>{const t=e.target,a=A();
  if(t.id=='qi'){q=t.value;ri=-1;main();return}
  if(t.id=='fsr'){S.fs=+t.value;document.documentElement.style.setProperty('--fs',S.fs+'px');save();return}
  if(t.dataset.n){S.hl.find(h=>h.id==t.dataset.n).note=t.value;save()}
- else if(t.dataset.t!=null){const i=+t.dataset.t;a.blocks[i].text=t.value;S.hl=S.hl.filter(h=>h.kind||!(h.art==a.id&&h.b==i));rs(t);save()}
+ else if(t.dataset.t!=null){const i=+t.dataset.t;adjLinks(a.blocks[i],a.blocks[i].text||'',t.value);a.blocks[i].text=t.value;S.hl=S.hl.filter(h=>h.kind||!(h.art==a.id&&h.b==i));rs(t);save()}
  else if(t.dataset.nt!=null){S.hl.find(h=>h.id==t.dataset.nt).title=t.value;save()}
  else if(t.dataset.ans!=null){a.blocks[+t.dataset.ans].ans=t.value;rs(t);save()}
- else if(t.dataset.bf!=null){const [i,k]=t.dataset.bf.split('|'),b=a.blocks[+i];b[k]=t.value;if(k=='text'&&(b.type=='quote'||b.type=='box'))S.hl=S.hl.filter(h=>h.kind||!(h.art==a.id&&h.b==+i));if(t.tagName=='TEXTAREA')rs(t);save()}
+ else if(t.dataset.bf!=null){const [i,k]=t.dataset.bf.split('|'),b=a.blocks[+i];if(k=='text')adjLinks(b,b[k]||'',t.value);b[k]=t.value;if(k=='text'&&(b.type=='quote'||b.type=='box'))S.hl=S.hl.filter(h=>h.kind||!(h.art==a.id&&h.b==+i));if(t.tagName=='TEXTAREA')rs(t);save()}
  else if(t.dataset.vt!=null){const k=t.dataset.vt;if(t.value.trim())S.verses[k]=t.value;else delete S.verses[k];rs(t);save()}
  else if(t.dataset.cap!=null){a.blocks[+t.dataset.cap].cap=t.value;save()}
  else if(t.id=='e-c'){a.accent=t.value;$('#pg').style.setProperty('--or',t.value);save()}else if(t.id=='e-t'){a.title=t.value;save()}else if(t.id=='e-l'){a.label=t.value;save()}else if(t.id=='e-s'){a.sub=t.value;save()}});
-$('#fi').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{A().blocks.push({type:'img',src:r.result,cap:''});save();render()};r.readAsDataURL(f);e.target.value=''});
+$('#fi').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{addAt({type:'img',src:r.result,cap:''})};r.readAsDataURL(f);e.target.value=''});
 
 document.addEventListener('copy',e=>{const n=getSelection().anchorNode;if(n&&(n.nodeType==3?n.parentElement:n).closest('.p'))e.preventDefault()});
 let lbEl=null;
@@ -503,7 +513,7 @@ function results(){
  const a=A();if(!a||q.trim().length<2)return'';const k=q.trim(),m=nrm(k);let h='',tot=0;
  const notes=S.hl.filter(x=>x.art==a.id&&x.note!=null&&(has(x.title,m)||has(x.note,m)));
  if(notes.length){tot+=notes.length;h+=`<div class="sqh">Notas (${notes.length})</div>`+notes.slice(0,MAXR).map(x=>`<button class="sqi" data-sq="n|${x.id}"><b>${x.kind=='a'?'':`<i class="dt c-${x.c}"></i>`}${x.title?E(x.title):'Sin título'}</b><span>${snip(has(x.note,m)?x.note:x.title,k)}</span></button>`).join('')}
- const refs=new Set();a.blocks.forEach(b=>(b.text||'').match(RE)?.forEach(r=>refs.add(r)));
+ const refs=new Set();a.blocks.forEach(b=>{(b.text||'').match(RE)?.forEach(r=>refs.add(r));(b.links||[]).forEach(l=>refs.add(l.r))});
  const bib=[...refs].filter(r=>has(r,m)||has(vtext(r)||'',m));
  if(bib.length){tot+=bib.length;h+=`<div class="sqh">Textos bíblicos (${bib.length})</div>`+bib.slice(0,MAXR).map(r=>{const t=vtext(r)||'';return`<button class="sqi" data-sq="b|${E(r)}"><b>${E(r)}</b>${t?`<span>${snip(t,k)}</span>`:''}</button>`}).join('')}
  const par=[];a.blocks.forEach((b,i)=>{const t=[b.label,b.n,b.text].filter(Boolean).join(' ');if(b.type!='img'&&has(t,m))par.push([i,t])});
@@ -626,4 +636,64 @@ body{overscroll-behavior-y:contain;-webkit-tap-highlight-color:transparent}
 #spd{width:28px;margin-left:-5px}#spd::after{left:12px}
 }
 </style>
+<style>
+/* ===== Versión 2.0 ===== */
+.main{transition:margin .32s cubic-bezier(.22,1,.36,1)}
+.etb{position:sticky;top:0;z-index:12;display:flex;gap:8px;overflow-x:auto;margin:0 -14px 10px;padding:8px 14px 10px;background:var(--bg);border-bottom:1px solid var(--line);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.etb::-webkit-scrollbar{display:none}
+.etb .btn{flex:none;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;font-size:14px}
+.etb .btn svg{width:16px;height:16px}
+.etb .btn.lkb.rdy{background:#5b3c88;color:#fff}
+.lks{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}.lks:empty{display:none}
+.lkc2{display:inline-flex;align-items:center;gap:6px;max-width:100%;background:var(--chip);border-radius:99px;padding:5px 12px;font-size:13px}
+.lkc2 svg{width:14px;height:14px;color:var(--ic);flex:none}.lkc2 span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--mut)}.lkc2 b{color:var(--blue);font-weight:600;white-space:nowrap}
+#lkm{position:fixed;inset:0;z-index:95;background:#0008;display:none;align-items:center;justify-content:center;padding:16px}
+#lkm.on{display:flex}
+#lkm .lkd{width:100%;max-width:480px;background:var(--sheet);color:var(--ink);border-radius:24px;padding:18px 18px 16px;box-shadow:0 10px 40px #0006;max-height:calc(100dvh - 32px);overflow:auto}
+#lkm h3{margin:0 0 10px;font-size:18px}
+#lkm blockquote{margin:0 0 12px;padding:8px 12px;border-left:3px solid var(--ic);background:var(--chip);border-radius:0 12px 12px 0;font-style:italic;font-size:14px;max-height:5.5em;overflow:auto}
+#lkm label{display:block;font-size:13px;color:var(--mut);margin:10px 0 4px}
+#lkm input,#lkm textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:10px 12px;background:transparent;font-size:16px}
+#lkm textarea{resize:vertical;line-height:1.5}
+#lkm .lka{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:14px}
+@media(max-width:600px){#lkm{align-items:flex-end;padding:8px}}
+</style>
+<script>
+/* Edición: enlazar fragmentos con textos bíblicos / referencias + añadir bloques junto al cursor */
+let lsel=null,edIdx=null;
+const LKOK=t=>t&&t.tagName=='TEXTAREA'&&(t.dataset.t!=null||(t.dataset.bf&&/\|text$/.test(t.dataset.bf)&&['quote','box'].includes((A().blocks[+t.dataset.bf.split('|')[0]]||{}).type)));
+const lkBtn=()=>{const b=document.querySelector('.etb .lkb');b&&b.classList.toggle('rdy',!!lsel)};
+function lkChk(){if(!edit||!cur)return;const t=document.activeElement;if(!t||t.tagName!='TEXTAREA'){return}
+ if(!LKOK(t)){lsel=null;lkBtn();return}
+ const i=+(t.dataset.t!=null?t.dataset.t:t.dataset.bf.split('|')[0]),s0=t.selectionStart,e0=t.selectionEnd;
+ lsel=e0>s0?{i,s:s0,e:e0,txt:t.value.slice(s0,e0)}:null;lkBtn()}
+['select','keyup','mouseup','touchend','pointerup','selectionchange'].forEach(ev=>document.addEventListener(ev,()=>setTimeout(lkChk,0)));
+document.addEventListener('focusin',e=>{const d=e.target.closest&&e.target.closest('#pg [data-i]');if(edit&&d)edIdx=+d.dataset.i});
+document.addEventListener('mousedown',e=>{if(e.target.closest('.etb'))e.preventDefault()});
+document.addEventListener('input',e=>{const t=e.target;if(!edit||!t.matches||!t.matches('textarea[data-t],textarea[data-bf]'))return;const d=t.closest('[data-i]');if(!d)return;const i=+d.dataset.i,b=A().blocks[i],l=d.querySelector('.lks');if(l)l.innerHTML=LKH(b,i)});
+window.addAt=function(blk){const a=A(),i=(edIdx!=null&&edIdx<a.blocks.length)?edIdx+1:a.blocks.length;a.blocks.splice(i,0,blk);S.hl.forEach(h=>{if(h.art==a.id&&h.kind!='a'&&h.b>=i)h.b++});edIdx=i;lsel=null;save();render();
+ requestAnimationFrame(()=>{const d=document.querySelector(`#pg [data-i="${i}"]`);if(!d)return;d.scrollIntoView({block:'center',behavior:'smooth'});const f=d.querySelector('textarea,input.li');f&&f.focus({preventScroll:true})})};
+const lkm=document.createElement('div');lkm.id='lkm';
+lkm.innerHTML='<div class="lkd" role="dialog" aria-modal="true" aria-label="Enlazar texto"><h3>Enlazar texto</h3><blockquote id="lkq"></blockquote><label for="lkr">Texto bíblico o referencia</label><input id="lkr" list="lkl" placeholder="Ej. Juan 3:16 o tu propia referencia" autocomplete="off"><datalist id="lkl"></datalist><label for="lkt">Contenido del texto (opcional)</label><textarea id="lkt" rows="4" placeholder="Si lo dejas vacío, se usará el de tu Biblia cuando exista"></textarea><div class="lka"><button class="btn s" id="lkx">Cancelar</button><button class="btn s" id="lkd" style="display:none">Quitar enlace</button><button class="btn" id="lks">Guardar</button></div></div>';
+document.body.appendChild(lkm);
+let LK=null;const $$=id=>document.getElementById(id);
+const lkClose=()=>{lkm.classList.remove('on');LK=null};
+window.openLk=function(bi,li){const a=A();if(!a)return;let i,s0,e0,ex=null;
+ if(bi!=null){const l=((a.blocks[bi]||{}).links||[])[li];if(!l)return;i=bi;s0=l.s;e0=l.e;ex=l}
+ else{if(!lsel){toast('Primero selecciona un fragmento de texto en un párrafo');return}i=lsel.i;s0=lsel.s;e0=lsel.e;const b=a.blocks[i];if(!b||(b.text||'').slice(s0,e0)!=lsel.txt){lsel=null;lkBtn();toast('La selección cambió, vuelve a seleccionar');return}ex=(b.links||[]).find(l=>l.s<e0&&l.e>s0)||null}
+ LK={i,s:s0,e:e0};const b=a.blocks[i];$$('lkq').textContent=(b.text||'').slice(s0,e0);
+ const sug=new Set(Object.keys(S.verses||{}));a.blocks.forEach(x=>{(x.text||'').match(RE)?.forEach(r=>sug.add(r));(x.links||[]).forEach(l=>sug.add(l.r))});
+ $$('lkl').innerHTML=[...sug].map(r=>`<option value="${E(r)}">`).join('');
+ $$('lkr').value=ex?ex.r:'';const t=$$('lkt');t.dataset.touched='';t.value=ex?(vtext(ex.r)||''):'';
+ $$('lkd').style.display=ex?'':'none';lkm.classList.add('on');setTimeout(()=>$$('lkr').focus(),50)};
+$$('lkr').addEventListener('input',()=>{const t=$$('lkt');if(!t.dataset.touched)t.value=vtext($$('lkr').value.trim().replace(/\s+/g,' '))||''});
+$$('lkt').addEventListener('input',e=>{e.target.dataset.touched='1'});
+$$('lkx').onclick=lkClose;lkm.addEventListener('click',e=>{if(e.target===lkm)lkClose()});
+document.addEventListener('keydown',e=>{if(e.key=='Escape'&&lkm.classList.contains('on'))lkClose()});
+$$('lks').onclick=()=>{if(!LK)return;const r=$$('lkr').value.trim().replace(/\s+/g,' ');if(!r){toast('Escribe la referencia');$$('lkr').focus();return}
+ const t=$$('lkt'),tx=t.value.trim();if(t.dataset.touched){if(tx)S.verses[r]=tx;else delete S.verses[r]}
+ const b=A().blocks[LK.i],{s:s0,e:e0}=LK;b.links=(b.links||[]).filter(l=>!(l.s<e0&&l.e>s0));b.links.push({s:s0,e:e0,r});b.links.sort((x,y)=>x.s-y.s);
+ lsel=null;save();lkClose();render();toast('Enlace guardado')};
+$$('lkd').onclick=()=>{if(!LK)return;const b=A().blocks[LK.i],{s:s0,e:e0}=LK;b.links=(b.links||[]).filter(l=>!(l.s<e0&&l.e>s0));if(!b.links.length)delete b.links;lsel=null;save();lkClose();render();toast('Enlace quitado')};
+</script>
 </body></html>
