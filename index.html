@@ -163,19 +163,19 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 2.0.1</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 2.0.3</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
 <div class="acc"><span>Color del título</span>${SW.map(c=>`<button class="sw${c==ac?' s':''}" style="background:${c}" data-a="acc" data-v="${c}" aria-label="Color ${c}"></button>`).join('')}<input type="color" id="e-c" value="${ac}" aria-label="Color personalizado"></div>`+CVE(a)+
   a.blocks.map((b,i)=>{const f=(k,ph)=>`<input class="li" data-bf="${i}|${k}" value="${E(b[k]||'')}" placeholder="${ph}">`,ta=(k,ph,r)=>`<textarea class="ed" data-bf="${i}|${k}" rows="${r||3}" placeholder="${ph}">${E(b[k]||'')}</textarea>`;
-   const body=b.type=='img'?`<figure><img src="${b.src}" alt=""></figure>`+f('cap','Pie de imagen'):b.type=='song'?f('n','Número de canción')+f('text','Título de la canción'):b.type=='box'?f('label','Etiqueta (ej. TEMA)')+ta('text','Texto del recuadro'):b.type=='h'?f('text','Subtítulo'):b.type=='quote'?ta('text','Texto de la cita, con el texto bíblico entre paréntesis',2):b.type=='q'?ta('text','Pregunta',2):`<textarea class="ed" data-t="${i}" rows="3" placeholder="Escribe un párrafo">${E(b.text)}</textarea>`;
+   const body=b.type=='img'?`<figure><img src="${b.src}" alt=""></figure>`+f('cap','Pie de imagen'):b.type=='song'?f('n','Número de canción')+f('text','Título de la canción')+ta('lyrics','Letra de la canción (opcional). Se abre al tocar el número.',6):b.type=='box'?f('label','Etiqueta (ej. TEMA)')+ta('text','Texto del recuadro'):b.type=='h'?f('text','Subtítulo'):b.type=='quote'?ta('text','Texto de la cita, con el texto bíblico entre paréntesis',2):b.type=='q'?ta('text','Pregunta',2):`<textarea class="ed" data-t="${i}" rows="3" placeholder="Escribe un párrafo">${E(b.text)}</textarea>`;
    return `<div data-i="${i}"><div class="bar"><button data-a="up" data-v="${i}" aria-label="Subir">${ic('up')}</button><button data-a="dn" data-v="${i}" aria-label="Bajar">${ic('dn')}</button><button data-a="rm" data-v="${i}" aria-label="Borrar">${ic('tr')}</button>${b.type=='p'?`<button class="${b.num?'on':''}" data-a="num" data-v="${i}" aria-pressed="${!!b.num}">Numerar</button>`:''}<span class="bt">${TN[b.type]}</span></div>${body}<div class="lks">${LKH(b,i)}</div></div>`}).join('')+
   `<div id="rl">${refsHtml(a)}</div>`;
   pg.querySelectorAll('textarea').forEach(rs);return}
  pg.innerHTML=`<div class="lab">${E(a.label)}</div><h1>${E(a.title)}</h1>`+a.blocks.map((b,i)=>{
   if(b.type=='img')return `<figure><img src="${b.src}" alt="${E(b.cap)}">${b.cap?`<figcaption>${E(b.cap)}</figcaption>`:''}</figure>`;
-  if(b.type=='song')return `<div class="song"><b>CANCIÓN ${E(b.n)}</b> ${E(b.text)}</div>`;
+  if(b.type=='song')return `<div class="song"><b class="sn" data-song="${i}" role="button" tabindex="0">CANCIÓN ${E(b.n)}</b> ${E(b.text)}</div>`;
   if(b.type=='h')return `<h2 class="sh2">${E(b.text)}</h2>`;
   if(b.type=='quote')return `<p class="p qt" data-b="${i}">${seg(a,i)}</p>`;
   if(b.type=='box')return `<div class="box"><b>${E(b.label)}</b><div class="p" data-b="${i}">${seg(a,i)}</div></div>`;
@@ -192,6 +192,7 @@ function study(){const st=$('#st'),on=sOpen&&!!cur,a=A();if(!on)stFull=false;st.
  const XI=stFull?'<svg viewBox="0 0 24 24"><path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/></svg>Reducir':'<svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>Expandir';
 let h='<div class="hdl" role="separator" aria-label="Desliza hacia abajo para cerrar"></div><div class="xr"><button class="xp" data-a="xp" aria-pressed="'+stFull+'">'+XI+'</button></div>',v=sv0,x=v&&v.t=='note'?S.hl.find(k=>k.id==v.id):null;
  if(x){const ed=v.mode=='edit';h+=back+`<div class="card${ed?'':' ncard'}${x.kind=='a'?'':' bx c-'+x.c}" data-nid="${x.id}">`+(ed?`<input class="nt" data-nt="${x.id}" value="${E(x.title||'')}" placeholder="Título de la nota" aria-label="Título de la nota"><textarea data-n="${x.id}" placeholder="Escribe tu nota" aria-label="Nota" rows="4">${E(x.note)}</textarea>${window.NIMG?NIMG.edit(x):''}<div style="display:flex;justify-content:flex-end;margin-top:10px"><button class="dn" data-a="done" aria-label="Listo">${ic('ok')}</button></div>`:`<div data-nv="${x.id}"><div class="ntt">${dot(x)}${x.title?E(x.title):'<span style="color:var(--mut)">Sin título</span>'}</div><div class="nv">${x.note?E(x.note):'<span style="color:var(--mut)">Nota vacía</span>'}</div>${window.TG?TG(x)+NIMG.view(x):''}</div>`)+`</div>`}
+ else if(v&&v.t=='song'&&a&&a.blocks[v.i]&&a.blocks[v.i].type=='song'){const sb=a.blocks[v.i];h+=back+`<div class="card scard"><div class="rf">Canción ${E(sb.n||'')}</div>${sb.text?`<div style="font-weight:600;margin:2px 0 10px">${E(sb.text)}</div>`:''}`+(sb.lyrics?`<div class="vt slr">${E(sb.lyrics)}</div>`:`<div class="hint">Esta canción aún no tiene contenido. Agrégala desde el modo de edición.</div>`)+`</div>`}
  else if(v&&v.t=='bible'){const r=v.ref,t=vtext(r);h+=back+`<div class="card bcard" data-ref="${E(r)}"><div class="bh"><span class="bi"></span><div><b>Biblia de Estudio</b><small>Español</small></div></div><div class="rf">${E(r)}</div>`+(t?`<div class="vt">${E(t)}</div>`:`<div class="hint">Este texto aún no tiene contenido. Sube una Biblia en Mi Biblioteca o agrégalo desde el modo de edición.</div>`)+`</div>`}
  else{const key=k=>k.kind=='a'?-1:k.b,L=a?S.hl.filter(k=>k.art==a.id&&k.note!=null).sort((p,q)=>key(p)-key(q)||(p.s||0)-(q.s||0)):[];
   h+=(L.length?L.map(k=>`<button class="card nc ncard${k.kind=='a'?'':' bx c-'+k.c}" data-nid="${k.id}" data-a="opennote" data-v="${k.id}"><div class="ntt">${dot(k)}${k.title?E(k.title):'Sin título'}</div><div class="nv2">${k.note?E(k.note):'<span style="color:var(--mut)">Nota vacía</span>'}</div>${window.TG?TG(k):''}</button>`).join(''):`<div class="emp">Aún no hay notas.</div>`)}
@@ -259,6 +260,7 @@ document.addEventListener('pointerdown',e=>{if(!e.target.closest('#tb,#mn,[data-
 
 function mk(c,note){const i=pend;S.hl=S.hl.filter(h=>!(h.art==cur&&h.b==i.b&&h.note==null&&h.s<i.e&&h.e>i.s));const h={id:uid(),art:cur,b:i.b,s:i.s,e:i.e,c,note:note?'':null};S.hl.push(h);return h}
 document.addEventListener('click',e=>{
+ const sg=e.target.closest('[data-song]');if(sg&&!edit&&getSelection().isCollapsed){sv0={t:'song',i:+sg.dataset.song};sOpen=true;study();return}
  const lm=e.target.closest('[data-lim]');if(lm&&!edit&&getSelection().isCollapsed){const q4=lm.dataset.lim.split('|');openLkImg(+q4[0],+q4[1]);return}
  const hlEl=e.target.closest('.hl[data-h]'),rf=e.target.closest('[data-r]');
  if(rf&&getSelection().isCollapsed){const r=rf.dataset.r;sv0={t:'bible',ref:r};sOpen=true;study();return}
@@ -658,7 +660,7 @@ body{overscroll-behavior-y:contain;-webkit-tap-highlight-color:transparent}
 }
 </style>
 <style>
-/* ===== Versión 2.0.1 ===== */
+/* ===== Versión 2.0.3 ===== */
 .main{transition:margin .32s cubic-bezier(.22,1,.36,1)}
 .etb{position:sticky;top:0;z-index:12;display:flex;gap:8px;overflow-x:auto;margin:0 -14px 10px;padding:8px 14px 10px;background:var(--bg);border-bottom:1px solid var(--line);scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .etb::-webkit-scrollbar{display:none}
@@ -684,6 +686,8 @@ body{overscroll-behavior-y:contain;-webkit-tap-highlight-color:transparent}
 #lkv.on{display:flex}#lkv img{max-width:100%;max-height:80dvh;object-fit:contain;border-radius:12px}
 #lkv p{color:#fff;font-size:14px;max-width:560px;text-align:center;margin:0}
 #lkv .ib{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:12px;color:#fff;font-size:20px}
+.song .sn{color:var(--blue);cursor:pointer}
+.slr{white-space:pre-wrap;line-height:1.7}
 </style>
 <script>
 /* Edición: enlazar fragmentos con textos bíblicos / referencias + añadir bloques junto al cursor */
@@ -737,5 +741,6 @@ document.addEventListener('keydown',e=>{if(e.key=='Escape')lkv.classList.remove(
 /* Portada del artículo */
 const cvf=document.createElement('input');cvf.type='file';cvf.accept='image/*';cvf.id='cvf';cvf.hidden=true;document.body.appendChild(cvf);
 cvf.onchange=()=>{const f=cvf.files[0];cvf.value='';if(!f)return;const a=A();if(!a)return;const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,800/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);a.cover=c.toDataURL('image/jpeg',.85);save();render();toast('Portada guardada')};im.onerror=()=>toast('No se pudo leer la imagen');im.src=rd.result};rd.readAsDataURL(f)};
+document.addEventListener('keydown',e=>{if((e.key=='Enter'||e.key==' ')&&e.target.matches&&e.target.matches('.sn[data-song]')){e.preventDefault();e.target.click()}});
 </script>
 </body></html>
