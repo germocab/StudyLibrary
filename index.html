@@ -163,7 +163,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 2.5.5</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 2.6</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -812,4 +812,76 @@ figure img{border-radius:22px;box-shadow:var(--sh1)}
 }
 #sp{box-shadow:var(--sh2)}
 </style>
+<style>
+/* ===== Versión 2.6: indicadores de nota + PopUp ===== */
+.p,.box .p{position:relative}
+.ni{position:absolute;left:calc(var(--gut) * -1 + 2px);width:calc(var(--gut) - 6px);min-width:18px;padding:0;border:0;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;-webkit-tap-highlight-color:transparent}
+.box .p .ni{left:calc(var(--gut) * -1 - 17px)}
+.ni span{display:block;width:6px;height:calc(100% - 4px);min-height:16px;border-radius:99px;background:var(--c);box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .18s,width .18s}
+.ni:hover span,.ni.on span{width:8px}
+.ni:active span{transform:scale(.88)}
+#np{position:fixed;z-index:80;display:none;width:min(360px,calc(100vw - 24px));max-height:min(62dvh,480px);overflow:auto;border-radius:24px;padding:14px 16px 14px;box-shadow:var(--sh2);border:1px solid color-mix(in srgb,var(--c) 55%,var(--line));background:color-mix(in srgb,var(--c) 30%,var(--card));color:var(--ink);transform-origin:var(--ox,0%) var(--oy,20%)}
+#np.on{display:block;animation:npIn .24s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes npIn{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){#np.on{animation:none}}
+#np .nph{display:flex;align-items:center;gap:10px;margin:0 0 8px}
+#np .nph b{flex:1;min-width:0;font-size:16px;line-height:1.3;overflow-wrap:anywhere}
+#np .nph .ib{width:34px;height:34px;box-shadow:none;background:color-mix(in srgb,var(--ink) 10%,transparent)}
+#np .nph .ib svg{width:17px;height:17px}
+#np .nv{user-select:none;-webkit-user-select:none}
+#np .npa{display:flex;justify-content:flex-end;margin-top:12px}
+#np .npa .btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;font-size:14px;box-shadow:var(--sh1)}
+#np .npa .btn svg{width:17px;height:17px}
+</style>
+<script>
+{
+const np=document.createElement('div');np.id='np';np.setAttribute('role','dialog');np.setAttribute('aria-label','Nota');document.body.appendChild(np);
+let npId=null,npBtn=null;
+const SVG_MV='<svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM14 5v14M17 10l-2 2 2 2"/></svg>';
+const hideNp=()=>{np.classList.remove('on');if(npBtn)npBtn.classList.remove('on');npId=null;npBtn=null};
+function placeNp(){if(!npBtn)return;const r=npBtn.getBoundingClientRect(),w=np.offsetWidth,h=np.offsetHeight;
+ let l=r.right+10;if(l+w>innerWidth-12)l=innerWidth-w-12;l=Math.max(12,l);
+ let t=r.top-10;t=Math.min(t,innerHeight-h-12);t=Math.max(12,t);
+ np.style.left=l+'px';np.style.top=t+'px';np.style.setProperty('--oy',Math.max(0,Math.min(100,(r.top-t)/Math.max(h,1)*100))+'%')}
+function showNp(id,btn){const x=S.hl.find(k=>k.id==id);if(!x)return;
+ if(npId==id){hideNp();return}
+ hideNp();npId=id;npBtn=btn;btn.classList.add('on');
+ np.className='c-'+x.c;
+ np.innerHTML=`<div class="nph"><b>${x.title?E(x.title):'<span style="color:var(--mut)">Sin título</span>'}</b><button class="ib" data-np="x" aria-label="Cerrar nota">${ic('x')}</button></div><div class="nv">${x.note?E(x.note):'<span style="color:var(--mut)">Nota vacía</span>'}</div>${window.NIMG?NIMG.view(x):''}${window.TG?TG(x):''}<div class="npa"><button class="btn s" data-np="mv">${SVG_MV}Mover a StudyBar</button></div>`;
+ np.classList.add('on');placeNp()}
+function niPlace(){document.querySelectorAll('.ni').forEach(n=>n.remove());
+ if(!cur||edit||ns)return;const a=A();if(!a)return;
+ document.querySelectorAll('#pg .p[data-b]').forEach(p=>{const b=+p.dataset.b;
+  const L=S.hl.filter(h=>h.art==a.id&&h.b==b&&!h.kind&&h.note!=null).sort((x,y)=>(x.s||0)-(y.s||0));if(!L.length)return;
+  const pr=p.getBoundingClientRect();let last=-99;
+  L.forEach(h=>{const sp=p.querySelector(`[data-h="${h.id}"]`);if(!sp)return;
+   const rc=sp.getClientRects()[0]||sp.getBoundingClientRect();let top=rc.top-pr.top;if(top<last+28)top=last+28;last=top;
+   const i=document.createElement('button');i.type='button';i.className='ni c-'+h.c;i.dataset.ni=h.id;
+   i.setAttribute('aria-label','Abrir nota'+(h.title?': '+h.title:''));
+   i.style.top=top+'px';i.style.height=Math.max(rc.height,24)+'px';i.innerHTML='<span></span>';p.appendChild(i)})});
+ if(npId){const nb=document.querySelector(`.ni[data-ni="${npId}"]`);if(nb){npBtn=nb;nb.classList.add('on');placeNp()}else hideNp()}}
+window.niPlace=niPlace;
+const _m=main;main=function(){hideNp();const r=_m.apply(this,arguments);niPlace();return r};
+const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(niPlace,360);return r};
+if(window.spRender){const _r=window.spRender;window.spRender=function(){const r=_r.apply(this,arguments);setTimeout(niPlace,360);return r}}
+let t0=null,w0=0;const rz=()=>{clearTimeout(t0);t0=setTimeout(niPlace,120)};
+addEventListener('resize',rz);
+if(window.ResizeObserver){new ResizeObserver(en=>{const w=Math.round(en[0].contentRect.width);if(Math.abs(w-w0)>1){w0=w;rz()}}).observe($('#pg'))}
+document.addEventListener('input',e=>{if(e.target.id=='fsr')rz()});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(niPlace);
+document.addEventListener('click',e=>{
+ const n=e.target.closest('.ni');
+ if(n){e.stopImmediatePropagation();e.preventDefault();showNp(n.dataset.ni,n);return}
+ const b=e.target.closest('#np [data-np]');if(!b)return;
+ e.stopImmediatePropagation();e.preventDefault();
+ if(b.dataset.np=='x'){hideNp();return}
+ const id=npId;hideNp();const x=S.hl.find(k=>k.id==id);if(!x)return;
+ if(SP&&SP.k=='n'&&SP.id==id){SP=null;spRender()}
+ sv0={t:'note',id:x.id,mode:'view'};sOpen=true;study()},true);
+document.addEventListener('pointerdown',e=>{if(npId&&!e.target.closest('#np,.ni'))hideNp()});
+addEventListener('keydown',e=>{if(e.key=='Escape')hideNp()});
+document.addEventListener('scroll',()=>{if(npId)placeNp()},true);
+niPlace();
+}
+</script>
 </body></html>
