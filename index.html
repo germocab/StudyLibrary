@@ -150,7 +150,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=S.arts.map(x=>`<button class="card" data-a="open" data-v="${x.id}"><span class="lb">${E(x.label)}</span><span><b>${E(x.title)}</b><br><small style="color:var(--mut)">${x.blocks.length} bloques</small></span></button>`).join('')+(window.BIB?BIB.card():'')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 1.5</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab=='n'?LIBX.notes():S.arts.map(x=>`<button class="card" data-a="open" data-v="${x.id}"><span class="lb">${E(x.label)}</span><span><b>${E(x.title)}</b><br><small style="color:var(--mut)">${x.blocks.length} bloques</small></span></button>`).join(''))+`<p class="hint" style="text-align:center;margin-top:28px">Versión 1.7</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se convierten en enlaces bíblicos automáticamente.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -175,13 +175,13 @@ function cnt(){const n=document.querySelectorAll('.sr').length;$('#qc').textCont
 function refsHtml(a){const m=new Set();a.blocks.forEach(b=>(b.text||'').match(RE)?.forEach(r=>m.add(r)));if(!m.size)return'';return `<h2 style="font-size:18px;margin:22px 0 10px">Textos bíblicos</h2>`+[...m].map(r=>`<div class="card"><div class="rf">${E(r)}</div><textarea data-vt="${E(r)}" rows="2" placeholder="Escribe el texto bíblico">${E(vtext(r)||'')}</textarea></div>`).join('')}
 let stFull=false;const isPort=()=>matchMedia('(orientation:portrait)').matches;
 function study(){const st=$('#st'),on=sOpen&&!!cur,a=A();if(!on)stFull=false;st.classList.toggle('full',stFull&&isPort());st.classList.toggle('cl',!on);st.classList.toggle('left',S.side=='left');$('#app').classList.toggle('lf',S.side=='left');$('#app').classList.toggle('op',on);$('#fab').style.display=(!sOpen&&cur)?'':'none';
- const back=`<div class="bar" style="margin:0 0 10px"><button data-a="ov">${ic('back')}Notas</button></div>`,dot=k=>k.kind=='a'?'':`<span class="dt c-${k.c}"></span>`;
+ const back=`<div class="bar" style="margin:0 0 10px"><button data-a="ov">${ic('back')}Notas</button></div>`,dot=k=>'';
  const XI=stFull?'<svg viewBox="0 0 24 24"><path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/></svg>Reducir':'<svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>Expandir';
 let h='<div class="hdl" role="separator" aria-label="Desliza hacia abajo para cerrar"></div><div class="xr"><button class="xp" data-a="xp" aria-pressed="'+stFull+'">'+XI+'</button></div>',v=sv0,x=v&&v.t=='note'?S.hl.find(k=>k.id==v.id):null;
- if(x){const ed=v.mode=='edit';h+=back+`<div class="card${ed?'':' ncard'}" data-nid="${x.id}">`+(ed?`<input class="nt" data-nt="${x.id}" value="${E(x.title||'')}" placeholder="Título de la nota" aria-label="Título de la nota"><textarea data-n="${x.id}" placeholder="Escribe tu nota" aria-label="Nota" rows="4">${E(x.note)}</textarea><div style="display:flex;justify-content:flex-end;margin-top:10px"><button class="dn" data-a="done" aria-label="Listo">${ic('ok')}</button></div>`:`<div data-nv="${x.id}"><div class="ntt">${dot(x)}${x.title?E(x.title):'<span style="color:var(--mut)">Sin título</span>'}</div><div class="nv">${x.note?E(x.note):'<span style="color:var(--mut)">Nota vacía</span>'}</div></div><div class="bar" style="margin:12px 0 0"><button data-a="goto" data-v="${x.id}">Ver en el artículo</button></div><div class="hint" style="margin:10px 0 0">Mantén pulsada la nota para editarla o eliminarla.</div>`)+`</div>`}
+ if(x){const ed=v.mode=='edit';h+=back+`<div class="card${ed?'':' ncard'}${x.kind=='a'?'':' bx c-'+x.c}" data-nid="${x.id}">`+(ed?`<input class="nt" data-nt="${x.id}" value="${E(x.title||'')}" placeholder="Título de la nota" aria-label="Título de la nota"><textarea data-n="${x.id}" placeholder="Escribe tu nota" aria-label="Nota" rows="4">${E(x.note)}</textarea>${window.NIMG?NIMG.edit(x):''}<div style="display:flex;justify-content:flex-end;margin-top:10px"><button class="dn" data-a="done" aria-label="Listo">${ic('ok')}</button></div>`:`<div data-nv="${x.id}"><div class="ntt">${dot(x)}${x.title?E(x.title):'<span style="color:var(--mut)">Sin título</span>'}</div><div class="nv">${x.note?E(x.note):'<span style="color:var(--mut)">Nota vacía</span>'}</div>${window.TG?TG(x)+NIMG.view(x):''}</div><div class="bar" style="margin:12px 0 0"><button data-a="goto" data-v="${x.id}">Ver en el artículo</button></div><div class="hint" style="margin:10px 0 0">Mantén pulsada la nota para editarla o eliminarla.</div>`)+`</div>`}
  else if(v&&v.t=='bible'){const r=v.ref,t=vtext(r);h+=back+`<div class="card bcard" data-ref="${E(r)}"><div class="bh"><span class="bi"></span><div><b>Biblia de Estudio</b><small>Español</small></div></div><div class="rf">${E(r)}</div>`+(t?`<div class="vt">${E(t)}</div>`:`<div class="hint">Este texto aún no tiene contenido. Sube una Biblia en Mi Biblioteca o agrégalo desde el modo de edición.</div>`)+`<div class="bar" style="margin:12px 0 0"><button data-a="chap" data-v="${E(r)}">Abrir capítulo</button></div><div class="hint" style="margin:10px 0 0">Arrastra esta tarjeta a un lado para abrir el capítulo en vista dividida.</div></div>`}
  else{const key=k=>k.kind=='a'?-1:k.b,L=a?S.hl.filter(k=>k.art==a.id&&k.note!=null).sort((p,q)=>key(p)-key(q)||(p.s||0)-(q.s||0)):[];
-  h+=`<div class="rf" style="font-size:18px;margin:2px 4px 12px">StudyBar</div>`+(L.length?L.map(k=>`<button class="card nc ncard" data-nid="${k.id}" data-a="opennote" data-v="${k.id}"><div class="ntt">${dot(k)}${k.title?E(k.title):'Sin título'}</div><div class="nv2">${k.note?E(k.note):'<span style="color:var(--mut)">Nota vacía</span>'}</div></button>`).join(''):`<div class="emp">Aún no hay notas. Toca un párrafo, selecciona texto o usa Más opciones › Nueva nota.</div>`)}
+  h+=`<div class="rf" style="font-size:18px;margin:2px 4px 12px">StudyBar</div>`+(L.length?L.map(k=>`<button class="card nc ncard${k.kind=='a'?'':' bx c-'+k.c}" data-nid="${k.id}" data-a="opennote" data-v="${k.id}"><div class="ntt">${dot(k)}${k.title?E(k.title):'Sin título'}</div><div class="nv2">${k.note?E(k.note):'<span style="color:var(--mut)">Nota vacía</span>'}</div>${window.TG?TG(k):''}</button>`).join(''):`<div class="emp">Aún no hay notas. Toca un párrafo, selecciona texto o usa Más opciones › Nueva nota.</div>`)}
  st.innerHTML=h}
 const CC=el=>el.textContent.replace(/\s+/g,' ').trim();
 function newScr(){return `<div class="card"><div class="rf" style="font-size:17px">Importar desde JW.ORG</div><p class="hint">Pega el enlace del artículo y toca Importar.</p><input class="li" id="jl" placeholder="https://www.jw.org/es/…" inputmode="url" style="border-style:solid;margin:0"><div class="add"><button class="btn" data-a="imp">Importar</button></div>${nsf?`<p class="hint" style="margin-top:14px">${E(nsf)}</p><textarea class="ed" id="jt" rows="6" placeholder="Pega aquí el código fuente o el texto del artículo"></textarea><div class="add"><button class="btn s" data-a="impt">Importar contenido</button></div>`:''}</div><div class="card"><div class="rf" style="font-size:17px">Crear desde cero</div><p class="hint">Empieza con un artículo vacío y agrega tus propios bloques.</p><button class="btn s" data-a="blank">Artículo en blanco</button></div>`}
@@ -303,29 +303,8 @@ const BOOKS='Génesis,Éxodo,Levítico,Números,Deuteronomio,Josué,Jueces,Rut,1
 const nk=s=>String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'').replace(/s$/,'');
 const BK={};BOOKS.forEach(b=>BK[nk(b)]=b);
 [['Canción de Salomón','Cantares'],['Cantar de los Cantares','Cantares'],['Revelación','Apocalipsis'],['Hechos de los Apóstoles','Hechos'],['Eclesiastes','Eclesiastés']].forEach(([a,b])=>BK[nk(a)]=b);
-let D=null;
-const idb=()=>new Promise((res,rej)=>{const r=indexedDB.open('jwbible',1);r.onupgradeneeded=()=>r.result.createObjectStore('b');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});
-const dbGet=async()=>{try{const d=await idb();return await new Promise(r=>{const q=d.transaction('b').objectStore('b').get('main');q.onsuccess=()=>r(q.result);q.onerror=()=>r()})}catch(e){}};
-const dbSet=async v=>{try{const d=await idb();await new Promise(r=>{const t=d.transaction('b','readwrite');t.objectStore('b').put(v,'main');t.oncomplete=r;t.onerror=r})}catch(e){}};
-function parse(txt,name,ext){const books={};let n=0,bad=0;
- const add=(b,c,v,t)=>{const k=BK[nk(b)];c=+c;v=+v;t=String(t||'').replace(/<[^>]+>/g,'').trim();if(!k||!c||!v||!t){bad++;return}((books[k]=books[k]||[])[c-1]=books[k][c-1]||[])[v-1]=t;n++};
- const s=txt.trim();
- if(s[0]=='{'||s[0]=='['){const j=JSON.parse(s);
-  if(Array.isArray(j)&&j[0]&&j[0].chapters)j.forEach((b,i)=>b.chapters.forEach((ch,ci)=>ch.forEach((t,vi)=>add(b.name&&BK[nk(b.name)]?b.name:BOOKS[i],ci+1,vi+1,t))));
-  else if(Array.isArray(j))j.forEach(r=>add(r.book||r.book_name||r.bookName||r.name,r.chapter||r.c,r.verse||r.v,r.text||r.t));
-  else Object.keys(j).forEach(b=>{const o=j[b];(Array.isArray(o)?o:Object.keys(o).map(k=>o[k])).forEach((ch,ci)=>{const keys=Array.isArray(ch)?ch.map((t,i)=>[i+1,t]):Object.entries(ch);const ck=Array.isArray(o)?ci+1:Object.keys(o)[ci];keys.forEach(([v,t])=>add(b,ck,v,t))})})}
- else if(s[0]=='<'){const d=new DOMParser().parseFromString(s,'text/xml');d.querySelectorAll('BIBLEBOOK').forEach(b=>{const nm=b.getAttribute('bname')&&BK[nk(b.getAttribute('bname'))]?b.getAttribute('bname'):BOOKS[(+b.getAttribute('bnumber'))-1];b.querySelectorAll('CHAPTER').forEach(c=>c.querySelectorAll('VERS').forEach(v=>add(nm,c.getAttribute('cnumber'),v.getAttribute('vnumber'),v.textContent)))})}
- else s.split(/\r?\n/).forEach(l=>{let m=l.match(/^\s*"?([^,"\t]+?)"?[,\t]\s*(\d+)[,\t]\s*(\d+)[,\t]\s*"?(.*?)"?\s*$/)||l.match(/^\s*(.+?)\s+(\d+):(\d+)\s+(.*)$/);if(m)add(m[1],m[2],m[3],m[4])});
- return n?{name:name,books,n}:null}
 const ref=r=>{const m=String(r).match(/^\s*((?:[123]\s*)?\D+?)\s+(\d+)(?::(\d+)(?:\s*[-–]\s*(\d+))?)?/);if(!m)return null;const b=BK[nk(m[1])];return b?{b,c:+m[2],v:m[3]?+m[3]:0,v2:m[4]?+m[4]:(m[3]?+m[3]:0)}:null};
-const chap=(b,c)=>{const x=D&&D.books[b]&&D.books[b][c-1];return x?Array.from(x,t=>t||''):null};
-return{BOOKS,ref,chap,
- has:()=>!!D,
- nch:b=>D&&D.books[b]?D.books[b].length:0,
- verse(r){const p=ref(r);if(!p||!p.v)return '';const ch=chap(p.b,p.c);if(!ch)return '';return ch.slice(p.v-1,p.v2).join(' ').trim()},
- card:()=>`<button class="card" data-a="bibup"><span class="lb">BIBLIA</span><span><b>${D?E(D.name):'Subir una Biblia'}</b><br><small style="color:var(--mut)">${D?D.n.toLocaleString()+' versículos · toca para reemplazar':'Formatos: JSON, XML (Zefania) o TXT'}</small></span></button>`,
- async load(f){try{const nm=f.name.replace(/\.[^.]+$/,''),d=parse(await f.text(),nm);if(!d)return toast('No se reconocieron versículos en este archivo');D=d;await dbSet(d);toast(d.n.toLocaleString()+' versículos cargados');render()}catch(e){toast('Archivo no válido')}},
- async init(){D=await dbGet()||null;if(D)render()}}})();
+return{BOOKS,ref,chap:()=>null,has:()=>false,nch:()=>0,verse:()=>''}})();
 // ---- Vista dividida y arrastrar ----
 let SP=null;
 {const css=document.createElement('style');css.textContent=`#sp{position:fixed;top:0;bottom:0;width:50%;background:var(--bg);z-index:15;display:none;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}#sp.l{left:0;border-right:1px solid var(--line)}#sp.r{right:0;border-left:1px solid var(--line)}
@@ -335,25 +314,22 @@ let SP=null;
 .bcard,.ncard,.pg figure img{touch-action:pan-y}.bcard,.ncard{cursor:grab}.pg figure img{-webkit-user-drag:none}.dz{position:fixed;top:0;bottom:0;width:36%;z-index:40;display:none;align-items:center;justify-content:center;background:#6b3fa022;border:2px dashed var(--pur);color:var(--pur);font:700 15px Figtree,system-ui,sans-serif;text-align:center;padding:12px}.dz.h{background:#6b3fa055}#dzl{left:0}#dzr{right:0}.gh{position:fixed;z-index:50;pointer-events:none;background:var(--pur);color:#fff;padding:8px 14px;border-radius:99px;font:600 14px Figtree,system-ui,sans-serif;transform:translate(-50%,-120%)}`;document.head.appendChild(css);
 const sp=document.createElement('aside');sp.id='sp';document.body.appendChild(sp);
 const dl=document.createElement('div'),dr=document.createElement('div');dl.id='dzl';dr.id='dzr';dl.className=dr.className='dz';dl.textContent=dr.textContent='Suelta aquí para abrir en vista dividida';document.body.append(dl,dr);
-const fin=document.createElement('input');fin.type='file';fin.accept='.json,.xml,.txt,.csv';fin.style.display='none';document.body.appendChild(fin);fin.onchange=()=>{if(fin.files[0])BIB.load(fin.files[0]);fin.value=''};
 window.spRender=()=>{const ap=$('#app');ap.classList.toggle('spl',!!SP&&SP.side=='l');ap.classList.toggle('spr',!!SP&&SP.side=='r');
  if(!SP){sp.style.display='none';return}
  const k=SP.k||'b';let T,btn='',body='';
- if(k=='b'){const ch=BIB.chap(SP.b,SP.c);T=SP.b+' '+SP.c;btn='<button data-s="p" aria-label="Capítulo anterior">‹</button><button data-s="n" aria-label="Capítulo siguiente">›</button>';
-  body='<div class="spb">'+(ch?ch.map((t,i)=>`<p data-v="${i+1}"${SP.v&&i+1>=SP.v&&i+1<=SP.v2?' class="on"':''}><sup>${i+1}</sup>${E(t)}</p>`).join(''):`<p>${BIB.has()?'Este capítulo no está en la Biblia cargada.':'Aún no has subido una Biblia. Ve a Mi Biblioteca y toca «Subir una Biblia».'}</p>`)+'</div>'}
- else if(k=='n'){const x=S.hl.find(h=>h.id==SP.id);if(!x){SP=null;return spRender()}T='Nota';btn='<button data-s="g" aria-label="Ver en el artículo">↗</button>';
-  body=`<div class="spb"><input class="nt" data-nt="${x.id}" value="${E(x.title||'')}" placeholder="Título de la nota" aria-label="Título de la nota"><textarea data-n="${x.id}" placeholder="Escribe tu nota" aria-label="Nota" rows="12" style="width:100%;margin-top:8px">${E(x.note||'')}</textarea></div>`}
- else{T='Imagen';btn='<button data-s="z-" aria-label="Alejar">−</button><button data-s="z+" aria-label="Acercar">+</button>';
+ if(k=='b'){T=SP.ref;const t=vtext(SP.ref);body='<div class="spb">'+(t?`<p class="on">${E(t)}</p>`:'')+'<p style="color:var(--mut);font-size:.85em">El capítulo completo estará disponible cuando se conecte una fuente bíblica.</p></div>'} else if(k=='n'){const x=S.hl.find(h=>h.id==SP.id);if(!x){SP=null;return spRender()}T='Nota';btn='<button data-s="g" aria-label="Ver en el artículo">↗</button><button data-s="s" aria-label="Cambiar de lado">⇄</button>';
+  body=`<div class="spb"><input class="nt" data-nt="${x.id}" value="${E(x.title||'')}" placeholder="Título de la nota" aria-label="Título de la nota"><textarea data-n="${x.id}" placeholder="Escribe tu nota" aria-label="Nota" rows="12" style="width:100%;margin-top:8px">${E(x.note||'')}</textarea>${NIMG.edit(x)}${TG(x)}</div>`}
+ else{T='Imagen';
   body=`<div class="spb" style="padding:10px;text-align:center"><img src="${SP.src}" alt="" style="width:${SP.z||100}%;border-radius:10px">${SP.cap?`<p style="color:var(--mut);font-size:.8em">${E(SP.cap)}</p>`:''}</div>`}
  sp.className=SP.side;sp.style.display='flex';
- sp.innerHTML=`<div class="sph"><b>${E(T)}</b><span>${btn}<button data-s="s" aria-label="Cambiar de lado">⇄</button><button data-s="x" aria-label="Cerrar">✕</button></span></div>`+body;
+ sp.innerHTML=`<div class="sph"><b>${E(T)}</b><span>${btn}<button data-s="x" aria-label="Cerrar">✕</button></span></div>`+body;
  const o=sp.querySelector('p.on');if(o)o.scrollIntoView({block:'center'})};
-window.openSplit=(r,side)=>{const p=BIB.ref(r);if(!p)return toast('Referencia no reconocida');sOpen=false;study();SP={k:'b',b:p.b,c:p.c,v:p.v,v2:p.v2,side};spRender()};
+window.openSplit=(r,side)=>{const p=BIB.ref(r);if(!p)return toast('Referencia no reconocida');sOpen=false;study();SP={k:'b',ref:r,b:p.b,c:p.c,v:p.v,v2:p.v2,side};spRender()};
 window.openSpec=(o,side)=>{if(o.k=='b')return openSplit(o.ref,side);sOpen=false;study();SP=Object.assign({},o,{side});spRender()};
 const nav=d=>{let i=BIB.BOOKS.indexOf(SP.b),c=SP.c+d;if(c<1){i--;if(i<0)return;c=BIB.nch(BIB.BOOKS[i])||1}else if(c>(BIB.nch(SP.b)||SP.c)){i++;if(i>65)return;c=1}SP={b:BIB.BOOKS[i],c,v:0,v2:0,side:SP.side};spRender();sp.querySelector('.spb').scrollTop=0};
 sp.addEventListener('click',e=>{const b=e.target.closest('[data-s]');if(!b)return;const k=b.dataset.s;if(k=='x'){SP=null;spRender()}else if(k=='s'){SP.side=SP.side=='l'?'r':'l';spRender()}else if(k=='g'){const x=S.hl.find(h=>h.id==SP.id);x&&gotoN(x)}else if(k[0]=='z'){SP.z=Math.max(50,Math.min(400,(SP.z||100)+(k=='z+'?50:-50)));sp.querySelector('img').style.width=SP.z+'%'}else nav(k=='n'?1:-1)});
 
-document.addEventListener('click',e=>{if(e.target.closest('[data-a=bibup]'))fin.click();const c=e.target.closest('[data-a=chap]');if(c)openSplit(c.dataset.v,'r')});
+document.addEventListener('click',e=>{const c=e.target.closest('[data-a=chap]');if(c)openSplit(c.dataset.v,'r')});
 document.addEventListener('pointerdown',e=>{const c=e.target.closest('.bcard,.ncard,.pg figure img');if(!c)return;const bt=e.target.closest('button');if(bt&&bt!==c)return;if(c.tagName=='IMG'&&(edit||e.button>0))return;
  const o=c.dataset.ref?{k:'b',ref:c.dataset.ref}:c.dataset.nid?{k:'n',id:c.dataset.nid}:{k:'i',src:c.src,cap:c.alt||''},lab=o.k=='b'?o.ref:o.k=='n'?'Nota':'Imagen',sx=e.clientX,sy=e.clientY;let on=false,z=null,g=null;
  const mv=ev=>{if(!on&&Math.hypot(ev.clientX-sx,ev.clientY-sy)>12){on=true;dl.style.display=dr.style.display='flex';g=document.createElement('div');g.className='gh';g.textContent=lab;document.body.appendChild(g);c.style.opacity='.5'}
@@ -362,7 +338,35 @@ document.addEventListener('pointerdown',e=>{const c=e.target.closest('.bcard,.nc
  addEventListener('pointermove',mv);addEventListener('pointerup',up);addEventListener('pointercancel',up)});
 const _st=study;study=function(){if(SP&&sOpen&&cur){SP=null;spRender()}return _st.apply(this,arguments)};
 const _mn=main;main=function(){if(!cur&&SP){SP=null;spRender()}return _mn.apply(this,arguments)};
-BIB.init()}
+try{indexedDB.deleteDatabase('jwbible')}catch(e){}}
+</script>
+<script>
+{const tagsOf=h=>{const m=((h.title||'')+' '+(h.note||'')).match(/#[\p{L}\p{N}_]+/gu)||[],z={};return m.filter(t=>{const k=t.toLowerCase();return z[k]?0:z[k]=1})};
+window.TG=h=>{const t=tagsOf(h);return t.length?`<div class="tgs">${t.map(x=>`<span class="tg" data-tag="${E(x)}">${E(x)}</span>`).join('')}</div>`:''};
+window.NIMG={edit:x=>`<div class="nimr">${x.img?`<img class="nim" src="${x.img}" alt="">`:''}<button class="btn s" data-a="nimadd" data-id="${x.id}">${x.img?'Cambiar imagen':'Agregar imagen'}</button>${x.img?`<button class="btn s" data-a="nimrm" data-id="${x.id}">Quitar</button>`:''}</div>`,view:x=>x.img?`<img class="nim" src="${x.img}" alt="">`:''};
+window.LIBX={tab:'a',q:'',
+ tabs:()=>`<div class="ltabs"><button class="${LIBX.tab=='a'?'on':''}" data-a="ltab" data-v="a">Artículos</button><button class="${LIBX.tab=='n'?'on':''}" data-a="ltab" data-v="n">Notas</button></div>`,
+ notes:()=>`<input class="li" id="nq" type="search" placeholder="Buscar notas o #etiquetas" value="${E(LIBX.q)}" aria-label="Buscar notas" style="border-style:solid;margin:0 0 12px;width:100%"><div id="nl">${LIBX.list()}</div>`,
+ list(){const q=LIBX.q.trim().toLowerCase(),ix=id=>S.arts.findIndex(a=>a.id==id);let L=S.hl.filter(h=>h.note!=null&&ix(h.art)>=0);
+  if(q)L=L.filter(h=>((h.title||'')+' '+(h.note||'')+' '+S.arts[ix(h.art)].title).toLowerCase().includes(q));
+  L.sort((a,b)=>ix(a.art)-ix(b.art)||(a.kind=='a'?-1:a.b||0)-(b.kind=='a'?-1:b.b||0)||(a.s||0)-(b.s||0));
+  return L.length?L.map(h=>{const a=S.arts[ix(h.art)];return `<button class="card nc${h.kind=='a'?'':' bx c-'+h.c}" data-a="lnote" data-v="${h.id}"><div class="ntt">${h.title?E(h.title):'Sin título'}</div><div class="nv2">${h.note?E(h.note):'<span style="color:var(--mut)">Nota vacía</span>'}</div>${h.img?`<img class="nim sm" src="${h.img}" alt="">`:''}${TG(h)}<div class="src">${E(a.label)} · ${E(a.title)}</div></button>`}).join(''):`<p class="hint" style="text-align:center">${q?'Sin resultados.':'Aún no tienes notas. Crea una desde cualquier artículo.'}</p>`},
+ fill(){const n=$('#nl');if(n)n.innerHTML=LIBX.list()}};
+const css=document.createElement('style');css.textContent=`.bx{background:color-mix(in srgb,var(--c) 30%,var(--card));border-color:color-mix(in srgb,var(--c) 55%,var(--line))}.lib .card.nc{display:block}
+.ltabs{display:flex;gap:6px;background:var(--chip);border-radius:99px;padding:4px;margin:0 0 14px}.ltabs button{flex:1;padding:9px;border:0;border-radius:99px;background:transparent;color:var(--ink);font:600 14px Figtree,system-ui,sans-serif;cursor:pointer}.ltabs button.on{background:var(--card);box-shadow:0 1px 4px #0003}
+.tgs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.tg{background:var(--chip);color:var(--ic);border-radius:99px;padding:3px 10px;font-size:12.5px;font-weight:600;cursor:pointer}.nim{max-width:100%;border-radius:12px;margin-top:10px;display:block}.nim.sm{max-height:120px}.nimr{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}.nimr .nim{width:100%}.src{margin-top:8px;font-size:12px;color:var(--mut)}
+.menu.on{animation:mnIn .36s cubic-bezier(.2,.9,.3,1.25);transform-origin:top right}.menu.on>*{animation:mnItem .4s cubic-bezier(.2,.8,.3,1) both}.menu.on>:nth-child(1){animation-delay:.05s}.menu.on>:nth-child(2){animation-delay:.09s}.menu.on>:nth-child(3){animation-delay:.13s}.menu.on>:nth-child(4){animation-delay:.17s}.menu.on>:nth-child(5){animation-delay:.21s}.menu.on>:nth-child(n+6){animation-delay:.25s}
+@keyframes mnIn{from{opacity:0;transform:scale(.8) translateY(-12px)}to{opacity:1;transform:none}}@keyframes mnItem{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.menu.on,.menu.on>*{animation:none}}`;document.head.appendChild(css);
+const fi=document.createElement('input');fi.type='file';fi.accept='image/*';fi.style.display='none';document.body.appendChild(fi);let tid=null;
+fi.onchange=()=>{const f=fi.files[0];fi.value='';if(!f||!tid)return;const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,900/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);const h=S.hl.find(x=>x.id==tid);if(h){h.img=c.toDataURL('image/jpeg',.78);save();study();if(SP&&SP.k=='n')spRender()}};im.src=rd.result};rd.readAsDataURL(f)};
+document.addEventListener('input',e=>{if(e.target.id=='nq'){LIBX.q=e.target.value;LIBX.fill()}});
+document.addEventListener('click',e=>{const t=e.target;let a;
+ if(a=t.closest('[data-a=nimadd]')){tid=a.dataset.id;fi.click();return}
+ if(a=t.closest('[data-a=nimrm]')){const h=S.hl.find(x=>x.id==a.dataset.id);if(h){delete h.img;save();study();if(SP&&SP.k=='n')spRender()}return}
+ if((a=t.closest('.tg[data-tag]'))&&$('#nl')){LIBX.q=a.dataset.tag;$('#nq').value=LIBX.q;LIBX.fill();return}
+ if(a=t.closest('[data-a=ltab]')){LIBX.tab=a.dataset.v;render();return}
+ if(a=t.closest('[data-a=lnote]')){const h=S.hl.find(x=>x.id==a.dataset.v);if(h){cur=h.art;ns=false;edit=false;sv0={t:'note',id:h.id,mode:'view'};sOpen=true;render();setTimeout(()=>gotoN(h),80)}}})}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
