@@ -137,15 +137,15 @@ const vtext=r=>S.verses[r]||VS[r]||(window.BIB&&BIB.verse(r));
 
 function adjLinks(b,o,n){if(!b.links||!b.links.length)return;const m=Math.min(o.length,n.length);let p=0;while(p<m&&o[p]==n[p])p++;let q2=0;while(q2<m-p&&o[o.length-1-q2]==n[n.length-1-q2])q2++;const oe=o.length-q2,d=n.length-o.length;b.links=b.links.filter(l=>l.e<=p||l.s>=oe).map(l=>l.s>=oe?{...l,s:l.s+d,e:l.e+d}:l);if(!b.links.length)delete b.links}
 const LKI='<svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>';
-const LKH=(b,i)=>{if(!['p','quote','box'].includes(b.type)||!(b.links&&b.links.length))return'';const t=b.text||'';return b.links.map((l,j)=>{let x=t.slice(l.s,l.e);if(x.length>26)x=x.slice(0,25)+'…';return `<button class="lkc2" data-a="elk" data-v="${i}|${j}">${LKI}<span>“${E(x)}”</span><b>${E(l.r)}</b></button>`}).join('')};
+const LKH=(b,i)=>{if(!['p','quote','box','q'].includes(b.type)||!(b.links&&b.links.length))return'';const t=b.text||'';return b.links.map((l,j)=>{let x=t.slice(l.s,l.e);if(x.length>26)x=x.slice(0,25)+'…';return `<button class="lkc2" data-a="elk" data-v="${i}|${j}">${LKI}<span>“${E(x)}”</span><b>${E(l.r||'Imagen')}${l.img?' 🖼':''}</b></button>`}).join('')};
 const ETB=()=>`<div class="etb" role="toolbar" aria-label="Herramientas de edición"><button class="btn" data-a="edit">Listo</button><button class="btn s lkb" data-a="lnk">${LKI}Enlazar</button><button class="btn s" data-a="addp">${ic('pl')} Párrafo</button><button class="btn s" data-a="addimg">${ic('im')} Imagen</button><button class="btn s" data-a="addurl">Imagen por enlace</button><button class="btn s" data-a="addb" data-v="song">Canción</button><button class="btn s" data-a="addb" data-v="quote">Cita</button><button class="btn s" data-a="addb" data-v="box">Recuadro</button><button class="btn s" data-a="addb" data-v="h">Subtítulo</button><button class="btn s" data-a="addb" data-v="q">Pregunta</button></div>`;
-function seg(a,bi){const t=a.blocks[bi].text||'',P=new Set([0,t.length]),H=S.hl.filter(h=>h.art==a.id&&h.b==bi&&!h.kind),R=[...(a.blocks[bi].links||[]).filter(l=>l.s<t.length).map(l=>({s:l.s,e:Math.min(l.e,t.length),r:l.r})),...[...t.matchAll(RE)].map(m=>({s:m.index,e:m.index+m[0].length,r:m[0]}))],Q=[];
+function seg(a,bi,na){const t=a.blocks[bi].text||'',P=new Set([0,t.length]),H=S.hl.filter(h=>h.art==a.id&&h.b==bi&&!h.kind),R=[...(a.blocks[bi].links||[]).filter(l=>l.s<t.length).map(l=>({s:l.s,e:Math.min(l.e,t.length),r:l.r,im:l.img?bi+'|'+a.blocks[bi].links.indexOf(l):''})),...(na?[]:[...t.matchAll(RE)]).map(m=>({s:m.index,e:m.index+m[0].length,r:m[0]}))],Q=[];
  if(q.length>1){const lo=fold(t),k=fold(q);let i=-1;while((i=lo.indexOf(k,i+1))>=0)Q.push({s:i,e:i+k.length})}
  [...H,...R,...Q].forEach(x=>{P.add(Math.min(x.s,t.length));P.add(Math.min(x.e,t.length))});
  const p=[...P].sort((x,y)=>x-y);let o='';
  for(let i=0;i<p.length-1;i++){const s=p[i],e=p[i+1],tx=E(t.slice(s,e)),h=H.find(h=>h.s<=s&&h.e>=e),r=R.find(r=>r.s<=s&&r.e>=e),z=Q.find(z=>z.s<=s&&z.e>=e);
   if(!h&&!r&&!z){o+=tx;continue}
-  o+=`<span class="${h?'hl c-'+h.c+(h.note!=null?' hn':''):''}${r?' ref':''}${z?' sr':''}"${h?` data-h="${h.id}"`:''}${r?` data-r="${E(r.r)}"`:''}>${tx}</span>`}
+  o+=`<span class="${h?'hl c-'+h.c+(h.note!=null?' hn':''):''}${r?' ref':''}${z?' sr':''}"${h?` data-h="${h.id}"`:''}${r&&r.r?` data-r="${E(r.r)}"`:''}${r&&r.im?` data-lim="${r.im}"`:''}>${tx}</span>`}
  return o}
 
 const THI='<svg viewBox="0 0 24 24" style="width:24px;height:24px"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>',isDark=()=>{const t=document.documentElement.dataset.theme;return t?t=='dark':matchMedia('(prefers-color-scheme:dark)').matches};
@@ -161,7 +161,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():S.arts.map(x=>`<button class="card" data-a="open" data-v="${x.id}"><span class="lb">${E(x.label)}</span><span><b>${E(x.title)}</b><br><small style="color:var(--mut)">${x.blocks.length} bloques</small></span></button>`).join(''))+`<p class="hint" style="text-align:center;margin-top:28px">Versión 2.0</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():S.arts.map(x=>`<button class="card" data-a="open" data-v="${x.id}"><span class="lb">${E(x.label)}</span><span><b>${E(x.title)}</b><br><small style="color:var(--mut)">${x.blocks.length} bloques</small></span></button>`).join(''))+`<p class="hint" style="text-align:center;margin-top:28px">Versión 2.0.1</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -177,13 +177,13 @@ function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a)
   if(b.type=='h')return `<h2 class="sh2">${E(b.text)}</h2>`;
   if(b.type=='quote')return `<p class="p qt" data-b="${i}">${seg(a,i)}</p>`;
   if(b.type=='box')return `<div class="box"><b>${E(b.label)}</b><div class="p" data-b="${i}">${seg(a,i)}</div></div>`;
-  if(b.type=='q')return `<div class="qs"><p class="qq">${N[i]?`<b>${N[i]}.</b> `:''}${E(b.text)}</p><textarea class="ans" data-ans="${i}" rows="2" aria-label="Tu respuesta">${E(b.ans||'')}</textarea></div>`;
+  if(b.type=='q')return `<div class="qs"><p class="qq">${N[i]?`<b>${N[i]}.</b> `:''}${seg(a,i,1)}</p><textarea class="ans" data-ans="${i}" rows="2" aria-label="Tu respuesta">${E(b.ans||'')}</textarea></div>`;
   return `<p class="p"${N[i]?` data-num="${N[i]}"`:''} data-b="${i}">${seg(a,i)}</p>`}).join('');
  pg.querySelectorAll('textarea').forEach(rs);cnt()}
 const rs=t=>{t.style.height='auto';t.style.height=t.scrollHeight+'px'};
 function cnt(){const n=document.querySelectorAll('.sr').length;$('#qc').textContent=q.length>1?n+' result.':''}
 
-function refsHtml(a){const m=new Set();a.blocks.forEach(b=>{(b.text||'').match(RE)?.forEach(r=>m.add(r));(b.links||[]).forEach(l=>m.add(l.r))});if(!m.size)return'';return `<h2 style="font-size:18px;margin:22px 0 10px">Textos bíblicos</h2>`+[...m].map(r=>`<div class="card"><div class="rf">${E(r)}</div><textarea data-vt="${E(r)}" rows="2" placeholder="Escribe el texto bíblico">${E(vtext(r)||'')}</textarea></div>`).join('')}
+function refsHtml(a){const m=new Set();a.blocks.forEach(b=>{(b.text||'').match(RE)?.forEach(r=>m.add(r));(b.links||[]).forEach(l=>l.r&&m.add(l.r))});if(!m.size)return'';return `<h2 style="font-size:18px;margin:22px 0 10px">Textos bíblicos</h2>`+[...m].map(r=>`<div class="card"><div class="rf">${E(r)}</div><textarea data-vt="${E(r)}" rows="2" placeholder="Escribe el texto bíblico">${E(vtext(r)||'')}</textarea></div>`).join('')}
 let stFull=false;const isPort=()=>matchMedia('(orientation:portrait)').matches;
 function study(){const st=$('#st'),on=sOpen&&!!cur,a=A();if(!on)stFull=false;st.classList.toggle('full',stFull&&isPort());st.classList.toggle('cl',!on);st.classList.toggle('left',S.side=='left');$('#app').classList.toggle('lf',S.side=='left');$('#app').classList.toggle('op',on);$('#fab').style.display=(!sOpen&&cur)?'':'none';
  const back=`<div class="bar" style="margin:0 0 10px"><button data-a="ov">${ic('back')}Notas</button></div>`,dot=k=>'';
@@ -257,6 +257,7 @@ document.addEventListener('pointerdown',e=>{if(!e.target.closest('#tb,#mn,[data-
 
 function mk(c,note){const i=pend;S.hl=S.hl.filter(h=>!(h.art==cur&&h.b==i.b&&h.note==null&&h.s<i.e&&h.e>i.s));const h={id:uid(),art:cur,b:i.b,s:i.s,e:i.e,c,note:note?'':null};S.hl.push(h);return h}
 document.addEventListener('click',e=>{
+ const lm=e.target.closest('[data-lim]');if(lm&&!edit&&getSelection().isCollapsed){const q4=lm.dataset.lim.split('|');openLkImg(+q4[0],+q4[1]);return}
  const hlEl=e.target.closest('.hl[data-h]'),rf=e.target.closest('[data-r]');
  if(rf&&getSelection().isCollapsed){const r=rf.dataset.r;sv0={t:'bible',ref:r};sOpen=true;study();return}
  if(hlEl&&getSelection().isCollapsed&&!e.target.closest('#tb')){const hh=S.hl.find(k=>k.id==hlEl.dataset.h);if(hh&&hh.note!=null){sv0={t:'note',id:hh.id,mode:'view'};sOpen=true;study();pend={h:hh.id};tb(hlEl.getBoundingClientRect(),false);return}pend={h:hlEl.dataset.h};tb(hlEl.getBoundingClientRect(),true);return}
@@ -513,7 +514,7 @@ function results(){
  const a=A();if(!a||q.trim().length<2)return'';const k=q.trim(),m=nrm(k);let h='',tot=0;
  const notes=S.hl.filter(x=>x.art==a.id&&x.note!=null&&(has(x.title,m)||has(x.note,m)));
  if(notes.length){tot+=notes.length;h+=`<div class="sqh">Notas (${notes.length})</div>`+notes.slice(0,MAXR).map(x=>`<button class="sqi" data-sq="n|${x.id}"><b>${x.kind=='a'?'':`<i class="dt c-${x.c}"></i>`}${x.title?E(x.title):'Sin título'}</b><span>${snip(has(x.note,m)?x.note:x.title,k)}</span></button>`).join('')}
- const refs=new Set();a.blocks.forEach(b=>{(b.text||'').match(RE)?.forEach(r=>refs.add(r));(b.links||[]).forEach(l=>refs.add(l.r))});
+ const refs=new Set();a.blocks.forEach(b=>{(b.text||'').match(RE)?.forEach(r=>refs.add(r));(b.links||[]).forEach(l=>l.r&&refs.add(l.r))});
  const bib=[...refs].filter(r=>has(r,m)||has(vtext(r)||'',m));
  if(bib.length){tot+=bib.length;h+=`<div class="sqh">Textos bíblicos (${bib.length})</div>`+bib.slice(0,MAXR).map(r=>{const t=vtext(r)||'';return`<button class="sqi" data-sq="b|${E(r)}"><b>${E(r)}</b>${t?`<span>${snip(t,k)}</span>`:''}</button>`}).join('')}
  const par=[];a.blocks.forEach((b,i)=>{const t=[b.label,b.n,b.text].filter(Boolean).join(' ');if(b.type!='img'&&has(t,m))par.push([i,t])});
@@ -637,7 +638,7 @@ body{overscroll-behavior-y:contain;-webkit-tap-highlight-color:transparent}
 }
 </style>
 <style>
-/* ===== Versión 2.0 ===== */
+/* ===== Versión 2.0.1 ===== */
 .main{transition:margin .32s cubic-bezier(.22,1,.36,1)}
 .etb{position:sticky;top:0;z-index:12;display:flex;gap:8px;overflow-x:auto;margin:0 -14px 10px;padding:8px 14px 10px;background:var(--bg);border-bottom:1px solid var(--line);scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .etb::-webkit-scrollbar{display:none}
@@ -657,11 +658,18 @@ body{overscroll-behavior-y:contain;-webkit-tap-highlight-color:transparent}
 #lkm textarea{resize:vertical;line-height:1.5}
 #lkm .lka{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:14px}
 @media(max-width:600px){#lkm{align-items:flex-end;padding:8px}}
+#lkp img{max-width:100%;max-height:140px;border-radius:12px;display:block;margin:0 0 8px}
+.lki{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.lki input{flex:1;min-width:140px}
+.ref[data-lim]::after{content:" 🖼";font-size:.75em}
+#lkv{position:fixed;inset:0;z-index:96;background:#000d;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px;cursor:zoom-out}
+#lkv.on{display:flex}#lkv img{max-width:100%;max-height:80dvh;object-fit:contain;border-radius:12px}
+#lkv p{color:#fff;font-size:14px;max-width:560px;text-align:center;margin:0}
+#lkv .ib{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:12px;color:#fff;font-size:20px}
 </style>
 <script>
 /* Edición: enlazar fragmentos con textos bíblicos / referencias + añadir bloques junto al cursor */
 let lsel=null,edIdx=null;
-const LKOK=t=>t&&t.tagName=='TEXTAREA'&&(t.dataset.t!=null||(t.dataset.bf&&/\|text$/.test(t.dataset.bf)&&['quote','box'].includes((A().blocks[+t.dataset.bf.split('|')[0]]||{}).type)));
+const LKOK=t=>t&&t.tagName=='TEXTAREA'&&(t.dataset.t!=null||(t.dataset.bf&&/\|text$/.test(t.dataset.bf)&&['quote','box','q'].includes((A().blocks[+t.dataset.bf.split('|')[0]]||{}).type)));
 const lkBtn=()=>{const b=document.querySelector('.etb .lkb');b&&b.classList.toggle('rdy',!!lsel)};
 function lkChk(){if(!edit||!cur)return;const t=document.activeElement;if(!t||t.tagName!='TEXTAREA'){return}
  if(!LKOK(t)){lsel=null;lkBtn();return}
@@ -674,26 +682,37 @@ document.addEventListener('input',e=>{const t=e.target;if(!edit||!t.matches||!t.
 window.addAt=function(blk){const a=A(),i=(edIdx!=null&&edIdx<a.blocks.length)?edIdx+1:a.blocks.length;a.blocks.splice(i,0,blk);S.hl.forEach(h=>{if(h.art==a.id&&h.kind!='a'&&h.b>=i)h.b++});edIdx=i;lsel=null;save();render();
  requestAnimationFrame(()=>{const d=document.querySelector(`#pg [data-i="${i}"]`);if(!d)return;d.scrollIntoView({block:'center',behavior:'smooth'});const f=d.querySelector('textarea,input.li');f&&f.focus({preventScroll:true})})};
 const lkm=document.createElement('div');lkm.id='lkm';
-lkm.innerHTML='<div class="lkd" role="dialog" aria-modal="true" aria-label="Enlazar texto"><h3>Enlazar texto</h3><blockquote id="lkq"></blockquote><label for="lkr">Texto bíblico o referencia</label><input id="lkr" list="lkl" placeholder="Ej. Juan 3:16 o tu propia referencia" autocomplete="off"><datalist id="lkl"></datalist><label for="lkt">Contenido del texto (opcional)</label><textarea id="lkt" rows="4" placeholder="Si lo dejas vacío, se usará el de tu Biblia cuando exista"></textarea><div class="lka"><button class="btn s" id="lkx">Cancelar</button><button class="btn s" id="lkd" style="display:none">Quitar enlace</button><button class="btn" id="lks">Guardar</button></div></div>';
+lkm.innerHTML='<div class="lkd" role="dialog" aria-modal="true" aria-label="Enlazar texto"><h3>Enlazar texto</h3><blockquote id="lkq"></blockquote><label for="lkr">Texto bíblico o referencia (opcional si hay imagen)</label><input id="lkr" list="lkl" placeholder="Ej. Juan 3:16 o tu propia referencia" autocomplete="off"><datalist id="lkl"></datalist><label for="lkt">Contenido del texto (opcional)</label><textarea id="lkt" rows="4" placeholder="Si lo dejas vacío, se usará el de tu Biblia cuando exista"></textarea><label>Imagen (opcional)</label><div id="lkp"></div><div class="lki"><button class="btn s" id="lkf">Elegir imagen</button><input id="lku" placeholder="o pega la dirección https://…" inputmode="url" autocomplete="off"></div><input type="file" id="lkfi" accept="image/*" hidden><div class="lka"><button class="btn s" id="lkx">Cancelar</button><button class="btn s" id="lkd" style="display:none">Quitar enlace</button><button class="btn" id="lks">Guardar</button></div></div>';
 document.body.appendChild(lkm);
-let LK=null;const $$=id=>document.getElementById(id);
+let LK=null,LKIMG='';const $$=id=>document.getElementById(id);
 const lkClose=()=>{lkm.classList.remove('on');LK=null};
 window.openLk=function(bi,li){const a=A();if(!a)return;let i,s0,e0,ex=null;
  if(bi!=null){const l=((a.blocks[bi]||{}).links||[])[li];if(!l)return;i=bi;s0=l.s;e0=l.e;ex=l}
  else{if(!lsel){toast('Primero selecciona un fragmento de texto en un párrafo');return}i=lsel.i;s0=lsel.s;e0=lsel.e;const b=a.blocks[i];if(!b||(b.text||'').slice(s0,e0)!=lsel.txt){lsel=null;lkBtn();toast('La selección cambió, vuelve a seleccionar');return}ex=(b.links||[]).find(l=>l.s<e0&&l.e>s0)||null}
  LK={i,s:s0,e:e0};const b=a.blocks[i];$$('lkq').textContent=(b.text||'').slice(s0,e0);
- const sug=new Set(Object.keys(S.verses||{}));a.blocks.forEach(x=>{(x.text||'').match(RE)?.forEach(r=>sug.add(r));(x.links||[]).forEach(l=>sug.add(l.r))});
+ const sug=new Set(Object.keys(S.verses||{}));a.blocks.forEach(x=>{(x.text||'').match(RE)?.forEach(r=>sug.add(r));(x.links||[]).forEach(l=>l.r&&sug.add(l.r))});
  $$('lkl').innerHTML=[...sug].map(r=>`<option value="${E(r)}">`).join('');
- $$('lkr').value=ex?ex.r:'';const t=$$('lkt');t.dataset.touched='';t.value=ex?(vtext(ex.r)||''):'';
+ $$('lkr').value=ex?ex.r||'':'';const t=$$('lkt');t.dataset.touched='';t.value=ex&&ex.r?(vtext(ex.r)||''):'';LKIMG=(ex&&ex.img)||'';$$('lku').value=/^https?:/i.test(LKIMG)?LKIMG:'';lkPv();
  $$('lkd').style.display=ex?'':'none';lkm.classList.add('on');setTimeout(()=>$$('lkr').focus(),50)};
-$$('lkr').addEventListener('input',()=>{const t=$$('lkt');if(!t.dataset.touched)t.value=vtext($$('lkr').value.trim().replace(/\s+/g,' '))||''});
+$$('lkr').addEventListener('input',()=>{const t=$$('lkt'),rr=$$('lkr').value.trim().replace(/\s+/g,' ');if(!t.dataset.touched)t.value=rr?(vtext(rr)||''):''});
 $$('lkt').addEventListener('input',e=>{e.target.dataset.touched='1'});
 $$('lkx').onclick=lkClose;lkm.addEventListener('click',e=>{if(e.target===lkm)lkClose()});
 document.addEventListener('keydown',e=>{if(e.key=='Escape'&&lkm.classList.contains('on'))lkClose()});
-$$('lks').onclick=()=>{if(!LK)return;const r=$$('lkr').value.trim().replace(/\s+/g,' ');if(!r){toast('Escribe la referencia');$$('lkr').focus();return}
- const t=$$('lkt'),tx=t.value.trim();if(t.dataset.touched){if(tx)S.verses[r]=tx;else delete S.verses[r]}
- const b=A().blocks[LK.i],{s:s0,e:e0}=LK;b.links=(b.links||[]).filter(l=>!(l.s<e0&&l.e>s0));b.links.push({s:s0,e:e0,r});b.links.sort((x,y)=>x.s-y.s);
+$$('lks').onclick=()=>{if(!LK)return;const r=$$('lkr').value.trim().replace(/\s+/g,' ');const u=$$('lku').value.trim();if(u&&/^https?:\/\//i.test(u))LKIMG=u;else if(u&&!LKIMG){toast('La dirección de la imagen debe empezar con https://');return}
+ if(!r&&!LKIMG){toast('Escribe la referencia o adjunta una imagen');$$('lkr').focus();return}
+ const t=$$('lkt'),tx=t.value.trim();if(r&&t.dataset.touched){if(tx)S.verses[r]=tx;else delete S.verses[r]}
+ const b=A().blocks[LK.i],{s:s0,e:e0}=LK;b.links=(b.links||[]).filter(l=>!(l.s<e0&&l.e>s0));b.links.push(Object.assign({s:s0,e:e0,r},LKIMG?{img:LKIMG}:{}));b.links.sort((x,y)=>x.s-y.s);
  lsel=null;save();lkClose();render();toast('Enlace guardado')};
 $$('lkd').onclick=()=>{if(!LK)return;const b=A().blocks[LK.i],{s:s0,e:e0}=LK;b.links=(b.links||[]).filter(l=>!(l.s<e0&&l.e>s0));if(!b.links.length)delete b.links;lsel=null;save();lkClose();render();toast('Enlace quitado')};
+
+/* Imagen adjunta a un enlace de texto (v2.0.1) */
+function lkPv(){const p=$$('lkp');p.innerHTML=LKIMG?`<img src="${E(LKIMG)}" alt=""><button class="btn s" id="lkrm">Quitar imagen</button>`:'';const b=$$('lkrm');if(b)b.onclick=()=>{LKIMG='';$$('lku').value='';lkPv()}}
+$$('lkf').onclick=()=>$$('lkfi').click();
+$$('lkfi').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,1000/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);LKIMG=c.toDataURL('image/jpeg',.8);$$('lku').value='';lkPv()};im.onerror=()=>toast('No se pudo leer la imagen');im.src=rd.result};rd.readAsDataURL(f)};
+$$('lku').addEventListener('input',()=>{const u=$$('lku').value.trim();if(/^https?:\/\//i.test(u)){LKIMG=u;lkPv()}});
+const lkv=document.createElement('div');lkv.id='lkv';lkv.innerHTML='<button class="ib" aria-label="Cerrar imagen">✕</button><img alt=""><p></p>';document.body.appendChild(lkv);
+window.openLkImg=(bi,j)=>{const b=A().blocks[bi],l=b&&(b.links||[])[j];if(!l||!l.img)return;lkv.querySelector('img').src=l.img;const vt=l.r?vtext(l.r):'';lkv.querySelector('p').textContent=l.r?l.r+(vt?' — '+vt:''):(b.text||'').slice(l.s,l.e);lkv.classList.add('on')};
+lkv.addEventListener('click',()=>lkv.classList.remove('on'));
+document.addEventListener('keydown',e=>{if(e.key=='Escape')lkv.classList.remove('on')});
 </script>
 </body></html>
