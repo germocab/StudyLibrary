@@ -163,7 +163,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 3.0.2</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 3.1</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -969,6 +969,33 @@ niPlace();
 .lib .card.cv .lck{right:5px;top:5px;transform:scale(.85);transform-origin:top right}
 }
 </style>
+<style>
+/* ===== Versión 3.1: barra de estudio fluida =====
+   - El panel solo anima transform + opacidad (compuesto en GPU); se elimina la animación de border-radius.
+   - El artículo no se reacomoda durante la animación: el espacio reservado para el panel se aplica al terminar. */
+@media(prefers-reduced-motion:no-preference){
+.main{transition:none!important}
+.st{will-change:transform,opacity;backface-visibility:hidden;overscroll-behavior:contain;
+ transition:transform .28s cubic-bezier(.2,.9,.25,1),opacity .18s ease-out,visibility 0s}
+.st.cl{transition:transform .2s cubic-bezier(.45,0,.75,.35),opacity .14s ease-in .04s,visibility 0s .2s}
+.st:not(.dk).cl{border-radius:30px!important}
+.st.dk.cl{border-radius:0!important}
+.fab{animation-duration:.22s}
+}
+</style>
+<script>
+{
+const ap=$('#app'),MC=['op','dkl','dkr','lf'];let prev=sOpen&&!!cur,tm=null,pend=null;
+const flush=()=>{if(tm){clearTimeout(tm);tm=null}if(pend){MC.forEach(c=>ap.classList.toggle(c,pend[c]));pend=null}};
+const _s=study;
+study=function(){flush();
+ const before={};MC.forEach(c=>before[c]=ap.classList.contains(c));
+ const r=_s.apply(this,arguments),on=sOpen&&!!cur;
+ if(on!==prev){const after={};MC.forEach(c=>after[c]=ap.classList.contains(c));
+  if(MC.some(c=>after[c]!==before[c])){MC.forEach(c=>ap.classList.toggle(c,before[c]));pend=after;tm=setTimeout(flush,on?280:210)}}
+ prev=on;return r};
+}
+</script>
 <!-- ===== Versión 3.0: inicio de sesión con código QR =====
    En la versión de escritorio, el cuadro de sincronización muestra un QR. Al escanearlo con el
    teléfono o tablet (con la sesión ya iniciada) se entra al instante y se accede a publicaciones,
