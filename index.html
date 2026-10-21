@@ -156,14 +156,14 @@ function header(){const a=A(),b=(n,l,x='',c='')=>`<button class="ib ${c}" data-a
  :`<div class="t"><b>Mi biblioteca</b><small>Tus artículos de estudio</small></div>`+b('srch','Buscar en toda la plataforma','gsearch')+b('pl','Nuevo artículo o Documento','new')+`<button class="ib" data-a="theme" aria-label="Cambiar tema">${THI}</button>`;
  $('#hd').insertAdjacentHTML('beforeend','<div class="menu" id="mn"></div>')}
 function menu(){const a=A()||{};$('#mn').innerHTML=`<div class="tsz"><span class="tl">Tamaño del texto</span><div class="trow"><span style="font-size:13px">A</span><input type="range" id="fsr" min="13" max="30" step="1" value="${S.fs}" aria-label="Tamaño del texto"><span style="font-size:23px">A</span></div></div>
-<button class="mopt" data-a="media">${ic('head')}Medios</button><button class="mopt${sOn?' on':''}" data-a="search">${ic('srch')}${sOn?'Cerrar búsqueda':'Buscar'}</button><button class="mopt${a.saved?' on':''}" data-a="save">${ic('bm')}${a.saved?'Quitar de guardados':'Guardar artículo'}</button><button class="mlang" data-a="lang">${ic('lang')}Idioma</button><button data-a="fs">${ic('fs')}Pantalla completa</button><button data-a="anote">${ic('note')}Nueva nota</button>${isSmall()?'':`<button data-a="splitpick"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3zM12 5v14"/></svg>Vista dividida</button>`}<button data-a="edit">${ic('ed')}${edit?'Terminar edición':'Editar artículo'}</button><button data-a="theme">${THI.replace('24px;height:24px','20px;height:20px')}${isDark()?'Modo claro':'Modo oscuro'}</button><button data-a=\"gest\"><svg viewBox=\"0 0 24 24\"><path d=\"M9 11V5.5a1.5 1.5 0 013 0V10M12 9.5a1.5 1.5 0 013 0V11M15 10.5a1.5 1.5 0 013 0V15a6 6 0 01-6 6h-.5a6 6 0 01-5-2.7L4 15a1.5 1.5 0 012.4-1.8L9 15\"/></svg>Gestos: ${S.gest===false?'Off':'On'}</button>`}
+<button class="mopt" data-a="media">${ic('head')}Medios</button><button class="mopt${sOn?' on':''}" data-a="search">${ic('srch')}${sOn?'Cerrar búsqueda':'Buscar'}</button><button class="mopt${a.saved?' on':''}" data-a="save">${ic('bm')}${a.saved?'Quitar de guardados':'Guardar artículo'}</button><button class="mlang" data-a="lang">${ic('lang')}Idioma</button><button data-a="fs">${ic('fs')}Pantalla completa</button><button data-a="anote">${ic('note')}Nueva nota</button>${window.splitItem?window.splitItem():''}<button data-a="edit">${ic('ed')}${edit?'Terminar edición':'Editar artículo'}</button><button data-a="theme">${THI.replace('24px;height:24px','20px;height:20px')}${isDark()?'Modo claro':'Modo oscuro'}</button><button data-a=\"gest\"><svg viewBox=\"0 0 24 24\"><path d=\"M9 11V5.5a1.5 1.5 0 013 0V10M12 9.5a1.5 1.5 0 013 0V11M15 10.5a1.5 1.5 0 013 0V15a6 6 0 01-6 6h-.5a6 6 0 01-5-2.7L4 15a1.5 1.5 0 012.4-1.8L9 15\"/></svg>Gestos: ${S.gest===false?'Off':'On'}</button>`}
 const TN={p:'Párrafo',img:'Imagen',song:'Canción',quote:'Cita',box:'Recuadro',h:'Subtítulo',q:'Pregunta'},SW=['#e37b00','#5b3c88','#2a6fc4','#2f8f5b','#d6457f','#c0392b','#2f4f4f'];
 const DEF={song:()=>({type:'song',n:'',text:''}),quote:()=>({type:'quote',text:''}),box:()=>({type:'box',label:'TEMA',text:''}),h:()=>({type:'h',text:''}),q:()=>({type:'q',text:'',ans:''})};
 function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;return n}if(b.type=='q'){const nx=a.blocks.slice(i+1).find(k=>k.type=='p'||k.type=='q');return nx&&nx.type=='p'&&nx.num?n+1:0}return 0})}
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 5.0</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 5.1</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -199,7 +199,7 @@ let h='<div class="hdl" role="separator" aria-label="Desliza hacia abajo para ce
   h+=`<div class="bar" style="margin:0 0 10px;align-items:center">${L.length?'<h2 class="sth">Notas</h2>':''}${XB}</div>`+(L.length?L.map(k=>`<button class="card nc ncard${k.kind=='a'?'':' bx c-'+k.c}" data-nid="${k.id}" data-a="opennote" data-v="${k.id}"><div class="ntt">${dot(k)}${k.title?E(k.title):'Sin título'}</div><div class="nv2">${k.note?E(k.note):'<span style="color:var(--mut)">Nota vacía</span>'}</div>${window.TG?TG(k):''}</button>`).join(''):`<div class="emp nn">No hay notas</div>`)}
  st.innerHTML=h}
 const CC=el=>el.textContent.replace(/\s+/g,' ').trim();
-function newScr(){return `<div class="card"><div class="rf" style="font-size:17px">Importar desde JW.ORG</div><p class="hint">Pega el enlace del artículo y toca Importar.</p><input class="li" id="jl" placeholder="https://www.jw.org/es/…" inputmode="url" style="border-style:solid;margin:0"><div class="add"><button class="btn" data-a="imp">Importar</button></div>${nsf?`<p class="hint" style="margin-top:14px">${E(nsf)}</p><textarea class="ed" id="jt" rows="6" placeholder="Pega aquí el código fuente o el texto del artículo"></textarea><div class="add"><button class="btn s" data-a="impt">Importar contenido</button></div>`:''}</div><div class="card"><div class="rf" style="font-size:17px">Crear desde cero</div><p class="hint">Empieza con un artículo vacío y agrega tus propios bloques.</p><button class="btn s" data-a="blank">Artículo en blanco</button></div><div class="card"><div class="rf" style="font-size:17px">Crear un Documento</div><p class="hint">Una nota libre que no pertenece a ningún artículo. Se guarda en Artículos, junto a tus demás publicaciones.</p><button class="btn s" data-a="newdoc">Nuevo Documento</button></div>`}
+function newScr(){return `<div class="card"><div class="rf" style="font-size:17px">Importar desde JW.ORG</div><p class="hint">Pega el enlace del artículo y toca Importar.</p><input class="li" id="jl" placeholder="https://www.jw.org/es/…" inputmode="url" style="border-style:solid;margin:0"><div class="add"><button class="btn" data-a="imp">Importar</button></div>${nsf?`<p class="hint" style="margin-top:14px">${E(nsf)}</p><textarea class="ed" id="jt" rows="6" placeholder="Pega aquí el código fuente o el texto del artículo"></textarea><div class="add"><button class="btn s" data-a="impt">Importar contenido</button></div>`:''}</div><div class="card"><div class="rf" style="font-size:17px">Crear desde cero</div><p class="hint">Empieza con un artículo vacío y agrega tus propios bloques.</p><button class="btn s" data-a="blank">Artículo en blanco</button></div><div class="card"><div class="rf" style="font-size:17px">Crear un Documento</div><p class="hint">Una hoja en blanco para escribir: título y texto con negrita, itálica o subrayado. Se guarda en Artículos.</p><button class="btn s" data-a="newdoc">Nuevo Documento</button></div>`}
 function parseJW(src){const o={title:'',blocks:[],imgs:0};
  if(!/<(p|article|h1|div)[\s>]/i.test(src)){const ps=src.split(/\n\s*\n/).map(x=>x.replace(/\s+/g,' ').trim()).filter(Boolean);o.title=ps.shift()||'';o.blocks=ps.map(t=>({type:'p',text:t,num:false}));return o}
  const d=new DOMParser().parseFromString(src,'text/html');d.querySelectorAll('script,style,nav,footer,noscript').forEach(n=>n.remove());
@@ -364,7 +364,7 @@ const sp=document.createElement('aside');sp.id='sp';document.body.appendChild(sp
 const dl=document.createElement('div'),dr=document.createElement('div');dl.id='dzl';dr.id='dzr';dl.className=dr.className='dz';dl.textContent=dr.textContent='Suelta aquí para abrir en vista dividida';document.body.append(dl,dr);
 const spArt=()=>{sp.className=SP.side;sp.style.display='flex';const f=sp.querySelector('iframe');
  if(!f||f.dataset.id!=SP.id){const base=location.href.split('#')[0].split('?')[0];
-  sp.innerHTML=`<div class="sph"><b>Vista dividida</b><span><button data-s="s" aria-label="Cambiar de lado">⇄</button><button data-s="x" aria-label="Cerrar">✕</button></span></div><iframe class="spf" data-id="${E(SP.id)}" title="Vista dividida" src="${base}?pane=1#a=${encodeURIComponent(SP.id)}"></iframe>`}};
+  sp.innerHTML=`<iframe class="spf" data-id="${E(SP.id)}" title="Vista dividida" src="${base}?pane=1#a=${encodeURIComponent(SP.id)}"></iframe>`}};
 window.spRender=()=>{const ap=$('#app');ap.classList.toggle('spl',!!SP&&SP.side=='l');ap.classList.toggle('spr',!!SP&&SP.side=='r');
  if(!SP){sp.style.display='none';if(sp.querySelector('iframe'))sp.innerHTML='';return}
  if(SP.k=='a')return spArt();
@@ -992,7 +992,7 @@ niPlace();
 }
 </style>
 <style>
-/* ===== Versión 5.0: barra de estudio fluida =====
+/* ===== Versión 5.1: barra de estudio fluida =====
    - El panel solo anima transform + opacidad (compuesto en GPU); se elimina la animación de border-radius.
    - El artículo no se reacomoda durante la animación: el espacio reservado para el panel se aplica al terminar. */
 @media(prefers-reduced-motion:no-preference){
@@ -1041,7 +1041,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='5.0';
+window.APP_VERSION='5.1';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1131,7 +1131,7 @@ document.addEventListener('click',e=>{
    3) El resaltado espera 0.9 s tras el último cambio de la selección (y a que se suelte el dedo/mouse).
    4) Nuevo color: Gris. -->
 <style>
-/* ===== Versión 5.0 =====
+/* ===== Versión 5.1 =====
    1) Móvil: tocar fuera de la StudyBar flotante la cierra (no aplica en escritorio ni con la StudyBar fija).
    2) Visor de imágenes: zoom con pinch (pantalla táctil) o pinch del trackpad (escritorio). Sin botones de zoom. */
 .lbx{touch-action:none;overscroll-behavior:contain}
@@ -1142,7 +1142,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='5.0';
+window.APP_VERSION='5.1';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r]';
@@ -1217,7 +1217,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='5.0';
+window.APP_VERSION='5.1';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1276,7 +1276,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='5.0';
+window.APP_VERSION='5.1';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1305,7 +1305,7 @@ const _m=main;main=function(){const r=_m.apply(this,arguments);if(md.classList.c
 const edg=document.createElement('div');edg.id='edg';edg.setAttribute('aria-hidden','true');document.body.appendChild(edg);
 const coarse=matchMedia('(any-pointer:coarse)'),THR=48;let gs=null;
 const side=()=>(S.dock||S.side)=='left'?'left':'right';
-const ok=()=>S.gest!==false&&!isSmall()&&!!cur&&!sOpen&&!$('#gs').classList.contains('on')&&!$('#md').classList.contains('on')&&!$('#lb').classList.contains('on');
+const ok=()=>S.gest!==false&&!isSmall()&&!document.body.classList.contains('dm')&&!!cur&&!sOpen&&!$('#gs').classList.contains('on')&&!$('#md').classList.contains('on')&&!$('#lb').classList.contains('on');
 function upd(){const on=coarse.matches&&ok();edg.style.display=on?'block':'none';if(on){const sd=side();edg.style.left=sd=='left'?'0':'auto';edg.style.right=sd=='right'?'0':'auto'}}
 const begin=(e,sd)=>{gs={id:e.pointerId,x:e.clientX,y:e.clientY,sd,done:false}};
 edg.addEventListener('pointerdown',e=>{if(!ok())return;begin(e,side());try{edg.setPointerCapture(e.pointerId)}catch(_){}});
@@ -1333,7 +1333,7 @@ upd();
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='5.0';
+window.APP_VERSION='5.1';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1365,12 +1365,12 @@ study=function(){const r=_s.apply(this,arguments);
 #spk #spkl{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain}
 </style>
 <script>
-window.APP_VERSION='5.0';
+window.APP_VERSION='5.1';
 /* 5.0 · Documentos: notas libres que se guardan en Artículos */
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-a=newdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
  const n={id:uid(),label:'Documento',sub:'',title:'Documento sin título',doc:true,saved:false,accent:'#2a6fc4',blocks:[{type:'p',text:''}]};
- S.arts.push(n);cur=n.id;ns=false;nsf='';edit=true;sv0=null;sOpen=!isSmall();save();render()},true);
+ S.arts.push(n);cur=n.id;ns=false;nsf='';edit=false;sv0=null;sOpen=false;save();render()},true);
 /* 5.0 · Vista dividida con otro artículo / Documento */
 {
 const pk=document.createElement('div');pk.id='spk';
@@ -1397,8 +1397,8 @@ new MutationObserver(()=>{const f=document.querySelector('#sp iframe');if(!f||!f
 let t=0;
 addEventListener('storage',e=>{if(e.key!=='jwl2'||!e.newValue)return;clearTimeout(t);t=setTimeout(()=>{
  let n;try{n=JSON.parse(e.newValue)}catch(_){return}
- const ae=document.activeElement;if(edit&&ae&&/^(INPUT|TEXTAREA)$/.test(ae.tagName))return;
- S=n;if(cur&&!A())cur=null;
+ const ae=document.activeElement;S=n;if(cur&&!A())cur=null;
+ if((edit||document.body.classList.contains('dm'))&&ae&&(/^(INPUT|TEXTAREA)$/.test(ae.tagName)||ae.isContentEditable))return;
  document.documentElement.style.setProperty('--fs',S.fs+'px');
  main();study();window.SYNC&&SYNC.track&&SYNC.track()},250)});
 }
@@ -1409,6 +1409,74 @@ if(/[?&]pane=1/.test(location.search)){
  if(window.SYNC)window.SYNC=Object.assign({},window.SYNC,{track(){}});
  const m=/#a=([^&]+)/.exec(location.hash);
  if(m){const id=decodeURIComponent(m[1]);if(S.arts.find(a=>a.id==id)){cur=id;ns=false;edit=false;sv0=null;sOpen=false;history.replaceState(null,'',location.pathname+location.search);render()}}
+}
+</script>
+<style>
+/* ===== Versión 5.1 =====
+   1) Documentos: hoja en blanco con Título y cuerpo de texto. Formato: Negrita, Itálica y Subrayado.
+      Sin etiquetas, bloques, notas ni StudyBar. Se guardan en Artículos.
+   2) Vista dividida: se quita la barra superior del panel (⇄ y ✕). Cada medio se cierra desde su menú
+      «Más opciones» → «Cerrar Vista Dividida». */
+body.dm #st,body.dm #fab,body.dm #edg{display:none!important}
+body.dm #mn .mopt,body.dm #mn [data-a=anote],body.dm #mn [data-a=edit]{display:none!important}
+.docp{max-width:720px;margin:0 auto}
+.doct{width:100%;border:0;background:transparent;outline:none;padding:0;margin:8px 0 6px;color:var(--ink);font:700 clamp(26px,5vw,34px)/1.15 Figtree,system-ui,sans-serif;letter-spacing:-.01em}
+.doct::placeholder{color:var(--mut);opacity:.7}
+.doctb{position:sticky;top:0;z-index:3;display:flex;gap:8px;padding:8px 0;background:var(--bg)}
+.doctb .ib{font-size:16px;line-height:1}
+.doctb .ib b,.doctb .ib i,.doctb .ib u{font-size:17px}
+.docb{min-height:60vh;outline:none;font-size:var(--fs);line-height:1.6;overflow-wrap:anywhere;padding-bottom:40vh;-webkit-user-select:text;user-select:text}
+.docb:empty::before{content:attr(data-ph);color:var(--mut)}
+</style>
+<script>
+window.APP_VERSION='5.1';
+/* 5.1 · Documentos: hoja en blanco */
+{
+const OK={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1};
+const san=h=>{const d=new DOMParser().parseFromString('<body>'+(h||'')+'</body>','text/html');
+ const w=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType==1){if(c.tagName=='SCRIPT'||c.tagName=='STYLE'){c.remove();return}w(c);if(OK[c.tagName])[...c.attributes].forEach(a=>c.removeAttribute(a.name));else c.replaceWith(...c.childNodes)}else if(c.nodeType!=3)c.remove()})};
+ w(d.body);return d.body.innerHTML};
+const TI='Documento sin título';
+function docMain(){
+ const a=A(),pg=$('#pg'),id=a.id;document.body.classList.add('dm');edit=false;sOn=false;sOpen=false;
+ const html=a.html!=null?san(a.html):(a.blocks||[]).map(b=>b.text?`<div>${E(b.text)}</div>`:'').join('');
+ const def=!a.title||a.title==TI;
+ pg.innerHTML=`<div class="docp"><input class="doct" id="doct" placeholder="Título" value="${def?'':E(a.title)}" aria-label="Título del documento" autocomplete="off"><div class="doctb" role="toolbar" aria-label="Formato"><button class="ib" data-d="bold" aria-label="Negrita" title="Negrita"><b>B</b></button><button class="ib" data-d="italic" aria-label="Itálica" title="Itálica"><i>I</i></button><button class="ib" data-d="underline" aria-label="Subrayado" title="Subrayado"><u>U</u></button></div><div class="docb" id="docb" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Cuerpo del documento" data-ph="Escribe aquí…">${html}</div></div>`;
+ const ti=pg.querySelector('#doct'),bd=pg.querySelector('#docb');let t=0;
+ const flush=()=>{clearTimeout(t);t=0;if(!bd.isConnected)return;const x=S.arts.find(k=>k.id==id);if(!x)return;
+  if(bd.innerHTML=='<br>')bd.innerHTML='';
+  x.html=san(bd.innerHTML);x.blocks=[{type:'p',text:bd.innerText}];x.title=ti.value.trim()||TI;save()};
+ const later=()=>{clearTimeout(t);t=setTimeout(flush,350)};
+ const st=()=>{pg.querySelectorAll('[data-d]').forEach(b=>{let on=false;try{on=document.queryCommandState(b.dataset.d)}catch(_){}b.classList.toggle('on',on)})};
+ ti.addEventListener('input',()=>{const h=$('#hd .t b');if(h)h.textContent=ti.value.trim()||TI;later()});
+ ti.addEventListener('keydown',e=>{if(e.key=='Enter'){e.preventDefault();bd.focus()}});
+ ti.addEventListener('blur',flush);bd.addEventListener('blur',flush);bd.addEventListener('input',()=>{later();st()});
+ bd.addEventListener('paste',e=>{e.preventDefault();const tx=(e.clipboardData||window.clipboardData).getData('text/plain');document.execCommand('insertText',false,tx)});
+ pg.querySelectorAll('[data-d]').forEach(b=>{b.addEventListener('pointerdown',e=>e.preventDefault());b.addEventListener('click',()=>{bd.focus();document.execCommand(b.dataset.d);later();st()})});
+ const sel=()=>{if(!bd.isConnected){document.removeEventListener('selectionchange',sel);return}st()};document.addEventListener('selectionchange',sel);
+ if(def&&!html)setTimeout(()=>ti.focus(),60)}
+const _m=main;main=function(){const a=A();
+ if(a&&a.doc&&!ns)return docMain();
+ document.body.classList.remove('dm');return _m.apply(this,arguments)};
+const _h=header;header=function(){const r=_h.apply(this,arguments),a=A();
+ if(a&&a.doc&&!ns){document.querySelectorAll('#hd .opt').forEach(n=>n.remove());const s=document.querySelector('#hd .t small');if(s)s.textContent='Documento'}
+ return r};
+}
+/* 5.1 · Vista dividida: cerrar desde «Más opciones» */
+{
+const SPI='<svg viewBox="0 0 24 24"><path d="M3 5h18v14H3zM12 5v14"/></svg>';
+window.splitItem=()=>{
+ if(document.documentElement.classList.contains('pane')||(SP&&SP.k=='a'))return `<button data-a="splitclose">${SPI}Cerrar Vista Dividida</button>`;
+ return isSmall()?'':`<button data-a="splitpick">${SPI}Vista dividida</button>`};
+window.closeSplitPane=()=>{SP=null;spRender();study()};
+document.addEventListener('click',e=>{if(e.target.closest('[data-a=menu]')){try{menu()}catch(_){}}},true);
+document.addEventListener('click',e=>{
+ if(!e.target.closest('[data-a=splitclose]'))return;e.stopImmediatePropagation();e.preventDefault();$('#mn').classList.remove('on');
+ if(document.documentElement.classList.contains('pane')){try{parent.closeSplitPane()}catch(_){}return}
+ if(!(SP&&SP.k=='a'))return;
+ let id=SP.id;const f=document.querySelector('#sp iframe');try{id=f.contentWindow.eval('cur')}catch(_){}
+ SP=null;spRender();
+ cur=(id&&S.arts.find(a=>a.id==id))?id:null;ns=false;edit=false;sv0=null;sOpen=cur?!isSmall():false;render()},true);
 }
 </script>
 <!-- ===== Versión 3.0: inicio de sesión con código QR =====
