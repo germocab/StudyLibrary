@@ -160,14 +160,14 @@ function header(){const a=A(),b=(n,l,x='',c='')=>`<button class="ib ${c}" data-a
  :`<div class="t"><b>Mi biblioteca</b><small>Tus artículos de estudio</small></div>`+b('srch','Buscar en toda la plataforma','gsearch')+b('pl','Nuevo artículo o Documento','new')+`<button class="ib" data-a="theme" aria-label="Cambiar tema">${THI}</button>`;
  $('#hd').insertAdjacentHTML('beforeend','<div class="menu" id="mn"></div>')}
 function menu(){const a=A()||{};$('#mn').innerHTML=`<div class="tsz"><span class="tl">Tamaño del texto</span><div class="trow"><span style="font-size:13px">A</span><input type="range" id="fsr" min="13" max="30" step="1" value="${S.fs}" aria-label="Tamaño del texto"><span style="font-size:23px">A</span></div></div>
-<button class="mopt" data-a="media">${ic('head')}Medios</button><button class="mopt${sOn?' on':''}" data-a="search">${ic('srch')}${sOn?'Cerrar búsqueda':'Buscar'}</button><button class="mopt${a.saved?' on':''}" data-a="save">${ic('bm')}${a.saved?'Quitar de guardados':'Guardar artículo'}</button><button class="mlang" data-a="lang">${ic('lang')}Idioma</button><button data-a="fs">${ic('fs')}Pantalla completa</button><button data-a="anote">${ic('note')}Nueva nota</button>${window.splitItem?window.splitItem():''}<button data-a="edit">${ic('ed')}${edit?'Terminar edición':'Editar artículo'}</button><button data-a="theme">${THI.replace('24px;height:24px','20px;height:20px')}${isDark()?'Modo claro':'Modo oscuro'}</button><button data-a=\"gest\"><svg viewBox=\"0 0 24 24\"><path d=\"M9 11V5.5a1.5 1.5 0 013 0V10M12 9.5a1.5 1.5 0 013 0V11M15 10.5a1.5 1.5 0 013 0V15a6 6 0 01-6 6h-.5a6 6 0 01-5-2.7L4 15a1.5 1.5 0 012.4-1.8L9 15\"/></svg>Gestos: ${S.gest===false?'Off':'On'}</button>`}
+<button class="mopt" data-a="media">${ic('head')}Medios</button><button class="mopt${sOn?' on':''}" data-a="search">${ic('srch')}${sOn?'Cerrar búsqueda':'Buscar'}</button><button class="mopt${a.saved?' on':''}" data-a="save">${ic('bm')}${a.saved?'Quitar de guardados':'Guardar artículo'}</button><button class="mlang" data-a="lang">${ic('lang')}Idioma</button><button data-a="fs">${ic('fs')}Pantalla completa</button><button data-a="anote">${ic('note')}Nueva nota</button>${window.splitItem?window.splitItem():''}${window.xvItem?window.xvItem():''}<button data-a="theme">${THI.replace('24px;height:24px','20px;height:20px')}${isDark()?'Modo claro':'Modo oscuro'}</button><button data-a=\"gest\"><svg viewBox=\"0 0 24 24\"><path d=\"M9 11V5.5a1.5 1.5 0 013 0V10M12 9.5a1.5 1.5 0 013 0V11M15 10.5a1.5 1.5 0 013 0V15a6 6 0 01-6 6h-.5a6 6 0 01-5-2.7L4 15a1.5 1.5 0 012.4-1.8L9 15\"/></svg>Gestos: ${S.gest===false?'Off':'On'}</button>`}
 const TN={p:'Párrafo',img:'Imagen',song:'Canción',quote:'Cita',box:'Recuadro',h:'Subtítulo',q:'Pregunta'},SW=['#e37b00','#5b3c88','#2a6fc4','#2f8f5b','#d6457f','#c0392b','#2f4f4f'];
 const DEF={song:()=>({type:'song',n:'',text:''}),quote:()=>({type:'quote',text:''}),box:()=>({type:'box',label:'TEMA',text:''}),h:()=>({type:'h',text:''}),q:()=>({type:'q',text:'',ans:''})};
 function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;return n}if(b.type=='q'){const nx=a.blocks.slice(i+1).find(k=>k.type=='p'||k.type=='q');return nx&&nx.type=='p'&&nx.num?n+1:0}return 0})}
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 5.9</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 6.0</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -458,19 +458,19 @@ const sb=supabase.createClient(URL_,KEY,{auth:{persistSession:true,autoRefreshTo
 const MK='jwl2meta',PK='jwl2pull';
 let meta={},cursor='1970-01-01T00:00:00Z',user=null,busy=false,again=false,tm=null,rt=null,chan=null,st='off',msg='';
 try{meta=JSON.parse(localStorage.getItem(MK))||{};cursor=localStorage.getItem(PK)||cursor}catch(e){}
+delete meta['p|fs'];
 const persist=()=>{try{localStorage.setItem(MK,JSON.stringify(meta));localStorage.setItem(PK,cursor)}catch(e){}};
 const hash=s=>{let h=5381;for(let i=0;i<s.length;i++)h=(h*33^s.charCodeAt(i))>>>0;return h.toString(36)+s.length};
-const items=()=>{const m={};S.arts.forEach(a=>m['a|'+a.id]=a);S.hl.forEach(h=>m['h|'+h.id]=h);Object.keys(S.verses||{}).forEach(r=>m['v|'+r]=S.verses[r]);m['p|fs']=S.fs;return m};
+const items=()=>{const m={};S.arts.forEach(a=>m['a|'+a.id]=a);S.hl.forEach(h=>m['h|'+h.id]=h);Object.keys(S.verses||{}).forEach(r=>m['v|'+r]=S.verses[r]);return m};
 function track(){const first=!Object.keys(meta).length,cur=items(),now=Date.now();
  for(const k in cur){const h=hash(JSON.stringify(cur[k])),m=meta[k];if(!m||m.del||m.h!=h)meta[k]={h,ts:(!m&&first)?1:now,d:1}}
  for(const k in meta)if(!(k in cur)&&!meta[k].del)meta[k]={del:1,ts:now,d:1};
  persist();schedule()}
 function schedule(){if(!user)return;setSt('sync');clearTimeout(tm);tm=setTimeout(sync,1500)}
-function apply(k,x){const id=x.item_id,t=x.kind;
+function apply(k,x){const id=x.item_id,t=x.kind;if(t=='p')return;
  if(t=='a'){const i=S.arts.findIndex(a=>a.id==id);if(x.deleted){if(i>=0)S.arts.splice(i,1)}else if(i>=0)S.arts[i]=x.data;else S.arts.push(x.data)}
  else if(t=='h'){S.hl=S.hl.filter(h=>h.id!=id);if(!x.deleted)S.hl.push(x.data)}
  else if(t=='v'){S.verses=S.verses||{};if(x.deleted)delete S.verses[id];else S.verses[id]=x.data}
- else if(t=='p'&&id=='fs'&&!x.deleted){S.fs=x.data;document.documentElement.style.setProperty('--fs',S.fs+'px')}
  meta[k]=x.deleted?{del:1,ts:x.ts}:{h:hash(JSON.stringify(x.data)),ts:x.ts}}
 function softRender(){const e=document.activeElement;if(e&&/INPUT|TEXTAREA/.test(e.tagName)||e&&e.isContentEditable||(typeof edit!='undefined'&&edit))return setTimeout(softRender,3000);
  if(cur&&!S.arts.find(a=>a.id==cur))cur=null;render()}
@@ -664,11 +664,11 @@ study();
 <script>
 {
 let SEL=null,lpT=null,lpFired=false,sx=0,sy=0;
-const bar=document.createElement('div');bar.id='lsb';bar.innerHTML='<button data-ls="x" aria-label="Cancelar">Cancelar</button><b id="lsn"></b><button class="del" data-ls="d">Eliminar</button>';document.body.appendChild(bar);
+const bar=document.createElement('div');bar.id='lsb';bar.innerHTML='<button data-ls="x" aria-label="Cancelar">Cancelar</button><b id="lsn"></b><button data-ls="e" aria-label="Editar artículo">Editar</button><button class="del" data-ls="d">Eliminar</button>';document.body.appendChild(bar);
 const CK='<span class="lck"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>';
 function paint(){const on=!!SEL;document.body.classList.toggle('lsel',on);if(!on)return;
  document.querySelectorAll('.lib .card[data-a=open]').forEach(c=>{if(!c.querySelector('.lck'))c.insertAdjacentHTML('beforeend',CK);c.classList.toggle('selc',SEL.has(c.dataset.v))});
- $('#lsn').textContent=SEL.size+(SEL.size==1?' seleccionado':' seleccionados');bar.querySelector('.del').disabled=!SEL.size}
+ $('#lsn').textContent=SEL.size+(SEL.size==1?' seleccionado':' seleccionados');bar.querySelector('.del').disabled=!SEL.size;{const eb=bar.querySelector('[data-ls=e]'),x1=SEL.size==1?S.arts.find(a=>a.id==[...SEL][0]):null;eb.disabled=!(x1&&!x1.doc)}}
 function exit(){SEL=null;document.querySelectorAll('.lck').forEach(n=>n.remove());document.querySelectorAll('.selc').forEach(n=>n.classList.remove('selc'));paint()}
 const _m=main;main=function(){const r=_m.apply(this,arguments);if(cur||ns)SEL=null;if(SEL){const ids=new Set(S.arts.map(a=>a.id));SEL.forEach(i=>ids.has(i)||SEL.delete(i))}paint();return r};
 document.addEventListener('pointerdown',e=>{const c=e.target.closest('.lib .card[data-a=open]');if(!c||SEL)return;sx=e.clientX;sy=e.clientY;clearTimeout(lpT);lpT=setTimeout(()=>{lpFired=true;SEL=new Set([c.dataset.v]);if(navigator.vibrate)try{navigator.vibrate(15)}catch(_){}paint()},500)});
@@ -680,6 +680,7 @@ document.addEventListener('click',e=>{
  if(c&&(lpFired||SEL)){e.stopImmediatePropagation();e.preventDefault();if(lpFired){lpFired=false;return}const id=c.dataset.v;SEL.has(id)?SEL.delete(id):SEL.add(id);paint();return}
  const b=e.target.closest('[data-ls]');if(!b)return;
  if(b.dataset.ls=='x')exit();
+ else if(b.dataset.ls=='e'){if(SEL&&SEL.size==1){const id=[...SEL][0],x1=S.arts.find(a=>a.id==id);if(x1&&!x1.doc){exit();cur=id;ns=false;sv0=null;edit=true;sOn=false;q='';sOpen=!isSmall();save();render()}}}
  else if(SEL&&SEL.size){const n=SEL.size;if(!confirm(n==1?'¿Eliminar este artículo y sus notas?':'¿Eliminar '+n+' artículos y sus notas?'))return;const ids=SEL;S.arts=S.arts.filter(a=>!ids.has(a.id));S.hl=S.hl.filter(h=>!ids.has(h.art));SEL=null;save();render();toast(n==1?'Artículo eliminado':n+' artículos eliminados')}
 },true);
 addEventListener('keydown',e=>{if(e.key=='Escape'&&SEL)exit()});
@@ -1078,7 +1079,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='5.9';
+window.APP_VERSION='6.0';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1179,7 +1180,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='5.9';
+window.APP_VERSION='6.0';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r]';
@@ -1254,7 +1255,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='5.9';
+window.APP_VERSION='6.0';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1313,7 +1314,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='5.9';
+window.APP_VERSION='6.0';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1370,7 +1371,7 @@ upd();
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='5.9';
+window.APP_VERSION='6.0';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1402,7 +1403,7 @@ study=function(){const r=_s.apply(this,arguments);
 #spk #spkl{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain}
 </style>
 <script>
-window.APP_VERSION='5.9';
+window.APP_VERSION='6.0';
 /* 5.0 · Documentos: notas libres que se guardan en Artículos */
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-a=newdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
@@ -1467,7 +1468,7 @@ body.dm #mn .mopt,body.dm #mn [data-a=anote],body.dm #mn [data-a=edit]{display:n
 .docb:empty::before{content:attr(data-ph);color:var(--mut)}
 </style>
 <script>
-window.APP_VERSION='5.9';
+window.APP_VERSION='6.0';
 /* 5.1 · Documentos: hoja en blanco */
 {
 const OK={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1};
@@ -1526,7 +1527,7 @@ document.addEventListener('click',e=>{
 .st .bar .ned+.ndel{margin-left:8px}
 </style>
 <script>
-window.APP_VERSION='5.9';
+window.APP_VERSION='6.0';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1547,7 +1548,7 @@ study=function(){const r=_s.apply(this,arguments);
 .ntw>.ib.tt svg{width:17px;height:17px}
 </style>
 <script>
-window.APP_VERSION='5.9';
+window.APP_VERSION='6.0';
 IC.tt='M5 6V4h14v2M12 4v16M9 20h6';
 {
 const wrap=root=>{if(!root)return;root.querySelectorAll('input[data-nt]').forEach(inp=>{
@@ -1582,7 +1583,7 @@ wrap($('#st'));wrap($('#sp'));
 .tbdd.up{top:auto;bottom:calc(100% + 8px)}
 </style>
 <script>
-window.APP_VERSION='5.9';
+window.APP_VERSION='6.0';
 {
 const copyTxt=t=>{const ok=()=>toast('Texto copiado');
  const fb=()=>{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0;top:0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(_){toast('No se pudo copiar')}a.remove()};
@@ -1810,6 +1811,53 @@ const dockSync=()=>{let ch=false;
  if(ch&&cur)study()};
 window.addEventListener('resize',dockSync);window.addEventListener('orientationchange',()=>setTimeout(dockSync,120));
 dockSync();
+}
+</script>
+<style>
+/* ===== Versión 6.0 ===== */
+#lsb{gap:8px}#lsb button{padding:9px 13px}#lsb b{min-width:0;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#lsb button:disabled{opacity:.4}
+/* Vista Expandido: los elementos del artículo se acomodan uno al lado del otro y, cuando se llena la fila, hacia abajo */
+#pg.xvg{max-width:none;margin:0;padding-left:50px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));grid-auto-rows:4px;column-gap:68px;align-items:start}
+#pg.xvg>*{min-width:0;align-self:start}
+#pg.xvg>:where(:not(.lab):not(h1)){margin:0 0 22px!important}
+#pg.xvg>.lab,#pg.xvg>h1{grid-column:1/-1}
+#pg.xvg>.lab{justify-self:start}
+#pg.xvg>.sh2{grid-column:1/-1;margin:6px 0 16px!important}
+</style>
+<script>
+{
+/* ===== Versión 6.0 =====
+   1) «Editar artículo» ya no está en Más opciones: se mantiene presionada la portada en Mi Biblioteca (botón «Editar»).
+   2) El tamaño del texto ya no se sincroniza entre dispositivos (cada uno conserva el suyo).
+   3) Nueva vista «Expandido» (Más opciones): solo pantallas grandes. Se desactiva sola con la StudyBar fija. */
+const XI='<svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>';
+const docked=()=>!!(sOpen&&cur&&S.dock&&!SP);
+const xvOn=()=>{const a=A();return !!(S.xv&&!isSmall()&&cur&&a&&!a.doc&&!edit&&!ns&&!docked())};
+window.xvItem=()=>{const a=A();if(isSmall()||(a&&a.doc))return '';
+ return `<button data-a="xv">${XI}Expandido: ${S.xv?(docked()?'On · en pausa':'On'):'Off'}</button>`};
+
+let xro=null,raf=0;
+const span=el=>{const cs=getComputedStyle(el),h=el.getBoundingClientRect().height+(parseFloat(cs.marginTop)||0)+(parseFloat(cs.marginBottom)||0);
+ el.style.gridRowEnd='span '+Math.max(1,Math.ceil(h/4))};
+const lay=()=>{raf=0;const pg=$('#pg');if(!pg||!pg.classList.contains('xvg'))return;[...pg.children].forEach(span)};
+const later=()=>{if(!raf)raf=requestAnimationFrame(lay)};
+function xvSync(){const pg=$('#pg');if(!pg)return;const on=xvOn(),was=pg.classList.contains('xvg');
+ pg.classList.toggle('xvg',on);document.documentElement.classList.toggle('xv',on);
+ if(xro){xro.disconnect()}
+ if(on){if(window.ResizeObserver){xro=xro||new ResizeObserver(later);[...pg.children].forEach(c=>xro.observe(c))}lay()}
+ else if(was){[...pg.children].forEach(c=>{c.style.gridRowEnd=''})}
+ if(on!==was&&window.niPlace)niPlace()}
+window.xvSync=xvSync;
+
+const _mn6=main;main=function(){const r=_mn6.apply(this,arguments);try{xvSync()}catch(_){}return r};
+const _st6=study;study=function(){const r=_st6.apply(this,arguments);try{xvSync()}catch(_){}return r};
+addEventListener('resize',()=>{try{xvSync()}catch(_){}});
+
+document.addEventListener('click',e=>{const el=e.target.closest&&e.target.closest('[data-a="xv"]');if(!el)return;
+ e.preventDefault();e.stopImmediatePropagation();S.xv=!S.xv;save();$('#mn').classList.remove('on');xvSync();menu();
+ toast(S.xv?(docked()?'Expandido activado: se verá al soltar la StudyBar':'Vista Expandido activada'):'Vista Expandido desactivada')},true);
+try{xvSync()}catch(_){}
 }
 </script>
 <!-- ===== Versión 3.0: inicio de sesión con código QR =====
