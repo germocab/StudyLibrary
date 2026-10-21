@@ -167,7 +167,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 6.1</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 6.2</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -1079,7 +1079,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='6.1';
+window.APP_VERSION='6.2';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1180,7 +1180,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='6.1';
+window.APP_VERSION='6.2';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r]';
@@ -1255,7 +1255,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='6.1';
+window.APP_VERSION='6.2';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1314,7 +1314,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='6.1';
+window.APP_VERSION='6.2';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1371,7 +1371,7 @@ upd();
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='6.1';
+window.APP_VERSION='6.2';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1403,7 +1403,7 @@ study=function(){const r=_s.apply(this,arguments);
 #spk #spkl{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain}
 </style>
 <script>
-window.APP_VERSION='6.1';
+window.APP_VERSION='6.2';
 /* 5.0 · Documentos: notas libres que se guardan en Artículos */
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-a=newdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
@@ -1468,7 +1468,7 @@ body.dm #mn .mopt,body.dm #mn [data-a=anote],body.dm #mn [data-a=edit]{display:n
 .docb:empty::before{content:attr(data-ph);color:var(--mut)}
 </style>
 <script>
-window.APP_VERSION='6.1';
+window.APP_VERSION='6.2';
 /* 5.1 · Documentos: hoja en blanco */
 {
 const OK={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1};
@@ -1527,7 +1527,7 @@ document.addEventListener('click',e=>{
 .st .bar .ned+.ndel{margin-left:8px}
 </style>
 <script>
-window.APP_VERSION='6.1';
+window.APP_VERSION='6.2';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1548,7 +1548,7 @@ study=function(){const r=_s.apply(this,arguments);
 .ntw>.ib.tt svg{width:17px;height:17px}
 </style>
 <script>
-window.APP_VERSION='6.1';
+window.APP_VERSION='6.2';
 IC.tt='M5 6V4h14v2M12 4v16M9 20h6';
 {
 const wrap=root=>{if(!root)return;root.querySelectorAll('input[data-nt]').forEach(inp=>{
@@ -1583,7 +1583,7 @@ wrap($('#st'));wrap($('#sp'));
 .tbdd.up{top:auto;bottom:calc(100% + 8px)}
 </style>
 <script>
-window.APP_VERSION='6.1';
+window.APP_VERSION='6.2';
 {
 const copyTxt=t=>{const ok=()=>toast('Texto copiado');
  const fb=()=>{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0;top:0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(_){toast('No se pudo copiar')}a.remove()};
@@ -1900,6 +1900,40 @@ document.addEventListener('click',e=>{const el=e.target.closest&&e.target.closes
  e.preventDefault();e.stopImmediatePropagation();S.xv=!S.xv;save();$('#mn').classList.remove('on');xvSync();menu();
  toast(S.xv?(docked()?'Expandido activado: se verá al soltar la StudyBar':'Vista Expandido activada'):'Vista Expandido desactivada')},true);
 try{xvSync()}catch(_){}
+}
+</script>
+<style>
+/* ===== Versión 6.2: recuadros de respuesta con contenido ===== */
+.ans.ac{max-height:calc(3.7em + 22px)!important;overflow:hidden!important;cursor:pointer}
+.ans.ac.ov{box-shadow:inset 0 -14px 10px -12px color-mix(in srgb,var(--ink) 40%,transparent)}
+</style>
+<script>
+{
+/* ===== Versión 6.2 =====
+   Un recuadro de respuesta CON contenido que no cabe en ~3 líneas se muestra recortado; al presionarlo se despliega
+   para ver todo (sin abrir el teclado). Al tocar fuera, o al terminar de escribir, vuelve a recortarse.
+   Si el contenido ya cabe, o el recuadro está vacío, funciona como siempre (se escribe de inmediato). */
+let open=null,quiet=false;
+function collapse(t){if(!t||!t.isConnected)return;if(open===t)open=null;
+ t.classList.remove('ac','ov');t.readOnly=false;t.removeAttribute('title');
+ if(!t.value.trim())return;
+ rs(t);t.classList.add('ac');
+ if(t.scrollHeight>t.clientHeight+2){t.readOnly=true;t.classList.add('ov');t.title='Toca para ver todo'}
+ else t.classList.remove('ac')}
+function expand(t){t.classList.remove('ac','ov');t.readOnly=false;t.removeAttribute('title');rs(t);open=t;
+ if(document.activeElement===t){quiet=true;t.blur();quiet=false}}
+const paint=()=>document.querySelectorAll('#pg .ans').forEach(t=>{if(t===document.activeElement||t===open)return;collapse(t)});
+
+document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('.ans.ac');if(!t)return;e.preventDefault();expand(t)},true);
+document.addEventListener('keydown',e=>{const t=e.target;if(t&&t.classList&&t.classList.contains('ac')&&(e.key=='Enter'||e.key==' ')){e.preventDefault();expand(t)}},true);
+document.addEventListener('pointerdown',e=>{if(open&&e.target!==open)collapse(open)},true);
+document.addEventListener('focusout',e=>{const t=e.target;if(quiet||!t||!t.classList||!t.classList.contains('ans'))return;setTimeout(()=>{if(document.activeElement!==t)collapse(t)},0)});
+
+const _mn62=main;main=function(){const r=_mn62.apply(this,arguments);open=null;try{paint()}catch(_){}return r};
+const _st62=study;study=function(){const r=_st62.apply(this,arguments);setTimeout(()=>{try{paint()}catch(_){}},400);return r};
+let rt=0;const later=()=>{clearTimeout(rt);rt=setTimeout(()=>{try{paint()}catch(_){}},180)};
+addEventListener('resize',later);document.addEventListener('input',e=>{if(e.target.id=='fsr')later()});
+try{paint()}catch(_){}
 }
 </script>
 <!-- ===== Versión 3.0: inicio de sesión con código QR =====
