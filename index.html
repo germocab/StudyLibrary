@@ -152,11 +152,11 @@ function seg(a,bi,na){const t=a.blocks[bi].text||'',P=new Set([0,t.length]),H=S.
 
 const THI='<svg viewBox="0 0 24 24" style="width:24px;height:24px"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>',isDark=()=>{const t=document.documentElement.dataset.theme;return t?t=='dark':matchMedia('(prefers-color-scheme:dark)').matches};
 function header(){const a=A(),b=(n,l,x='',c='')=>`<button class="ib ${c}" data-a="${x||n}" aria-label="${l}">${ic(n)}</button>`;
- $('#hd').innerHTML=ns?b('back','Volver','back')+`<div class="t"><b>Nuevo artículo</b><small>Importa o crea desde cero</small></div>`:a?b('back','Volver','back')+`<div class="t"><b>${E(a.title)}</b><small>${E(a.sub||'')}</small></div>`+b('head','Medios','media')+b('srch','Buscar','search',sOn?'on':'')+b('bm','Guardar artículo','save',a.saved?'on':'')+`<span class="opt">${b('lang','Idioma','lang')}</span>`+b('dots','Más opciones','menu')
+ $('#hd').innerHTML=ns?b('back','Volver','back')+`<div class="t"><b>Nuevo artículo</b><small>Importa o crea desde cero</small></div>`:a?b('back','Volver','back')+`<div class="t"><b>${E(a.title)}</b><small>${E(a.sub||'')}</small></div>`+b('head','Medios','media','opt')+b('srch','Buscar','search',sOn?'on opt':'opt')+b('bm','Guardar artículo','save',a.saved?'on opt':'opt')+`<span class="opt">${b('lang','Idioma','lang')}</span>`+b('dots','Más opciones','menu')
  :`<div class="t"><b>Mi biblioteca</b><small>Tus artículos de estudio</small></div>`+b('pl','Nuevo artículo','new')+`<button class="ib" data-a="theme" aria-label="Cambiar tema">${THI}</button>`;
  $('#hd').insertAdjacentHTML('beforeend','<div class="menu" id="mn"></div>')}
-function menu(){$('#mn').innerHTML=`<div class="tsz"><span class="tl">Tamaño del texto</span><div class="trow"><span style="font-size:13px">A</span><input type="range" id="fsr" min="13" max="30" step="1" value="${S.fs}" aria-label="Tamaño del texto"><span style="font-size:23px">A</span></div></div>
-<button class="mlang" data-a="lang">${ic('lang')}Idioma</button><button data-a="fs">${ic('fs')}Pantalla completa</button><button data-a="anote">${ic('note')}Nueva nota</button><button data-a="edit">${ic('ed')}${edit?'Terminar edición':'Editar artículo'}</button><button data-a="theme">${THI.replace('24px;height:24px','20px;height:20px')}${isDark()?'Modo claro':'Modo oscuro'}</button>`}
+function menu(){const a=A()||{};$('#mn').innerHTML=`<div class="tsz"><span class="tl">Tamaño del texto</span><div class="trow"><span style="font-size:13px">A</span><input type="range" id="fsr" min="13" max="30" step="1" value="${S.fs}" aria-label="Tamaño del texto"><span style="font-size:23px">A</span></div></div>
+<button class="mopt" data-a="media">${ic('head')}Medios</button><button class="mopt${sOn?' on':''}" data-a="search">${ic('srch')}${sOn?'Cerrar búsqueda':'Buscar'}</button><button class="mopt${a.saved?' on':''}" data-a="save">${ic('bm')}${a.saved?'Quitar de guardados':'Guardar artículo'}</button><button class="mlang" data-a="lang">${ic('lang')}Idioma</button><button data-a="fs">${ic('fs')}Pantalla completa</button><button data-a="anote">${ic('note')}Nueva nota</button><button data-a="edit">${ic('ed')}${edit?'Terminar edición':'Editar artículo'}</button><button data-a="theme">${THI.replace('24px;height:24px','20px;height:20px')}${isDark()?'Modo claro':'Modo oscuro'}</button>`}
 const TN={p:'Párrafo',img:'Imagen',song:'Canción',quote:'Cita',box:'Recuadro',h:'Subtítulo',q:'Pregunta'},SW=['#e37b00','#5b3c88','#2a6fc4','#2f8f5b','#d6457f','#c0392b','#2f4f4f'];
 const DEF={song:()=>({type:'song',n:'',text:''}),quote:()=>({type:'quote',text:''}),box:()=>({type:'box',label:'TEMA',text:''}),h:()=>({type:'h',text:''}),q:()=>({type:'q',text:'',ans:''})};
 function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;return n}if(b.type=='q'){const nx=a.blocks.slice(i+1).find(k=>k.type=='p'||k.type=='q');return nx&&nx.type=='p'&&nx.num?n+1:0}return 0})}
@@ -891,4 +891,27 @@ niPlace();
 .st .bar button.bk svg{width:20px;height:20px}
 .st .bar button.bk:active{transform:scale(.94)}
 </style>
+<style>
+/* ===== Versión 2.8: barra superior adaptable en el modo lectura =====
+   Cuando el encabezado es angosto (teléfono, tablet pequeña o panel de estudio abierto),
+   Medios, Buscar, Guardar e Idioma pasan al menú «Más opciones».
+   Quedan visibles: botón Volver, Título + Publicación y «Más opciones». */
+.mopt{display:none!important}
+.hd.cmp .opt{display:none!important}
+.hd.cmp .menu .mopt,.hd.cmp .menu .mlang{display:flex!important}
+.menu button.on{background:var(--chip);font-weight:600}
+.menu{max-height:calc(100vh - 80px);max-height:calc(100dvh - 80px);overflow-y:auto;overscroll-behavior:contain}
+.hd.cmp .t{padding-left:2px}
+</style>
+<script>
+/* v2.8: decide si el encabezado está en modo compacto según su ancho real (no el de la ventana) */
+(function(){
+ const hd=document.getElementById('hd');if(!hd)return;
+ const MAXW=640;
+ const fit=()=>hd.classList.toggle('cmp',hd.clientWidth<=MAXW);
+ fit();
+ if('ResizeObserver' in window)new ResizeObserver(fit).observe(hd);
+ addEventListener('resize',fit);
+})();
+</script>
 </body></html>
