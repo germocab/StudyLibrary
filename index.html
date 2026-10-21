@@ -140,7 +140,7 @@ const toast=m=>{const t=$('#ts');t.textContent=m;t.style.display='block';clearTi
 const vtext=r=>S.verses[r]||VS[r]||(window.BIB&&BIB.verse(r));
 
 function adjLinks(b,o,n){if(!b.links||!b.links.length)return;const m=Math.min(o.length,n.length);let p=0;while(p<m&&o[p]==n[p])p++;let q2=0;while(q2<m-p&&o[o.length-1-q2]==n[n.length-1-q2])q2++;const oe=o.length-q2,d=n.length-o.length;b.links=b.links.filter(l=>l.e<=p||l.s>=oe).map(l=>l.s>=oe?{...l,s:l.s+d,e:l.e+d}:l);if(!b.links.length)delete b.links}
-const LKI='<svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>';
+const LKI='<svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7.1 0l3-3a4 4 0 0 0-5.7.1-5.7.1l-1 1M14 10a4 4 0 0 0-5.7.1 0l-3 3a4 4 0 0 0 5.7.1 5.7.1l1-1"/></svg>';
 const LKH=(b,i)=>{if(!['p','quote','box','q'].includes(b.type)||!(b.links&&b.links.length))return'';const t=b.text||'';return b.links.map((l,j)=>{let x=t.slice(l.s,l.e);if(x.length>26)x=x.slice(0,25)+'…';return `<button class="lkc2" data-a="elk" data-v="${i}|${j}">${LKI}<span>“${E(x)}”</span><b>${E(l.r||'Imagen')}</b></button>`}).join('')};
 const COV=x=>`<button class="card cv" data-a="open" data-v="${x.id}" aria-label="${E(x.title)}" style="--or:${E(x.accent||'#e37b00')}"><span class="cvi">${x.cover?`<img src="${E(x.cover)}" alt="">`:`<span class="cvl">${E(x.label||'')}</span><b class="cvt">${E(x.title)}</b>`}</span></button>`;
 const CVE=a=>`<div class="cve"><div class="cvp">${a.cover?`<img src="${E(a.cover)}" alt="">`:'<span>Sin portada</span>'}</div><div class="cvb"><b>Portada</b><small>Se muestra en tu biblioteca. Mejor en formato vertical 2:3.</small><div class="cvx"><button class="btn s" data-a="cvup">${a.cover?'Cambiar portada':'Subir portada'}</button>${a.cover?'<button class="btn s" data-a="cvrm">Quitar</button>':''}</div></div></div>`;
@@ -167,7 +167,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 5.7</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 5.7.1</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -239,7 +239,7 @@ const recCol=c=>{S.lcs=[c,...(S.lcs||[]).filter(x=>x!=c)].slice(0,3)};
 function tb(rect,ex,fresh,mode){const t=$('#tb'),cs=c=>`<i class="c-${c}" data-a="col" data-v="${c}" title="${CN[c]}" role="button" aria-label="${CN[c]}"></i>`;
  const col=fresh?COLS.map(cs).join(''):`<button type="button" class="tbc" data-tbdd aria-label="Colores" aria-haspopup="true" aria-expanded="false">${lastCols().map((c,i)=>`<i class="c-${c}" style="z-index:${3-i}"></i>`).join('')}${ic('dn')}</button><div class="tbdd" role="group" aria-label="Colores">${COLS.map(cs).join('')}</div>`;
  const cp=pend&&pend.h?`<button type="button" data-tbcopy aria-label="Copiar texto subrayado" title="Copiar texto subrayado">${ic('cp')}</button>`:'';
- t.innerHTML=mode=='img'?`<button type="button" class="tbn" data-a="note" aria-label="Agregar nota">${ic('pl')}<span>Agregar nota</span></button>`:col+`<button data-a="note" aria-label="Crear nota" title="Crear nota">${ic('pl')}</button>`+cp+(ex?`<button data-a="unhl" aria-label="Quitar resaltado">${ic('tr')}</button>`:'');t.classList.add('on');
+ t.innerHTML=mode=='img'?`<button type="button" class="tbn" data-a="note" aria-label="Agregar nota">${ic('pl')}<span>Agregar nota</span></button>`:col+`<button data-a="note" aria-label="Crear nota" title="Crear nota">${ic('pl')}</button>`+cp+(ex||(pend&&pend.h)?`<button data-a="unhl" aria-label="Borrar" title="Borrar subrayado">${ic('tr')}</button>`:'');t.classList.add('on');
  const w=t.offsetWidth;t.style.left=Math.max(8,Math.min(innerWidth-w-8,rect.left+rect.width/2-w/2))+'px';t.style.top=Math.max(64,Math.min(innerHeight-70,rect.top>70?rect.top-52:rect.bottom+10))+'px'}
 const hideTb=()=>{$('#tb').classList.remove('on');document.querySelectorAll('.p.sel').forEach(p=>p.classList.remove('sel'))};
 const HL_DELAY=900;let ptrDn=false;
@@ -329,7 +329,9 @@ document.addEventListener('click',e=>{
  case'num':art.blocks[+v].num=!art.blocks[+v].num;sv();break;
  case'acc':art.accent=v;sv();break;case'cvup':$('#cvf').click();break;case'cvrm':delete art.cover;sv();break;
  case'addb':addAt(DEF[v]());break;
- case'unhl':S.hl=S.hl.filter(h=>h.id!=pend.h);hideTb();pend=null;sv();break;
+ case'unhl':{const x=S.hl.find(h=>h.id==pend.h);if(x){const g=S.hl.filter(k=>k.art==x.art&&k.b==x.b&&!k.kind&&k.s==x.s&&k.e==x.e),n=g.filter(k=>k.note!=null).length;
+  if(n&&!confirm(n==1?'Este subrayado tiene una nota. ¿Borrar el subrayado y su nota?':'Este subrayado tiene '+n+' notas. ¿Borrar el subrayado y sus notas?'))break;
+  S.hl=S.hl.filter(k=>!g.includes(k));if(sv0&&g.some(k=>k.id==sv0.id))sv0=null}hideTb();pend=null;sv();break}
   case'goto':gotoN(S.hl.find(h=>h.id==v));break
  case'lnk':window.openLk&&openLk();break;case'elk':{const q3=v.split('|');window.openLk&&openLk(+q3[0],+q3[1]);break}
  case'enote':sv0.mode='edit';hidePm();study();{const t=document.querySelector('input[data-nt]');t&&t.focus()}break;
@@ -1076,7 +1078,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='5.7';
+window.APP_VERSION='5.7.1';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1177,7 +1179,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='5.7';
+window.APP_VERSION='5.7.1';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r]';
@@ -1252,7 +1254,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='5.7';
+window.APP_VERSION='5.7.1';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1311,7 +1313,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='5.7';
+window.APP_VERSION='5.7.1';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1368,7 +1370,7 @@ upd();
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='5.7';
+window.APP_VERSION='5.7.1';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1400,7 +1402,7 @@ study=function(){const r=_s.apply(this,arguments);
 #spk #spkl{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain}
 </style>
 <script>
-window.APP_VERSION='5.7';
+window.APP_VERSION='5.7.1';
 /* 5.0 · Documentos: notas libres que se guardan en Artículos */
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-a=newdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
@@ -1465,7 +1467,7 @@ body.dm #mn .mopt,body.dm #mn [data-a=anote],body.dm #mn [data-a=edit]{display:n
 .docb:empty::before{content:attr(data-ph);color:var(--mut)}
 </style>
 <script>
-window.APP_VERSION='5.7';
+window.APP_VERSION='5.7.1';
 /* 5.1 · Documentos: hoja en blanco */
 {
 const OK={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1};
@@ -1524,7 +1526,7 @@ document.addEventListener('click',e=>{
 .st .bar .ned+.ndel{margin-left:8px}
 </style>
 <script>
-window.APP_VERSION='5.7';
+window.APP_VERSION='5.7.1';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1545,7 +1547,7 @@ study=function(){const r=_s.apply(this,arguments);
 .ntw>.ib.tt svg{width:17px;height:17px}
 </style>
 <script>
-window.APP_VERSION='5.7';
+window.APP_VERSION='5.7.1';
 IC.tt='M5 6V4h14v2M12 4v16M9 20h6';
 {
 const wrap=root=>{if(!root)return;root.querySelectorAll('input[data-nt]').forEach(inp=>{
@@ -1580,7 +1582,7 @@ wrap($('#st'));wrap($('#sp'));
 .tbdd.up{top:auto;bottom:calc(100% + 8px)}
 </style>
 <script>
-window.APP_VERSION='5.7';
+window.APP_VERSION='5.7.1';
 {
 const copyTxt=t=>{const ok=()=>toast('Texto copiado');
  const fb=()=>{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0;top:0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(_){toast('No se pudo copiar')}a.remove()};
@@ -1662,7 +1664,8 @@ if(/[?&]pane=1/.test(location.search)){
 }
 </script>
 <style>
-/* ===== Versión 5.7 =====
+/* ===== Versión 5.7.1 =====
+   (+) Panel de herramientas del subrayado: botón «Borrar» (papelera) que elimina el subrayado; si tiene notas pide confirmación. */
    1) Tocar un texto ya subrayado: el subrayado crece ligeramente y el fondo se oscurece 10 %, para dar
       protagonismo al subrayado mientras se abre el panel de herramientas (y su nota, si la tiene).
       Tocar fuera cierra el panel y devuelve el fondo.
