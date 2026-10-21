@@ -156,14 +156,14 @@ function header(){const a=A(),b=(n,l,x='',c='')=>`<button class="ib ${c}" data-a
  :`<div class="t"><b>Mi biblioteca</b><small>Tus artículos de estudio</small></div>`+b('srch','Buscar en toda la plataforma','gsearch')+b('pl','Nuevo artículo','new')+`<button class="ib" data-a="theme" aria-label="Cambiar tema">${THI}</button>`;
  $('#hd').insertAdjacentHTML('beforeend','<div class="menu" id="mn"></div>')}
 function menu(){const a=A()||{};$('#mn').innerHTML=`<div class="tsz"><span class="tl">Tamaño del texto</span><div class="trow"><span style="font-size:13px">A</span><input type="range" id="fsr" min="13" max="30" step="1" value="${S.fs}" aria-label="Tamaño del texto"><span style="font-size:23px">A</span></div></div>
-<button class="mopt" data-a="media">${ic('head')}Medios</button><button class="mopt${sOn?' on':''}" data-a="search">${ic('srch')}${sOn?'Cerrar búsqueda':'Buscar'}</button><button class="mopt${a.saved?' on':''}" data-a="save">${ic('bm')}${a.saved?'Quitar de guardados':'Guardar artículo'}</button><button class="mlang" data-a="lang">${ic('lang')}Idioma</button><button data-a="fs">${ic('fs')}Pantalla completa</button><button data-a="anote">${ic('note')}Nueva nota</button><button data-a="edit">${ic('ed')}${edit?'Terminar edición':'Editar artículo'}</button><button data-a="theme">${THI.replace('24px;height:24px','20px;height:20px')}${isDark()?'Modo claro':'Modo oscuro'}</button>`}
+<button class="mopt" data-a="media">${ic('head')}Medios</button><button class="mopt${sOn?' on':''}" data-a="search">${ic('srch')}${sOn?'Cerrar búsqueda':'Buscar'}</button><button class="mopt${a.saved?' on':''}" data-a="save">${ic('bm')}${a.saved?'Quitar de guardados':'Guardar artículo'}</button><button class="mlang" data-a="lang">${ic('lang')}Idioma</button><button data-a="fs">${ic('fs')}Pantalla completa</button><button data-a="anote">${ic('note')}Nueva nota</button><button data-a="edit">${ic('ed')}${edit?'Terminar edición':'Editar artículo'}</button><button data-a="theme">${THI.replace('24px;height:24px','20px;height:20px')}${isDark()?'Modo claro':'Modo oscuro'}</button><button data-a=\"gest\"><svg viewBox=\"0 0 24 24\"><path d=\"M9 11V5.5a1.5 1.5 0 013 0V10M12 9.5a1.5 1.5 0 013 0V11M15 10.5a1.5 1.5 0 013 0V15a6 6 0 01-6 6h-.5a6 6 0 01-5-2.7L4 15a1.5 1.5 0 012.4-1.8L9 15\"/></svg>Gestos: ${S.gest===false?'Off':'On'}</button>`}
 const TN={p:'Párrafo',img:'Imagen',song:'Canción',quote:'Cita',box:'Recuadro',h:'Subtítulo',q:'Pregunta'},SW=['#e37b00','#5b3c88','#2a6fc4','#2f8f5b','#d6457f','#c0392b','#2f4f4f'];
 const DEF={song:()=>({type:'song',n:'',text:''}),quote:()=>({type:'quote',text:''}),box:()=>({type:'box',label:'TEMA',text:''}),h:()=>({type:'h',text:''}),q:()=>({type:'q',text:'',ans:''})};
 function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;return n}if(b.type=='q'){const nx=a.blocks.slice(i+1).find(k=>k.type=='p'||k.type=='q');return nx&&nx.type=='p'&&nx.num?n+1:0}return 0})}
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 4.6</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 4.7</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -258,7 +258,7 @@ const sideOf=x=>x<innerWidth*.5?'left':'right';
 let r0=null,gl=0,sd0='right';
 const place=(cx,cy)=>{st.style.transform='none';const rl=st.getBoundingClientRect();st.style.transform=`translate(${cx-x0+r0.left-rl.left}px,${Math.max(0,cy-y0)+r0.top-rl.top}px)`};
 st.addEventListener('pointerdown',e=>{if(!e.target.closest('.hdl'))return;gl++;sd0=S.side=='left'?'left':'right';x0=e.clientX;y0=e.clientY;dx=dy=0;mv=false;r0=st.getBoundingClientRect();st.setPointerCapture(e.pointerId);st.style.transition='none'});
-st.addEventListener('pointermove',e=>{if(x0==null)return;dx=e.clientX-x0;dy=Math.max(0,e.clientY-y0);if(!mv&&Math.hypot(dx,e.clientY-y0)>14)mv=true;if(S.dock||!mv)return;
+st.addEventListener('pointermove',e=>{if(x0==null)return;dx=e.clientX-x0;dy=Math.max(0,e.clientY-y0);if(!mv&&S.gest!==false&&Math.hypot(dx,e.clientY-y0)>14)mv=true;if(S.dock||!mv)return;
  const sd=sideOf(e.clientX);if(sd!=(S.side||'right')){S.side=sd;st.classList.toggle('left',sd=='left');$('#app').classList.toggle('lf',sd=='left')}
  place(e.clientX,e.clientY)});
 const end=e=>{if(x0==null)return;x0=null;st.style.transition='';
@@ -988,7 +988,7 @@ niPlace();
 }
 </style>
 <style>
-/* ===== Versión 4.6: barra de estudio fluida =====
+/* ===== Versión 4.7: barra de estudio fluida =====
    - El panel solo anima transform + opacidad (compuesto en GPU); se elimina la animación de border-radius.
    - El artículo no se reacomoda durante la animación: el espacio reservado para el panel se aplica al terminar. */
 @media(prefers-reduced-motion:no-preference){
@@ -1037,7 +1037,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='4.6';
+window.APP_VERSION='4.7';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1051,7 +1051,7 @@ window.APP_VERSION='4.6';
 .nacl{display:flex;flex-wrap:wrap;align-items:center;gap:8px;min-width:0}
 .nacl .btn{padding:8px 14px;font-size:14px}
 .bi{display:grid;place-items:center}.bi svg{width:20px;height:20px;stroke:#fff}
-.ib[data-a=menu] svg{width:22px;height:22px;stroke-width:4.6}
+.ib[data-a=menu] svg{width:22px;height:22px;stroke-width:4.7}
 </style>
 <style>
 /* Ajustes sobre 3.7: barra superior que se oculta al bajar (solo pantallas pequeñas) + búsqueda universal */
@@ -1127,7 +1127,7 @@ document.addEventListener('click',e=>{
    3) El resaltado espera 0.9 s tras el último cambio de la selección (y a que se suelte el dedo/mouse).
    4) Nuevo color: Gris. -->
 <style>
-/* ===== Versión 4.6 =====
+/* ===== Versión 4.7 =====
    1) Móvil: tocar fuera de la StudyBar flotante la cierra (no aplica en escritorio ni con la StudyBar fija).
    2) Visor de imágenes: zoom con pinch (pantalla táctil) o pinch del trackpad (escritorio). Sin botones de zoom. */
 .lbx{touch-action:none;overscroll-behavior:contain}
@@ -1138,7 +1138,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='4.6';
+window.APP_VERSION='4.7';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r]';
@@ -1213,7 +1213,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='4.6';
+window.APP_VERSION='4.7';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1272,7 +1272,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='4.6';
+window.APP_VERSION='4.7';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1300,8 +1300,8 @@ const _m=main;main=function(){const r=_m.apply(this,arguments);if(md.classList.c
 {
 const edg=document.createElement('div');edg.id='edg';edg.setAttribute('aria-hidden','true');document.body.appendChild(edg);
 const coarse=matchMedia('(any-pointer:coarse)'),THR=48;let gs=null;
-const side=()=>S.side=='left'?'left':'right';
-const ok=()=>!isSmall()&&!!cur&&!sOpen&&!$('#gs').classList.contains('on')&&!$('#md').classList.contains('on')&&!$('#lb').classList.contains('on');
+const side=()=>(S.dock||S.side)=='left'?'left':'right';
+const ok=()=>S.gest!==false&&!isSmall()&&!!cur&&!sOpen&&!$('#gs').classList.contains('on')&&!$('#md').classList.contains('on')&&!$('#lb').classList.contains('on');
 function upd(){const on=coarse.matches&&ok();edg.style.display=on?'block':'none';if(on){const sd=side();edg.style.left=sd=='left'?'0':'auto';edg.style.right=sd=='right'?'0':'auto'}}
 const begin=(e,sd)=>{gs={id:e.pointerId,x:e.clientX,y:e.clientY,sd,done:false}};
 edg.addEventListener('pointerdown',e=>{if(!ok())return;begin(e,side());try{edg.setPointerCapture(e.pointerId)}catch(_){}});
@@ -1312,22 +1312,24 @@ document.addEventListener('pointerdown',e=>{
  begin(e,sd)},true);
 document.addEventListener('pointermove',e=>{if(!gs||e.pointerId!==gs.id||gs.done)return;
  const dx=gs.sd=='right'?gs.x-e.clientX:e.clientX-gs.x,dy=Math.abs(e.clientY-gs.y);
- if(dx>=THR&&dx>dy){gs.done=true;if(ok()){sOpen=true;study()}}});
+ if(dx>=THR&&dx>dy){gs.done=true;if(ok()){if(S.dock){S.side=S.dock;S.dock=null}save();sOpen=true;study()}}});
 const stop=e=>{if(gs&&e.pointerId===gs.id)gs=null};
 document.addEventListener('pointerup',stop);document.addEventListener('pointercancel',stop);
 const _s=study;study=function(){const r=_s.apply(this,arguments);upd();return r};
 const _m=main;main=function(){const r=_m.apply(this,arguments);upd();return r};
-addEventListener('resize',upd);coarse.addEventListener('change',upd);upd();
+addEventListener('resize',upd);coarse.addEventListener('change',upd);
+document.addEventListener('click',e=>{if(!e.target.closest('[data-a=gest]'))return;e.stopImmediatePropagation();e.preventDefault();S.gest=S.gest===false;save();menu();upd();toast(S.gest===false?'Gestos desactivados':'Gestos activados')},true);
+upd();
 }
 </script>
 <style>
-/* ===== Versión 4.6 =====
+/* ===== Versión 4.7 =====
    Nota completa en la StudyBar: botón circular con ícono de editar para editar la nota abierta. */
 .st .bar .ned{margin-left:auto;flex:none}
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='4.6';
+window.APP_VERSION='4.7';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1338,6 +1340,11 @@ study=function(){const r=_s.apply(this,arguments);
  return r};
 }
 </script>
+<!-- ===== Versión 4.7 =====
+   Gesto de borde para abrir la StudyBar en estado flotante (pantallas grandes): arrastra desde el borde
+   del lado donde está la StudyBar. Si estaba fijada, se suelta y se abre flotante. Funciona junto al botón
+   Study (morado). «Más opciones» → «Gestos: On/Off» activa o desactiva los gestos (borde y arrastre
+   del handle de la StudyBar; tocar el handle sigue abriendo su menú). Se guarda en el dispositivo. -->
 <!-- ===== Versión 3.0: inicio de sesión con código QR =====
    En la versión de escritorio, el cuadro de sincronización muestra un QR. Al escanearlo con el
    teléfono o tablet (con la sesión ya iniciada) se entra al instante y se accede a publicaciones,
