@@ -167,7 +167,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 5.3</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 5.4</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -900,17 +900,30 @@ figure img{border-radius:22px;box-shadow:var(--sh1)}
 #np .npa{display:flex;justify-content:flex-end;margin-top:12px}
 #np .npa .btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;font-size:14px;box-shadow:var(--sh1)}
 #np .npa .btn svg{width:17px;height:17px}
+#npl{position:fixed;z-index:80;display:none;flex-direction:column;gap:8px;width:min(300px,calc(100vw - 24px));max-height:min(70dvh,520px);overflow:auto;transform-origin:var(--ox,0%) var(--oy,20%)}
+#npl.on{display:flex;animation:npIn .24s cubic-bezier(.2,.9,.3,1.2)}
+#npl .nli{display:block;width:100%;text-align:left;border-radius:18px;padding:10px 14px;color:var(--ink);cursor:pointer;box-shadow:var(--sh2);border:1px solid color-mix(in srgb,var(--c) 55%,var(--line));background:color-mix(in srgb,var(--c) 30%,var(--card));-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+#npl .nli:active{transform:scale(.98)}
+#npl .nli b{display:block;font-size:15px;line-height:1.3;overflow-wrap:anywhere}
+#npl .nli i{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-style:normal;font-size:13px;line-height:1.35;margin-top:3px;opacity:.8;overflow-wrap:anywhere}
+@media(prefers-reduced-motion:reduce){#npl.on{animation:none}}
 </style>
 <script>
 {
+const nl=document.createElement('div');nl.id='npl';nl.setAttribute('role','menu');nl.setAttribute('aria-label','Notas del texto');document.body.appendChild(nl);
 const np=document.createElement('div');np.id='np';np.setAttribute('role','dialog');np.setAttribute('aria-label','Nota');document.body.appendChild(np);
-let npId=null,npBtn=null;
+let npId=null,npBtn=null,nlIds=null;
 const SVG_MV='<svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM14 5v14M17 10l-2 2 2 2"/></svg>';
-const hideNp=()=>{np.classList.remove('on');if(npBtn)npBtn.classList.remove('on');npId=null;npBtn=null};
-function placeNp(){if(!npBtn)return;const r=npBtn.getBoundingClientRect(),w=np.offsetWidth,h=np.offsetHeight;
+const hideNp=()=>{np.classList.remove('on');nl.classList.remove('on');if(npBtn)npBtn.classList.remove('on');npId=null;npBtn=null;nlIds=null};
+function placeNp(){if(!npBtn)return;const el=nl.classList.contains('on')?nl:np,r=npBtn.getBoundingClientRect(),w=el.offsetWidth,h=el.offsetHeight;
  let l=r.right+10;if(l+w>innerWidth-12)l=innerWidth-w-12;l=Math.max(12,l);
  let t=r.top-10;t=Math.min(t,innerHeight-h-12);t=Math.max(12,t);
- np.style.left=l+'px';np.style.top=t+'px';np.style.setProperty('--oy',Math.max(0,Math.min(100,(r.top-t)/Math.max(h,1)*100))+'%')}
+ el.style.left=l+'px';el.style.top=t+'px';el.style.setProperty('--oy',Math.max(0,Math.min(100,(r.top-t)/Math.max(h,1)*100))+'%')}
+function showNl(ids,btn){const same=nlIds&&nlIds.join()==ids.join();hideNp();if(same)return;
+ const L=ids.map(id=>S.hl.find(k=>k.id==id)).filter(Boolean).slice(0,5);if(!L.length)return;
+ nlIds=ids;npBtn=btn;btn.classList.add('on');
+ nl.innerHTML=L.map(x=>`<button type="button" class="nli c-${x.c}" data-nl="${x.id}"><b>${x.title?E(x.title):'<span style="color:var(--mut)">Sin título</span>'}</b><i>${x.note?E(x.note):'Nota vacía'}</i></button>`).join('');
+ nl.classList.add('on');placeNp()}
 function showNp(id,btn){const x=S.hl.find(k=>k.id==id);if(!x)return;
  if(npId==id){hideNp();return}
  hideNp();npId=id;npBtn=btn;btn.classList.add('on');
@@ -923,16 +936,13 @@ function niPlace(){document.querySelectorAll('.ni').forEach(n=>n.remove());
   const L=S.hl.filter(h=>h.art==a.id&&h.b==b&&!h.kind&&h.note!=null).sort((x,y)=>(x.s||0)-(y.s||0));if(!L.length)return;
   const pr=p.getBoundingClientRect(),G=[],M={};
   L.forEach(h=>{const r=hlRep(h).id;if(!M[r]){M[r]=[];G.push(M[r])}M[r].push(h)});
-  let last=-99,lh=24;const gut=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--gut'))||28,bxs=p.closest('.box')?-19:0;
-  G.forEach(g=>{const h0=g[0],sp=p.querySelector(`[data-h="${h0.id}"]`)||p.querySelector(`[data-h="${hlRep(h0).id}"]`);if(!sp)return;
+  let last=-99,lh=24;
+  G.forEach(g=>{const h=g[0],n=g.length,sp=p.querySelector(`[data-h="${h.id}"]`)||p.querySelector(`[data-h="${hlRep(h).id}"]`);if(!sp)return;
    const rc=sp.getClientRects()[0]||sp.getBoundingClientRect();let top=rc.top-pr.top;if(top<last+lh+4)top=last+lh+4;last=top;lh=Math.max(rc.height,24);
-   const n=g.length,P=Math.min(10,Math.floor((gut-4)/n*10)/10),bw=Math.max(2,Math.min(6,P-2));
-   g.forEach((h,k)=>{const i=document.createElement('button');i.type='button';i.className='ni c-'+h.c;i.dataset.ni=h.id;
-    i.setAttribute('aria-label','Abrir nota'+(n>1?' '+(k+1)+' de '+n:'')+(h.title?': '+h.title:''));
-    i.style.top=top+'px';i.style.height=Math.max(rc.height,24)+'px';i.innerHTML='<span></span>';
-    if(n>1){i.classList.add('g');i.style.minWidth='0';i.style.width=P+'px';i.style.left=(-3+bxs-(k+1)*P)+'px';i.firstChild.style.width=bw+'px'}
-    p.appendChild(i)})})});
- if(npId){const nb=document.querySelector(`.ni[data-ni="${npId}"]`);if(nb){npBtn=nb;nb.classList.add('on');placeNp()}else hideNp()}}
+   const i=document.createElement('button');i.type='button';i.className='ni c-'+h.c;i.dataset.ni=h.id;if(n>1)i.dataset.ids=g.map(x=>x.id).join(',');
+   i.setAttribute('aria-label',n>1?'Ver '+n+' notas':'Abrir nota'+(h.title?': '+h.title:''));
+   i.style.top=top+'px';i.style.height=Math.max(rc.height,24)+'px';i.innerHTML='<span></span>';p.appendChild(i)})});
+ const key=npId||(nlIds&&nlIds[0]);if(key){const nb=[...document.querySelectorAll('.ni')].find(x=>(x.dataset.ids||x.dataset.ni).split(',').includes(key));if(nb){npBtn=nb;nb.classList.add('on');placeNp()}else hideNp()}}
 window.niPlace=niPlace;
 const _m=main;main=function(){hideNp();const r=_m.apply(this,arguments);niPlace();return r};
 const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(niPlace,360);return r};
@@ -944,16 +954,18 @@ document.addEventListener('input',e=>{if(e.target.id=='fsr')rz()});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(niPlace);
 document.addEventListener('click',e=>{
  const n=e.target.closest('.ni');
- if(n){e.stopImmediatePropagation();e.preventDefault();showNp(n.dataset.ni,n);return}
+ if(n){e.stopImmediatePropagation();e.preventDefault();const ids=(n.dataset.ids||'').split(',').filter(Boolean);if(ids.length>1)showNl(ids,n);else showNp(n.dataset.ni,n);return}
+ const it=e.target.closest('#npl [data-nl]');
+ if(it){e.stopImmediatePropagation();e.preventDefault();const bt=npBtn;showNp(it.dataset.nl,bt);return}
  const b=e.target.closest('#np [data-np]');if(!b)return;
  e.stopImmediatePropagation();e.preventDefault();
  if(b.dataset.np=='x'){hideNp();return}
  const id=npId;hideNp();const x=S.hl.find(k=>k.id==id);if(!x)return;
  if(SP&&SP.k=='n'&&SP.id==id){SP=null;spRender()}
  sv0={t:'note',id:x.id,mode:'view'};sOpen=true;study()},true);
-document.addEventListener('pointerdown',e=>{if(npId&&!e.target.closest('#np,.ni'))hideNp()});
+document.addEventListener('pointerdown',e=>{if((npId||nlIds)&&!e.target.closest('#np,#npl,.ni'))hideNp()});
 addEventListener('keydown',e=>{if(e.key=='Escape')hideNp()});
-document.addEventListener('scroll',()=>{if(npId)placeNp()},true);
+document.addEventListener('scroll',()=>{if(npId||nlIds)placeNp()},true);
 niPlace();
 }
 </script>
@@ -1002,7 +1014,7 @@ niPlace();
 }
 </style>
 <style>
-/* ===== Versión 5.3: barra de estudio fluida =====
+/* ===== Versión 5.4: barra de estudio fluida =====
    - El panel solo anima transform + opacidad (compuesto en GPU); se elimina la animación de border-radius.
    - El artículo no se reacomoda durante la animación: el espacio reservado para el panel se aplica al terminar. */
 @media(prefers-reduced-motion:no-preference){
@@ -1051,7 +1063,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='5.3';
+window.APP_VERSION='5.4';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1141,7 +1153,7 @@ document.addEventListener('click',e=>{
    3) El resaltado espera 0.9 s tras el último cambio de la selección (y a que se suelte el dedo/mouse).
    4) Nuevo color: Gris. -->
 <style>
-/* ===== Versión 5.3 =====
+/* ===== Versión 5.4 =====
    1) Móvil: tocar fuera de la StudyBar flotante la cierra (no aplica en escritorio ni con la StudyBar fija).
    2) Visor de imágenes: zoom con pinch (pantalla táctil) o pinch del trackpad (escritorio). Sin botones de zoom. */
 .lbx{touch-action:none;overscroll-behavior:contain}
@@ -1152,7 +1164,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='5.3';
+window.APP_VERSION='5.4';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r]';
@@ -1227,7 +1239,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='5.3';
+window.APP_VERSION='5.4';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1286,7 +1298,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='5.3';
+window.APP_VERSION='5.4';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1343,7 +1355,7 @@ upd();
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='5.3';
+window.APP_VERSION='5.4';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1375,7 +1387,7 @@ study=function(){const r=_s.apply(this,arguments);
 #spk #spkl{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain}
 </style>
 <script>
-window.APP_VERSION='5.3';
+window.APP_VERSION='5.4';
 /* 5.0 · Documentos: notas libres que se guardan en Artículos */
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-a=newdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
@@ -1422,7 +1434,7 @@ if(/[?&]pane=1/.test(location.search)){
 }
 </script>
 <style>
-/* ===== Versión 5.3 =====
+/* ===== Versión 5.4 =====
    1) Documentos: hoja en blanco con Título y cuerpo de texto. Formato: Negrita, Itálica y Subrayado.
       Sin etiquetas, bloques, notas ni StudyBar. Se guardan en Artículos.
    2) Vista dividida: se quita la barra superior del panel (⇄ y ✕). Cada medio se cierra desde su menú
@@ -1439,8 +1451,8 @@ body.dm #mn .mopt,body.dm #mn [data-a=anote],body.dm #mn [data-a=edit]{display:n
 .docb:empty::before{content:attr(data-ph);color:var(--mut)}
 </style>
 <script>
-window.APP_VERSION='5.3';
-/* 5.3 · Documentos: hoja en blanco */
+window.APP_VERSION='5.4';
+/* 5.4 · Documentos: hoja en blanco */
 {
 const OK={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1};
 const san=h=>{const d=new DOMParser().parseFromString('<body>'+(h||'')+'</body>','text/html');
@@ -1472,7 +1484,7 @@ const _h=header;header=function(){const r=_h.apply(this,arguments),a=A();
  if(a&&a.doc&&!ns){document.querySelectorAll('#hd .opt').forEach(n=>n.remove());const s=document.querySelector('#hd .t small');if(s)s.textContent='Documento'}
  return r};
 }
-/* 5.3 · Vista dividida: cerrar desde «Más opciones» */
+/* 5.4 · Vista dividida: cerrar desde «Más opciones» */
 {
 const SPI='<svg viewBox="0 0 24 24"><path d="M3 5h18v14H3zM12 5v14"/></svg>';
 window.splitItem=()=>{
@@ -1490,16 +1502,15 @@ document.addEventListener('click',e=>{
 }
 </script>
 <style>
-/* ===== Versión 5.3 =====
-   1) Los indicadores repetidos de un mismo subrayado se colocan uno detrás del otro, en horizontal,
-      alejándose del texto hacia el margen (ya no uno arriba de otro).
+/* ===== Versión 5.4 =====
+   1) Un subrayado con varias notas (hasta 5) muestra un solo indicador. Al tocarlo se abren hasta 5
+      PopUps pequeños (uno por nota); al tocar uno se abre esa nota en su PopUp.
    2) StudyBar: la nota abierta tiene un botón circular con ícono de papelera para borrarla. */
-.ni.g:hover span,.ni.g.on span{width:100%!important}
 .st .bar .ndel{margin-left:auto;flex:none}
 .st .bar .ned+.ndel{margin-left:8px}
 </style>
 <script>
-window.APP_VERSION='5.3';
+window.APP_VERSION='5.4';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
