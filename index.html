@@ -132,6 +132,10 @@ let S;try{S=JSON.parse(localStorage.getItem('jwl2'))||seed()}catch(e){S=seed()}
 const save=()=>{try{localStorage.setItem('jwl2',JSON.stringify(S))}catch(e){}window.SYNC&&SYNC.track()};
 let cur=null,ns=false,nsf='',q='',sv0=null,edit=false,pend=null,sOpen=true,sOn=false,lc='yellow',ri=-1;
 const A=()=>S.arts.find(a=>a.id==cur),uid=()=>Math.random().toString(36).slice(2,9);
+const MAXN=5;
+const hlGrp=h=>S.hl.filter(k=>k.art==h.art&&k.b==h.b&&!k.kind&&k.note!=null&&k.s==h.s&&k.e==h.e);
+const hlRep=h=>S.hl.find(k=>k.art==h.art&&k.b==h.b&&!k.kind&&k.s==h.s&&k.e==h.e)||h;
+const delNote=x=>{if(x.kind||(!x.kind&&hlGrp(x).length>1))S.hl=S.hl.filter(h=>h!==x);else x.note=null};
 const toast=m=>{const t=$('#ts');t.textContent=m;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',1800)};
 const vtext=r=>S.verses[r]||VS[r]||(window.BIB&&BIB.verse(r));
 
@@ -163,7 +167,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 5.1</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 5.3</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -219,7 +223,7 @@ function doImport(src){const o=parseJW(src||'');if(!o.blocks.length){toast('No s
  const n={id:uid(),label:'JW.ORG',sub:'',title:o.title||'Artículo importado',saved:false,accent:'#5b3c88',blocks:o.blocks};S.arts.push(n);cur=n.id;ns=false;nsf='';edit=false;sv0=null;sOpen=!isSmall();save();render();toast(o.blocks.length+' bloques importados'+(o.imgs?'. Las imágenes se añaden con el botón Imagen':''))}
 async function impLink(){const u=($('#jl').value||'').trim();if(!/^https?:\/\/(www\.)?jw\.org\//i.test(u)){toast('Pega un enlace de jw.org');return}
  toast('Leyendo el enlace…');try{const r=await fetch(u);if(!r.ok)throw 0;doImport(await r.text())}catch(e){nsf='Este navegador no permite que la app lea jw.org directamente. Abre el enlace, copia el código fuente de la página (o todo el texto del artículo) y pégalo aquí.';main();$('#jl').value=u}}
-function gotoN(x){if(!x)return;const el=x.kind=='a'?$('#sc'):x.kind=='p'?document.querySelector(`.p[data-b="${x.b}"]`):document.querySelector(`[data-h="${x.id}"]`);if(!el)return;x.kind=='a'?el.scrollTo({top:0,behavior:'smooth'}):el.scrollIntoView({block:'center',behavior:'smooth'})}
+function gotoN(x){if(!x)return;const el=x.kind=='a'?$('#sc'):x.kind=='p'?document.querySelector(`.p[data-b="${x.b}"]`):document.querySelector(`[data-h="${hlRep(x).id}"]`);if(!el)return;x.kind=='a'?el.scrollTo({top:0,behavior:'smooth'}):el.scrollIntoView({block:'center',behavior:'smooth'})}
 function newNote(h){sv0={t:'note',id:h.id,mode:'edit'};sOpen=true;save();render();const t=document.querySelector('input[data-nt]');t&&t.focus()}
 const txt=h=>{const a=S.arts.find(x=>x.id==h.art);return (a.blocks[h.b].text||'').slice(h.s,h.e)};
 function render(){header();menu();main();study()}
@@ -241,6 +245,7 @@ function mergeHl(h){if(!h||h.kind||h.note!=null)return;const t=(S.arts.find(a=>a
 ['pointerdown'].forEach(t=>document.addEventListener(t,()=>{ptrDn=true},true));
 ['pointerup','pointercancel'].forEach(t=>document.addEventListener(t,()=>{ptrDn=false;if(!getSelection().isCollapsed)document.dispatchEvent(new Event('selectionchange'))},true));
 let st0;document.addEventListener('selectionchange',()=>{clearTimeout(st0);st0=setTimeout(()=>{if(ptrDn)return;const i=snapSel(selInfo());if(!i)return;
+ const exN=S.hl.find(h=>h.art==cur&&h.b==i.b&&!h.kind&&h.note!=null&&h.s==i.s&&h.e==i.e);if(exN){getSelection().removeAllRanges();const el0=document.querySelector(`[data-h="${hlRep(exN).id}"]`);if(el0){pend={h:exN.id};tb(el0.getBoundingClientRect(),false)}return}
  if(S.hl.some(h=>h.art==cur&&h.b==i.b&&!h.kind&&h.note!=null&&h.s<i.e&&h.e>i.s)){getSelection().removeAllRanges();toast('Ese texto ya tiene una nota');return}
  pend=i;const h=mk(lc,false);getSelection().removeAllRanges();save();main();pend={h:h.id};const el=document.querySelector(`[data-h="${h.id}"]`);if(el)tb(el.getBoundingClientRect(),true)},HL_DELAY)});
 $('#tb').addEventListener('mousedown',e=>e.preventDefault());
@@ -307,9 +312,9 @@ document.addEventListener('click',e=>{
  case'up':case'dn':{const i=+v,j=a=='up'?i-1:i+1;if(j>=0&&j<art.blocks.length){[art.blocks[i],art.blocks[j]]=[art.blocks[j],art.blocks[i]];S.hl=S.hl.filter(h=>h.art!=cur||h.kind=='a');sv()}break}
  case'study':sOpen=(sOpen&&!!cur&&!SP&&!!S.dock)?false:true;study();break;case'ov':sv0=null;study();break;case'opennote':{if(e.detail>0&&pd0&&Math.hypot(e.clientX-pd0[0],e.clientY-pd0[1])>12)break;sv0={t:'note',id:v,mode:'view'};study();break}
  case'mned':{const x=S.hl.find(h=>h.id==v);hidePm();if(!x)break;sv0={t:'note',id:x.id,mode:'edit'};sOpen=true;study();{const t=document.querySelector('input[data-nt]');t&&t.focus()}break}
- case'mndl':{const x=S.hl.find(h=>h.id==v);hidePm();if(x){if(x.kind)S.hl=S.hl.filter(h=>h!==x);else x.note=null}if(sv0&&sv0.id==v)sv0=null;sv();break}case'done':sv0.mode='view';save();study();break;
-  case'col':{lc=v;if(pend.h){const hh=S.hl.find(h=>h.id==pend.h);hh.c=v;mergeHl(hh)}else mk(v,false);getSelection().removeAllRanges();hideTb();pend=null;sv();break}
- case'note':{let h;if(pend.p){h={id:uid(),art:cur,b:pend.b,kind:'p',c:lc,note:'',title:''};S.hl.push(h)}else if(pend.h){h=S.hl.find(x=>x.id==pend.h);if(h.note==null)h.note=''}else h=mk(lc,true);getSelection().removeAllRanges();hideTb();pend=null;newNote(h);break}
+ case'mndl':{const x=S.hl.find(h=>h.id==v);hidePm();if(x)delNote(x);if(sv0&&sv0.id==v)sv0=null;sv();break}case'done':sv0.mode='view';save();study();break;
+  case'col':{lc=v;if(pend.h){const hh=S.hl.find(h=>h.id==pend.h);hlGrp(hh).forEach(k=>k.c=v);hh.c=v;mergeHl(hh)}else mk(v,false);getSelection().removeAllRanges();hideTb();pend=null;sv();break}
+ case'note':{let h;if(pend.p){if(S.hl.filter(x=>x.art==cur&&x.kind=='p'&&x.b==pend.b).length>=MAXN){toast('Máximo '+MAXN+' notas por párrafo');getSelection().removeAllRanges();hideTb();pend=null;break}h={id:uid(),art:cur,b:pend.b,kind:'p',c:lc,note:'',title:''};S.hl.push(h)}else if(pend.h){h=S.hl.find(x=>x.id==pend.h);if(h.note==null)h.note='';else{if(hlGrp(h).length>=MAXN){toast('Máximo '+MAXN+' notas por texto');getSelection().removeAllRanges();hideTb();pend=null;break}const o=h;h={id:uid(),art:o.art,b:o.b,s:o.s,e:o.e,c:o.c,note:'',title:''};S.hl.push(h)}}else h=mk(lc,true);getSelection().removeAllRanges();hideTb();pend=null;newNote(h);break}
  case'anote':{const h={id:uid(),art:cur,b:0,kind:'a',c:'purple',note:'',title:''};S.hl.push(h);newNote(h);break}
  case'num':art.blocks[+v].num=!art.blocks[+v].num;sv();break;
  case'acc':art.accent=v;sv();break;case'cvup':$('#cvf').click();break;case'cvrm':delete art.cover;sv();break;
@@ -318,7 +323,7 @@ document.addEventListener('click',e=>{
   case'goto':gotoN(S.hl.find(h=>h.id==v));break
  case'lnk':window.openLk&&openLk();break;case'elk':{const q3=v.split('|');window.openLk&&openLk(+q3[0],+q3[1]);break}
  case'enote':sv0.mode='edit';hidePm();study();{const t=document.querySelector('input[data-nt]');t&&t.focus()}break;
- case'dnote':{const x=S.hl.find(h=>h.id==sv0.id);if(x){if(x.kind)S.hl=S.hl.filter(h=>h!==x);else x.note=null}sv0=null;hidePm();sv();break}
+ case'dnote':{const x=S.hl.find(h=>h.id==sv0.id);if(x)delNote(x);sv0=null;hidePm();sv();break}
  
  }});
 document.addEventListener('input',e=>{const t=e.target,a=A();
@@ -916,12 +921,17 @@ function niPlace(){document.querySelectorAll('.ni').forEach(n=>n.remove());
  if(!cur||edit||ns)return;const a=A();if(!a)return;
  document.querySelectorAll('#pg .p[data-b]').forEach(p=>{const b=+p.dataset.b;
   const L=S.hl.filter(h=>h.art==a.id&&h.b==b&&!h.kind&&h.note!=null).sort((x,y)=>(x.s||0)-(y.s||0));if(!L.length)return;
-  const pr=p.getBoundingClientRect();let last=-99;
-  L.forEach(h=>{const sp=p.querySelector(`[data-h="${h.id}"]`);if(!sp)return;
-   const rc=sp.getClientRects()[0]||sp.getBoundingClientRect();let top=rc.top-pr.top;if(top<last+28)top=last+28;last=top;
-   const i=document.createElement('button');i.type='button';i.className='ni c-'+h.c;i.dataset.ni=h.id;
-   i.setAttribute('aria-label','Abrir nota'+(h.title?': '+h.title:''));
-   i.style.top=top+'px';i.style.height=Math.max(rc.height,24)+'px';i.innerHTML='<span></span>';p.appendChild(i)})});
+  const pr=p.getBoundingClientRect(),G=[],M={};
+  L.forEach(h=>{const r=hlRep(h).id;if(!M[r]){M[r]=[];G.push(M[r])}M[r].push(h)});
+  let last=-99,lh=24;const gut=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--gut'))||28,bxs=p.closest('.box')?-19:0;
+  G.forEach(g=>{const h0=g[0],sp=p.querySelector(`[data-h="${h0.id}"]`)||p.querySelector(`[data-h="${hlRep(h0).id}"]`);if(!sp)return;
+   const rc=sp.getClientRects()[0]||sp.getBoundingClientRect();let top=rc.top-pr.top;if(top<last+lh+4)top=last+lh+4;last=top;lh=Math.max(rc.height,24);
+   const n=g.length,P=Math.min(10,Math.floor((gut-4)/n*10)/10),bw=Math.max(2,Math.min(6,P-2));
+   g.forEach((h,k)=>{const i=document.createElement('button');i.type='button';i.className='ni c-'+h.c;i.dataset.ni=h.id;
+    i.setAttribute('aria-label','Abrir nota'+(n>1?' '+(k+1)+' de '+n:'')+(h.title?': '+h.title:''));
+    i.style.top=top+'px';i.style.height=Math.max(rc.height,24)+'px';i.innerHTML='<span></span>';
+    if(n>1){i.classList.add('g');i.style.minWidth='0';i.style.width=P+'px';i.style.left=(-3+bxs-(k+1)*P)+'px';i.firstChild.style.width=bw+'px'}
+    p.appendChild(i)})})});
  if(npId){const nb=document.querySelector(`.ni[data-ni="${npId}"]`);if(nb){npBtn=nb;nb.classList.add('on');placeNp()}else hideNp()}}
 window.niPlace=niPlace;
 const _m=main;main=function(){hideNp();const r=_m.apply(this,arguments);niPlace();return r};
@@ -992,7 +1002,7 @@ niPlace();
 }
 </style>
 <style>
-/* ===== Versión 5.1: barra de estudio fluida =====
+/* ===== Versión 5.3: barra de estudio fluida =====
    - El panel solo anima transform + opacidad (compuesto en GPU); se elimina la animación de border-radius.
    - El artículo no se reacomoda durante la animación: el espacio reservado para el panel se aplica al terminar. */
 @media(prefers-reduced-motion:no-preference){
@@ -1041,7 +1051,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='5.1';
+window.APP_VERSION='5.3';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1131,7 +1141,7 @@ document.addEventListener('click',e=>{
    3) El resaltado espera 0.9 s tras el último cambio de la selección (y a que se suelte el dedo/mouse).
    4) Nuevo color: Gris. -->
 <style>
-/* ===== Versión 5.1 =====
+/* ===== Versión 5.3 =====
    1) Móvil: tocar fuera de la StudyBar flotante la cierra (no aplica en escritorio ni con la StudyBar fija).
    2) Visor de imágenes: zoom con pinch (pantalla táctil) o pinch del trackpad (escritorio). Sin botones de zoom. */
 .lbx{touch-action:none;overscroll-behavior:contain}
@@ -1142,7 +1152,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='5.1';
+window.APP_VERSION='5.3';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r]';
@@ -1217,7 +1227,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='5.1';
+window.APP_VERSION='5.3';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1276,7 +1286,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='5.1';
+window.APP_VERSION='5.3';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1333,7 +1343,7 @@ upd();
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='5.1';
+window.APP_VERSION='5.3';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1365,7 +1375,7 @@ study=function(){const r=_s.apply(this,arguments);
 #spk #spkl{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain}
 </style>
 <script>
-window.APP_VERSION='5.1';
+window.APP_VERSION='5.3';
 /* 5.0 · Documentos: notas libres que se guardan en Artículos */
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-a=newdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
@@ -1412,7 +1422,7 @@ if(/[?&]pane=1/.test(location.search)){
 }
 </script>
 <style>
-/* ===== Versión 5.1 =====
+/* ===== Versión 5.3 =====
    1) Documentos: hoja en blanco con Título y cuerpo de texto. Formato: Negrita, Itálica y Subrayado.
       Sin etiquetas, bloques, notas ni StudyBar. Se guardan en Artículos.
    2) Vista dividida: se quita la barra superior del panel (⇄ y ✕). Cada medio se cierra desde su menú
@@ -1429,8 +1439,8 @@ body.dm #mn .mopt,body.dm #mn [data-a=anote],body.dm #mn [data-a=edit]{display:n
 .docb:empty::before{content:attr(data-ph);color:var(--mut)}
 </style>
 <script>
-window.APP_VERSION='5.1';
-/* 5.1 · Documentos: hoja en blanco */
+window.APP_VERSION='5.3';
+/* 5.3 · Documentos: hoja en blanco */
 {
 const OK={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1};
 const san=h=>{const d=new DOMParser().parseFromString('<body>'+(h||'')+'</body>','text/html');
@@ -1462,7 +1472,7 @@ const _h=header;header=function(){const r=_h.apply(this,arguments),a=A();
  if(a&&a.doc&&!ns){document.querySelectorAll('#hd .opt').forEach(n=>n.remove());const s=document.querySelector('#hd .t small');if(s)s.textContent='Documento'}
  return r};
 }
-/* 5.1 · Vista dividida: cerrar desde «Más opciones» */
+/* 5.3 · Vista dividida: cerrar desde «Más opciones» */
 {
 const SPI='<svg viewBox="0 0 24 24"><path d="M3 5h18v14H3zM12 5v14"/></svg>';
 window.splitItem=()=>{
@@ -1477,6 +1487,27 @@ document.addEventListener('click',e=>{
  let id=SP.id;const f=document.querySelector('#sp iframe');try{id=f.contentWindow.eval('cur')}catch(_){}
  SP=null;spRender();
  cur=(id&&S.arts.find(a=>a.id==id))?id:null;ns=false;edit=false;sv0=null;sOpen=cur?!isSmall():false;render()},true);
+}
+</script>
+<style>
+/* ===== Versión 5.3 =====
+   1) Los indicadores repetidos de un mismo subrayado se colocan uno detrás del otro, en horizontal,
+      alejándose del texto hacia el margen (ya no uno arriba de otro).
+   2) StudyBar: la nota abierta tiene un botón circular con ícono de papelera para borrarla. */
+.ni.g:hover span,.ni.g.on span{width:100%!important}
+.st .bar .ndel{margin-left:auto;flex:none}
+.st .bar .ned+.ndel{margin-left:8px}
+</style>
+<script>
+window.APP_VERSION='5.3';
+{
+const st=$('#st'),_s=study;
+study=function(){const r=_s.apply(this,arguments);
+ const v=sv0;
+ if(v&&v.t=='note'&&sOpen&&cur&&S.hl.some(k=>k.id==v.id)){
+  const bar=st.querySelector('.bar');
+  if(bar&&!bar.querySelector('.ndel'))bar.insertAdjacentHTML('beforeend',`<button class="bk ndel" data-a="dnote" aria-label="Borrar nota" title="Borrar nota">${ic('tr')}</button>`)}
+ return r};
 }
 </script>
 <!-- ===== Versión 3.0: inicio de sesión con código QR =====
