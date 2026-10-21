@@ -163,7 +163,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 3.1</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 4.0</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -188,14 +188,15 @@ function cnt(){const n=document.querySelectorAll('.sr').length;$('#qc').textCont
 function refsHtml(a){const m=new Set();a.blocks.forEach(b=>{(b.text||'').match(RE)?.forEach(r=>m.add(r));(b.links||[]).forEach(l=>l.r&&m.add(l.r))});if(!m.size)return'';return `<h2 style="font-size:18px;margin:22px 0 10px">Textos bíblicos</h2>`+[...m].map(r=>`<div class="card"><div class="rf">${E(r)}</div><textarea data-vt="${E(r)}" rows="2" placeholder="Escribe el texto bíblico">${E(vtext(r)||'')}</textarea></div>`).join('')}
 let stFull=false;const isPort=()=>matchMedia('(orientation:portrait)').matches,isSmall=()=>matchMedia('(max-width:899px)').matches;
 function study(){const st=$('#st'),on=sOpen&&!!cur,a=A();if(!on)stFull=false;st.classList.toggle('full',stFull&&isPort());st.classList.toggle('cl',!on);st.classList.toggle('left',S.side=='left');$('#app').classList.toggle('lf',S.side=='left');$('#app').classList.toggle('op',on);$('#fab').style.display=(!sOpen&&cur)?'':'none';
- const back=`<div class="bar" style="margin:0 0 10px"><button class="bk" data-a="ov" aria-label="Volver a las notas" title="Volver a las notas">${ic('back')}</button></div>`,dot=k=>'';
+ const dot=k=>'';
  const XI=stFull?'<svg viewBox="0 0 24 24"><path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/></svg>Reducir':'<svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>Expandir';
-let h='<div class="hdl" role="separator" aria-label="Desliza hacia abajo para cerrar"></div><div class="xr"><button class="xp" data-a="xp" aria-pressed="'+stFull+'">'+XI+'</button></div>',v=sv0,x=v&&v.t=='note'?S.hl.find(k=>k.id==v.id):null;
- if(x){const ed=v.mode=='edit';h+=back+`<div class="card${ed?'':' ncard'}${x.kind=='a'?'':' bx c-'+x.c}" data-nid="${x.id}">`+(ed?`<input class="nt" data-nt="${x.id}" value="${E(x.title||'')}" placeholder="Título de la nota" aria-label="Título de la nota"><textarea data-n="${x.id}" placeholder="Escribe tu nota" aria-label="Nota" rows="4">${E(x.note)}</textarea>${window.NIMG?NIMG.edit(x):''}<div style="display:flex;justify-content:flex-end;margin-top:10px"><button class="dn" data-a="done" aria-label="Listo">${ic('ok')}</button></div>`:`<div data-nv="${x.id}"><div class="ntt">${dot(x)}${x.title?E(x.title):'<span style="color:var(--mut)">Sin título</span>'}</div><div class="nv">${x.note?E(x.note):'<span style="color:var(--mut)">Nota vacía</span>'}</div>${window.TG?TG(x)+NIMG.view(x):''}</div>`)+`</div>`}
+const XB='<button class="xp" data-a="xp" aria-pressed="'+stFull+'">'+XI+'</button>',back=`<div class="bar" style="margin:0 0 10px;align-items:center"><button class="bk" data-a="ov" aria-label="Volver a las notas" title="Volver a las notas">${ic('back')}</button>${XB}</div>`;
+let h='<div class="hdl" role="separator" aria-label="Desliza hacia abajo para cerrar"></div>',v=sv0,x=v&&v.t=='note'?S.hl.find(k=>k.id==v.id):null;
+ if(x){const ed=v.mode=='edit';h+=back+`<div class="card${ed?'':' ncard'}${x.kind=='a'?'':' bx c-'+x.c}" data-nid="${x.id}">`+(ed?`<input class="nt" data-nt="${x.id}" value="${E(x.title||'')}" placeholder="Título de la nota" aria-label="Título de la nota"><textarea data-n="${x.id}" placeholder="Escribe tu nota" aria-label="Nota" rows="4">${E(x.note)}</textarea>${window.NIMG?NIMG.editImg(x):''}<div class="nact"><div class="nacl">${window.NIMG?NIMG.editBtns(x):''}</div><button class="dn" data-a="done" aria-label="Listo">${ic('ok')}</button></div>`:`<div data-nv="${x.id}"><div class="ntt">${dot(x)}${x.title?E(x.title):'<span style="color:var(--mut)">Sin título</span>'}</div><div class="nv">${x.note?E(x.note):'<span style="color:var(--mut)">Nota vacía</span>'}</div>${window.TG?TG(x)+NIMG.view(x):''}</div>`)+`</div>`}
  else if(v&&v.t=='song'&&a&&a.blocks[v.i]&&a.blocks[v.i].type=='song'){const sb=a.blocks[v.i];h+=back+`<div class="card scard"><div class="rf">Canción ${E(sb.n||'')}</div>${sb.text?`<div style="font-weight:600;margin:2px 0 10px">${E(sb.text)}</div>`:''}`+(sb.lyrics?`<div class="vt slr">${E(sb.lyrics)}</div>`:`<div class="hint">Esta canción aún no tiene contenido. Agrégala desde el modo de edición.</div>`)+`</div>`}
- else if(v&&v.t=='bible'){const r=v.ref,t=vtext(r);h+=back+`<div class="card bcard" data-ref="${E(r)}"><div class="bh"><span class="bi"></span><div><b>Biblia de Estudio</b><small>Español</small></div></div><div class="rf">${E(r)}</div>`+(t?`<div class="vt">${E(t)}</div>`:`<div class="hint">Este texto aún no tiene contenido. Sube una Biblia en Mi Biblioteca o agrégalo desde el modo de edición.</div>`)+`</div>`}
+ else if(v&&v.t=='bible'){const r=v.ref,t=vtext(r);h+=back+`<div class="card bcard" data-ref="${E(r)}"><div class="bh"><span class="bi"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 016.5 3H20v15H6.5A2.5 2.5 0 004 20.5zM4 20.5A2.5 2.5 0 006.5 18H20M9 7.5h6"/></svg></span><div><b>Biblia de Estudio</b><small>Español</small></div></div><div class="rf">${E(r)}</div>`+(t?`<div class="vt">${E(t)}</div>`:`<div class="hint">Este texto aún no tiene contenido. Sube una Biblia en Mi Biblioteca o agrégalo desde el modo de edición.</div>`)+`</div>`}
  else{const key=k=>k.kind=='a'?-1:k.b,L=a?S.hl.filter(k=>k.art==a.id&&k.note!=null).sort((p,q)=>key(p)-key(q)||(p.s||0)-(q.s||0)):[];
-  h+=(L.length?'<h2 class="sth">Notas</h2>'+L.map(k=>`<button class="card nc ncard${k.kind=='a'?'':' bx c-'+k.c}" data-nid="${k.id}" data-a="opennote" data-v="${k.id}"><div class="ntt">${dot(k)}${k.title?E(k.title):'Sin título'}</div><div class="nv2">${k.note?E(k.note):'<span style="color:var(--mut)">Nota vacía</span>'}</div>${window.TG?TG(k):''}</button>`).join(''):`<div class="emp nn">No hay notas</div>`)}
+  h+=`<div class="bar" style="margin:0 0 10px;align-items:center">${L.length?'<h2 class="sth">Notas</h2>':''}${XB}</div>`+(L.length?L.map(k=>`<button class="card nc ncard${k.kind=='a'?'':' bx c-'+k.c}" data-nid="${k.id}" data-a="opennote" data-v="${k.id}"><div class="ntt">${dot(k)}${k.title?E(k.title):'Sin título'}</div><div class="nv2">${k.note?E(k.note):'<span style="color:var(--mut)">Nota vacía</span>'}</div>${window.TG?TG(k):''}</button>`).join(''):`<div class="emp nn">No hay notas</div>`)}
  st.innerHTML=h}
 const CC=el=>el.textContent.replace(/\s+/g,' ').trim();
 function newScr(){return `<div class="card"><div class="rf" style="font-size:17px">Importar desde JW.ORG</div><p class="hint">Pega el enlace del artículo y toca Importar.</p><input class="li" id="jl" placeholder="https://www.jw.org/es/…" inputmode="url" style="border-style:solid;margin:0"><div class="add"><button class="btn" data-a="imp">Importar</button></div>${nsf?`<p class="hint" style="margin-top:14px">${E(nsf)}</p><textarea class="ed" id="jt" rows="6" placeholder="Pega aquí el código fuente o el texto del artículo"></textarea><div class="add"><button class="btn s" data-a="impt">Importar contenido</button></div>`:''}</div><div class="card"><div class="rf" style="font-size:17px">Crear desde cero</div><p class="hint">Empieza con un artículo vacío y agrega tus propios bloques.</p><button class="btn s" data-a="blank">Artículo en blanco</button></div>`}
@@ -261,7 +262,7 @@ st.addEventListener('pointermove',e=>{if(x0==null)return;dx=e.clientX-x0;dy=Math
  const sd=sideOf(e.clientX);if(sd!=(S.side||'right')){S.side=sd;st.classList.toggle('left',sd=='left');$('#app').classList.toggle('lf',sd=='left')}
  place(e.clientX,e.clientY)});
 const end=e=>{if(x0==null)return;x0=null;st.style.transition='';
- if(!mv&&e.type=='pointerup'){hm.innerHTML=`<button data-hm="x">${ic('x')||''}Cerrar</button>${SP?'':`<button data-hm="${S.dock?'u':'p'}">${S.dock?'Soltar':'Fijar'}</button>`}`;hm.classList.add('on');const r=st.querySelector('.hdl').getBoundingClientRect();hm.style.left=Math.max(8,Math.min(innerWidth-hm.offsetWidth-8,r.left+r.width/2-hm.offsetWidth/2))+'px';hm.style.top=(r.bottom+4)+'px';st.style.transform='';dx=dy=0;return}
+ if(!mv&&e.type=='pointerup'){hm.innerHTML=`<button data-hm="x">${ic('x')||''}Cerrar</button>${SP?'':`<button data-hm="${S.dock?'u':'p'}">${S.dock?'<svg viewBox="0 0 24 24"><path d="M9 4h6l-1 5.5 3 3.5H7l3-3.5zM12 13v7M4 4l16 16"/></svg>Soltar':'<svg viewBox="0 0 24 24"><path d="M9 4h6l-1 5.5 3 3.5H7l3-3.5zM12 13v7"/></svg>Fijar'}</button>`}`;hm.classList.add('on');const r=st.querySelector('.hdl').getBoundingClientRect();hm.style.left=Math.max(8,Math.min(innerWidth-hm.offsetWidth-8,r.left+r.width/2-hm.offsetWidth/2))+'px';hm.style.top=(r.bottom+4)+'px';st.style.transform='';dx=dy=0;return}
  if(S.dock){st.style.transform='';dx=dy=0;return}
  save();
  if(dy>70&&dy>Math.abs(dx)){st.style.transform='';sOpen=false;study();dx=dy=0;return}
@@ -304,7 +305,7 @@ document.addEventListener('click',e=>{
  case'addurl':{const u=prompt('Dirección de la imagen (https://…)');if(u)addAt({type:'img',src:u,cap:''});break}
  case'rm':art.blocks.splice(+v,1);S.hl=S.hl.filter(h=>h.art!=cur||h.kind=='a');sv();break;
  case'up':case'dn':{const i=+v,j=a=='up'?i-1:i+1;if(j>=0&&j<art.blocks.length){[art.blocks[i],art.blocks[j]]=[art.blocks[j],art.blocks[i]];S.hl=S.hl.filter(h=>h.art!=cur||h.kind=='a');sv()}break}
- case'study':sOpen=(sOpen&&!!cur&&isSmall()&&!SP&&!!S.dock)?false:true;study();break;case'ov':sv0=null;study();break;case'opennote':{if(e.detail>0&&pd0&&Math.hypot(e.clientX-pd0[0],e.clientY-pd0[1])>12)break;const p=$('#pm'),r=el.getBoundingClientRect(),x=e.detail>0?e.clientX:r.left+r.width/2,y=e.detail>0?e.clientY:r.bottom;p.innerHTML=`<button data-a="mned" data-v="${v}">${ic('ed')}Editar</button><button data-a="mndl" data-v="${v}">${ic('tr')}Borrar</button>`;p.classList.add('on');p.style.left=Math.max(8,Math.min(innerWidth-p.offsetWidth-8,x-60))+'px';p.style.top=Math.max(8,Math.min(innerHeight-p.offsetHeight-8,y+8))+'px';break}
+ case'study':sOpen=(sOpen&&!!cur&&!SP&&!!S.dock)?false:true;study();break;case'ov':sv0=null;study();break;case'opennote':{if(e.detail>0&&pd0&&Math.hypot(e.clientX-pd0[0],e.clientY-pd0[1])>12)break;const p=$('#pm'),r=el.getBoundingClientRect(),x=e.detail>0?e.clientX:r.left+r.width/2,y=e.detail>0?e.clientY:r.bottom;p.innerHTML=`<button data-a="mned" data-v="${v}">${ic('ed')}Editar</button><button data-a="mndl" data-v="${v}">${ic('tr')}Borrar</button>`;p.classList.add('on');p.style.left=Math.max(8,Math.min(innerWidth-p.offsetWidth-8,x-60))+'px';p.style.top=Math.max(8,Math.min(innerHeight-p.offsetHeight-8,y+8))+'px';break}
  case'mned':{const x=S.hl.find(h=>h.id==v);hidePm();if(!x)break;sv0={t:'note',id:x.id,mode:'edit'};sOpen=true;study();{const t=document.querySelector('input[data-nt]');t&&t.focus()}break}
  case'mndl':{const x=S.hl.find(h=>h.id==v);hidePm();if(x){if(x.kind)S.hl=S.hl.filter(h=>h!==x);else x.note=null}if(sv0&&sv0.id==v)sv0=null;sv();break}case'done':sv0.mode='view';save();study();break;
   case'col':{lc=v;if(pend.h){const hh=S.hl.find(h=>h.id==pend.h);hh.c=v;mergeHl(hh)}else mk(v,false);getSelection().removeAllRanges();hideTb();pend=null;sv();break}
@@ -391,7 +392,7 @@ try{indexedDB.deleteDatabase('jwbible')}catch(e){}}
 <script>
 {const tagsOf=h=>{const m=((h.title||'')+' '+(h.note||'')).match(/#[\p{L}\p{N}_]+/gu)||[],z={};return m.filter(t=>{const k=t.toLowerCase();return z[k]?0:z[k]=1})};
 window.TG=h=>{const t=tagsOf(h);return t.length?`<div class="tgs">${t.map(x=>`<span class="tg" data-tag="${E(x)}">${E(x)}</span>`).join('')}</div>`:''};
-window.NIMG={edit:x=>`<div class="nimr">${x.img?`<img class="nim" src="${x.img}" alt="">`:''}<button class="btn s" data-a="nimadd" data-id="${x.id}">${x.img?'Cambiar imagen':'Agregar imagen'}</button>${x.img?`<button class="btn s" data-a="nimrm" data-id="${x.id}">Quitar</button>`:''}</div>`,view:x=>x.img?`<img class="nim" src="${x.img}" alt="">`:''};
+window.NIMG={edit:x=>`<div class="nimr">${x.img?`<img class="nim" src="${x.img}" alt="">`:''}<button class="btn s" data-a="nimadd" data-id="${x.id}"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M9 9.5h.01"/></svg><span>${x.img?'Cambiar imagen':'Agregar imagen'}</span></button>${x.img?`<button class="btn s" data-a="nimrm" data-id="${x.id}">Quitar</button>`:''}</div>`,editImg:x=>x.img?`<div class="nimr"><img class="nim" src="${x.img}" alt=""></div>`:'',editBtns:x=>`<button class="btn s" data-a="nimadd" data-id="${x.id}"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M9 9.5h.01"/></svg><span>${x.img?'Cambiar imagen':'Agregar imagen'}</span></button>${x.img?`<button class="btn s" data-a="nimrm" data-id="${x.id}">Quitar</button>`:''}`,view:x=>x.img?`<img class="nim" src="${x.img}" alt="">`:''};
 window.LIBX={tab:'a',q:'',
  tabs:()=>`<div class="ltabs"><button class="${LIBX.tab=='a'?'on':''}" data-a="ltab" data-v="a">Artículos</button><button class="${LIBX.tab=='n'?'on':''}" data-a="ltab" data-v="n">Notas</button><button class="${LIBX.tab=='b'?'on':''}" data-a="ltab" data-v="b">Guardados</button></div>`,
  notes:()=>`<input class="li" id="nq" type="search" placeholder="Buscar notas o #etiquetas" value="${E(LIBX.q)}" aria-label="Buscar notas" style="border-style:solid;margin:0 0 12px;width:100%"><div id="nl">${LIBX.list()}</div>`,
@@ -590,11 +591,11 @@ function dockUI(){
  st.classList.toggle('dk',!!d);st.classList.toggle('dkl',d=='left');st.classList.toggle('dkr',d=='right');
  ap.classList.toggle('dkl',on&&d=='left');ap.classList.toggle('dkr',on&&d=='right');
  if(d)st.classList.remove('full');
- const xr=st.querySelector('.xr'),dSm=!!d&&isSmall();
- if(xr&&d){if(dSm)xr.remove();else xr.innerHTML='<button class="xp cx" data-a="stx" aria-label="Cerrar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'}
+ const xpb=st.querySelector('[data-a=xp]'),xpH=(!d&&xpb)?xpb.outerHTML:'',dSm=!!d;
+ if(d)st.querySelectorAll('[data-a=xp]').forEach(b=>b.remove());
  {const fb=$('#fab');fb.style.display=((!sOpen&&!!cur)||(on&&dSm))?'':'none';fb.setAttribute('aria-label',on&&dSm?'Cerrar pestaña de estudio':'Abrir pestaña de estudio')}
  if(on&&sOn){[...st.children].forEach(n=>{if(!n.classList.contains('hdl')&&!n.classList.contains('xr'))n.remove()});
-  st.insertAdjacentHTML('beforeend',`<div class="sqb">${ic('srch')}<input id="sqi" type="search" value="${E(q)}" placeholder="Buscar en notas, textos y párrafos" aria-label="Buscar" autocomplete="off"></div><div id="sqr">${results()}</div>`)}}
+  st.insertAdjacentHTML('beforeend',`${xpH?`<div class="bar" style="margin:0 0 10px">${xpH}</div>`:''}<div class="sqb">${ic('srch')}<input id="sqi" type="search" value="${E(q)}" placeholder="Buscar en notas, textos y párrafos" aria-label="Buscar" autocomplete="off"></div><div id="sqr">${results()}</div>`)}}
 const _s=study;study=function(){const r=_s.apply(this,arguments);dockUI();return r};
 let tm;
 document.addEventListener('input',e=>{if(e.target.id!='sqi')return;q=e.target.value;ri=-1;clearTimeout(tm);tm=setTimeout(()=>{const r=$('#sqr');if(r)r.innerHTML=results();if(!edit)main()},150)});
@@ -987,7 +988,7 @@ niPlace();
 }
 </style>
 <style>
-/* ===== Versión 3.1: barra de estudio fluida =====
+/* ===== Versión 4.0: barra de estudio fluida =====
    - El panel solo anima transform + opacidad (compuesto en GPU); se elimina la animación de border-radius.
    - El artículo no se reacomoda durante la animación: el espacio reservado para el panel se aplica al terminar. */
 @media(prefers-reduced-motion:no-preference){
@@ -1027,7 +1028,8 @@ study=function(){flush();
 .st:not(.full):not(.dk){top:auto;height:auto;max-height:min(52dvh,calc(100dvh - 90px - env(safe-area-inset-top,0px)))}
 .st.full:not(.dk){top:calc(14px + env(safe-area-inset-top,0px));bottom:14px;height:auto;max-height:none}
 }
-@media(max-width:899px){.st.dk{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}}
+.st.dk{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
+.st.dk .xr{display:none!important}
 .p[data-num]::before{display:inline-block;cursor:pointer}
 .sth{font-size:18px;font-weight:700;margin:2px 2px 10px;letter-spacing:-.01em}
 .st .emp.nn{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px 16px}
@@ -1037,6 +1039,20 @@ study=function(){flush();
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
 window.APP_VERSION='3.7';
 </script>
+<style>
+/* Ajustes de la StudyBar sobre 3.7 */
+.st .bar .xp{display:none;margin-left:auto;flex:none}
+@media(orientation:portrait){.st .bar .xp{display:flex}}
+.st .bar .sth{margin:0 0 0 2px}
+.st .card[data-nid] input.nt,.st .card[data-nid] textarea{background:transparent!important;border:0!important;box-shadow:none!important;outline:none!important;border-radius:0!important;padding:6px 0!important}
+.btn[data-a=nimadd]{display:inline-flex;align-items:center;gap:8px}
+.btn[data-a=nimadd] svg{width:18px;height:18px;flex:none}
+.nact{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px}
+.nacl{display:flex;flex-wrap:wrap;align-items:center;gap:8px;min-width:0}
+.nacl .btn{padding:8px 14px;font-size:14px}
+.bi{display:grid;place-items:center}.bi svg{width:20px;height:20px;stroke:#fff}
+.ib[data-a=menu] svg{width:22px;height:22px;stroke-width:4.6}
+</style>
 <!-- ===== Versión 3.7: resaltado =====
    1) El resaltado ajusta la selección a palabras completas (nunca media palabra).
    2) Resaltados contiguos (o separados solo por espacios) del mismo color se unen solos.
