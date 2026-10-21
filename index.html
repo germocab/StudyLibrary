@@ -153,7 +153,7 @@ function seg(a,bi,na){const t=a.blocks[bi].text||'',P=new Set([0,t.length]),H=S.
 const THI='<svg viewBox="0 0 24 24" style="width:24px;height:24px"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>',isDark=()=>{const t=document.documentElement.dataset.theme;return t?t=='dark':matchMedia('(prefers-color-scheme:dark)').matches};
 function header(){const a=A(),b=(n,l,x='',c='')=>`<button class="ib ${c}" data-a="${x||n}" aria-label="${l}">${ic(n)}</button>`;
  $('#hd').innerHTML=ns?b('back','Volver','back')+`<div class="t"><b>Nuevo artículo</b><small>Importa o crea desde cero</small></div>`:a?b('back','Volver','back')+`<div class="t"><b>${E(a.title)}</b><small>${E(a.sub||'')}</small></div>`+b('head','Medios','media','opt')+b('srch','Buscar','search',sOn?'on opt':'opt')+b('bm','Guardar artículo','save',a.saved?'on opt':'opt')+`<span class="opt">${b('lang','Idioma','lang')}</span>`+b('dots','Más opciones','menu')
- :`<div class="t"><b>Mi biblioteca</b><small>Tus artículos de estudio</small></div>`+b('pl','Nuevo artículo','new')+`<button class="ib" data-a="theme" aria-label="Cambiar tema">${THI}</button>`;
+ :`<div class="t"><b>Mi biblioteca</b><small>Tus artículos de estudio</small></div>`+b('srch','Buscar en toda la plataforma','gsearch')+b('pl','Nuevo artículo','new')+`<button class="ib" data-a="theme" aria-label="Cambiar tema">${THI}</button>`;
  $('#hd').insertAdjacentHTML('beforeend','<div class="menu" id="mn"></div>')}
 function menu(){const a=A()||{};$('#mn').innerHTML=`<div class="tsz"><span class="tl">Tamaño del texto</span><div class="trow"><span style="font-size:13px">A</span><input type="range" id="fsr" min="13" max="30" step="1" value="${S.fs}" aria-label="Tamaño del texto"><span style="font-size:23px">A</span></div></div>
 <button class="mopt" data-a="media">${ic('head')}Medios</button><button class="mopt${sOn?' on':''}" data-a="search">${ic('srch')}${sOn?'Cerrar búsqueda':'Buscar'}</button><button class="mopt${a.saved?' on':''}" data-a="save">${ic('bm')}${a.saved?'Quitar de guardados':'Guardar artículo'}</button><button class="mlang" data-a="lang">${ic('lang')}Idioma</button><button data-a="fs">${ic('fs')}Pantalla completa</button><button data-a="anote">${ic('note')}Nueva nota</button><button data-a="edit">${ic('ed')}${edit?'Terminar edición':'Editar artículo'}</button><button data-a="theme">${THI.replace('24px;height:24px','20px;height:20px')}${isDark()?'Modo claro':'Modo oscuro'}</button>`}
@@ -163,7 +163,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 4.0</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 4.3</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -988,7 +988,7 @@ niPlace();
 }
 </style>
 <style>
-/* ===== Versión 4.0: barra de estudio fluida =====
+/* ===== Versión 4.3: barra de estudio fluida =====
    - El panel solo anima transform + opacidad (compuesto en GPU); se elimina la animación de border-radius.
    - El artículo no se reacomoda durante la animación: el espacio reservado para el panel se aplica al terminar. */
 @media(prefers-reduced-motion:no-preference){
@@ -1037,7 +1037,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='3.7';
+window.APP_VERSION='4.3';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1053,11 +1053,142 @@ window.APP_VERSION='3.7';
 .bi{display:grid;place-items:center}.bi svg{width:20px;height:20px;stroke:#fff}
 .ib[data-a=menu] svg{width:22px;height:22px;stroke-width:4.6}
 </style>
+<style>
+/* Ajustes sobre 3.7: barra superior que se oculta al bajar (solo pantallas pequeñas) + búsqueda universal */
+@media(max-width:899px){
+.hd{transition:margin-top .25s cubic-bezier(.2,.8,.2,1),opacity .2s}
+.hd.hide{margin-top:calc(var(--hh,60px) * -1);opacity:0;pointer-events:none}
+}
+@media(prefers-reduced-motion:reduce){.hd{transition:none}}
+#gs{position:fixed;inset:0;z-index:90;background:var(--bg);display:none;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
+#gs.on{display:flex}
+#gs .gsh{display:flex;align-items:center;gap:8px;padding:10px 14px;max-width:760px;width:100%;margin:0 auto;box-sizing:border-box}
+#gs .gsh .sqb{flex:1;margin:0}
+#gs .gsr{flex:1;overflow:auto;padding:4px 16px calc(24px + env(safe-area-inset-bottom,0px));max-width:760px;width:100%;margin:0 auto;box-sizing:border-box}
+#gs .gsr .sqi .gsw{color:var(--mut);font-size:12px;margin-top:2px}
+</style>
+<script>
+/* Barra superior: se oculta al hacer scroll hacia abajo y reaparece al subir (solo pantallas pequeñas) */
+(function(){
+ const hd=$('#hd'),sc=$('#sc'),mq=matchMedia('(max-width:899px)');
+ let last=0,acc=0,lock=0;
+ const setH=h=>{if(hd.classList.contains('hide')===h)return;if(h)hd.style.setProperty('--hh',hd.offsetHeight+'px');hd.classList.toggle('hide',h);lock=Date.now()+380;acc=0;setTimeout(()=>{last=sc.scrollTop},400)};
+ sc.addEventListener('scroll',()=>{
+  if(!mq.matches){hd.classList.remove('hide');return}
+  const t=sc.scrollTop;if(Date.now()<lock){last=t;return}
+  const max=sc.scrollHeight-sc.clientHeight;if(t<0||t>max+1)return;
+  if(t<=8){setH(false);last=t;return}
+  const d=t-last;last=t;if(!d)return;
+  if((d>0)!=(acc>0))acc=0;acc+=d;
+  if(acc>14&&!$('#mn').classList.contains('on'))setH(true);else if(acc<-10)setH(false)},{passive:true});
+ mq.addEventListener('change',()=>hd.classList.remove('hide'));
+ const _m=main;main=function(){hd.classList.remove('hide');const r=_m.apply(this,arguments);last=sc.scrollTop;return r};
+})();
+/* Búsqueda universal de la plataforma (desde Mi biblioteca) */
+{
+const nrm=window.fold,MAXG=30;
+const snip=(t,k)=>{t=String(t||'').replace(/\s+/g,' ').trim();const n=nrm(t),m=nrm(k);let i=n.indexOf(m);if(i<0)i=0;const a=Math.max(0,i-28),z=Math.min(t.length,i+m.length+70);let out='',p=a,j=n.indexOf(m,a);while(j>=0&&j<z){out+=E(t.slice(p,j))+'<mark>'+E(t.slice(j,j+m.length))+'</mark>';p=j+m.length;j=n.indexOf(m,p)}return(a>0?'…':'')+out+E(t.slice(p,z))+(z<t.length?'…':'')};
+const has=(t,m)=>nrm(t).indexOf(m)>=0;
+const gs=document.createElement('div');gs.id='gs';gs.setAttribute('role','dialog');gs.setAttribute('aria-label','Búsqueda en toda la plataforma');
+gs.innerHTML=`<div class="gsh"><button class="ib" data-g="x" aria-label="Cerrar búsqueda">${ic('back')}</button><div class="sqb">${ic('srch')}<input id="gsi" type="search" placeholder="Buscar en toda la plataforma" aria-label="Buscar en toda la plataforma" autocomplete="off"></div></div><div class="gsr" id="gsr"></div>`;
+document.body.appendChild(gs);
+const gi=gs.querySelector('#gsi'),gr=gs.querySelector('#gsr');
+const hint='<div class="sqe">Busca en artículos, notas, párrafos, canciones y textos bíblicos.</div>';
+const refsOf=a=>{const m=new Set();a.blocks.forEach(b=>{(b.text||'').match(RE)?.forEach(r=>m.add(r));(b.links||[]).forEach(l=>l.r&&m.add(l.r))});return m};
+function gres(txt){const k=txt.trim();if(k.length<2)return hint;const m=nrm(k);let h='',tot=0;
+ const sec=(t,L,fn)=>{if(!L.length)return;tot+=L.length;h+=`<div class="sqh">${t} (${L.length})</div>`+L.slice(0,MAXG).map(fn).join('')};
+ const ix=id=>S.arts.find(a=>a.id==id);
+ sec('Artículos',S.arts.filter(a=>has([a.title,a.label,a.sub].filter(Boolean).join(' '),m)),a=>`<button class="sqi" data-g="a|${a.id}"><b>${E(a.title)}</b><span>${snip([a.label,a.sub].filter(Boolean).join(' · '),k)}</span></button>`);
+ sec('Notas',S.hl.filter(x=>x.note!=null&&ix(x.art)&&(has(x.title,m)||has(x.note,m))),x=>{const a=ix(x.art);return `<button class="sqi" data-g="n|${x.id}"><b>${x.kind=='a'?'':`<i class="dt c-${x.c}"></i>`}${x.title?E(x.title):'Sin título'}</b><span>${snip(has(x.note,m)?x.note:x.title,k)}</span><span class="gsw">${E(a.label)} · ${E(a.title)}</span></button>`});
+ const vs=Object.assign({},(typeof VS!=='undefined'?VS:{}),S.verses);
+ sec('Textos bíblicos',Object.keys(vs).filter(r=>has(r,m)||has(vs[r]||'',m)),r=>`<button class="sqi" data-g="v|${E(r)}"><b>${E(r)}</b>${vs[r]?`<span>${snip(vs[r],k)}</span>`:''}</button>`);
+ const par=[];S.arts.forEach(a=>a.blocks.forEach((b,i)=>{if(b.type=='img')return;const t=[b.label,b.n,b.text,b.lyrics].filter(Boolean).join(' ');if(has(t,m))par.push({a,i,t,b})}));
+ sec('Párrafos y canciones',par,o=>`<button class="sqi" data-g="p|${o.a.id}|${o.i}"><b>${o.b.type=='song'?'Canción '+E(o.b.n||''):E(o.a.title)}</b><span>${snip(o.t,k)}</span>${o.b.type=='song'?`<span class="gsw">${E(o.a.label)} · ${E(o.a.title)}</span>`:''}</button>`);
+ return tot?h:'<div class="sqe">Sin resultados</div>'}
+const openGs=()=>{gs.classList.add('on');gi.value='';gr.innerHTML=hint;gi.focus()},closeGs=()=>gs.classList.remove('on');
+const openArt=(id,pre,post)=>{cur=id;ns=false;edit=false;sOn=false;q='';sv0=null;sOpen=!isSmall();if(pre)pre();closeGs();render();if(post)setTimeout(post,140)};
+let gt;gi.addEventListener('input',()=>{clearTimeout(gt);gt=setTimeout(()=>{gr.innerHTML=gres(gi.value)},150)});
+addEventListener('keydown',e=>{if(e.key=='Escape'&&gs.classList.contains('on'))closeGs()});
+document.addEventListener('click',e=>{
+ if(e.target.closest('[data-a=gsearch]')){e.stopImmediatePropagation();openGs();return}
+ const b=e.target.closest('#gs [data-g]');if(!b)return;
+ const [k,v,w]=b.dataset.g.split('|');
+ if(k=='x'){closeGs();return}
+ if(k=='a')openArt(v);
+ else if(k=='n'){const x=S.hl.find(h=>h.id==v);if(x)openArt(x.art,()=>{sv0={t:'note',id:x.id,mode:'view'};sOpen=true},()=>gotoN(x))}
+ else if(k=='v'){const a=S.arts.find(a=>refsOf(a).has(v));if(!a){toast('Ese texto no aparece en ningún artículo');return}openArt(a.id,()=>{sv0={t:'bible',ref:v};sOpen=true})}
+ else if(k=='p'){const bl=(S.arts.find(a=>a.id==v)||{blocks:[]}).blocks[+w];openArt(v,bl&&bl.type=='song'?()=>{sv0={t:'song',i:+w};sOpen=true}:null,()=>{const el=$('#pg').children[+w+2];if(el){el.scrollIntoView({block:'center',behavior:'smooth'});el.classList.remove('flashp');void el.offsetWidth;el.classList.add('flashp')}})}
+},true);
+}
+</script>
 <!-- ===== Versión 3.7: resaltado =====
    1) El resaltado ajusta la selección a palabras completas (nunca media palabra).
    2) Resaltados contiguos (o separados solo por espacios) del mismo color se unen solos.
    3) El resaltado espera 0.9 s tras el último cambio de la selección (y a que se suelte el dedo/mouse).
    4) Nuevo color: Gris. -->
+<style>
+/* ===== Versión 4.3 =====
+   1) Móvil: tocar fuera de la StudyBar flotante la cierra (no aplica en escritorio ni con la StudyBar fija).
+   2) Visor de imágenes: zoom con pinch (pantalla táctil) o pinch del trackpad (escritorio). Sin botones de zoom. */
+.lbx{touch-action:none;overscroll-behavior:contain}
+.lbx img{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-user-drag:none;will-change:transform}
+@media(prefers-reduced-motion:no-preference){
+.lbx img{transition:left .38s cubic-bezier(.25,.8,.25,1),top .38s cubic-bezier(.25,.8,.25,1),width .38s cubic-bezier(.25,.8,.25,1),height .38s cubic-bezier(.25,.8,.25,1),border-radius .38s,transform .25s cubic-bezier(.2,.8,.2,1)}
+}
+.lbx img.gz{transition:none!important}
+</style>
+<script>
+window.APP_VERSION='4.3';
+/* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
+{
+const KEEP='#st,#fab,#hm,#pm,#np,#tb,#mn,#gs,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r]';
+let downOk=false;
+document.addEventListener('pointerdown',e=>{downOk=!!(e.target&&e.target.closest&&!e.target.closest(KEEP))},true);
+document.addEventListener('click',e=>{
+ if(!sOpen||!cur||!isSmall()||S.dock||SP)return;
+ const t=e.target;if(!t||!t.closest||!document.contains(t)||!downOk)return;
+ if(t.closest(KEEP))return;
+ const pe=t.closest('.p');if(pe&&numHit(pe,e))return;
+ const sel=getSelection();if(sel&&!sel.isCollapsed)return;
+ sOpen=false;study()});
+}
+/* 2) Visor de imágenes: pinch para zoom (sin botones) */
+{
+const lb=$('#lb'),im=lb.querySelector('img'),MAXZ=6;
+let z={s:1,x:0,y:0},g=null,moved=false,mvT=0,wT=0,sx=0,sy=0,gs0=1;const P=new Map();
+const cx=()=>innerWidth/2,cy=()=>innerHeight/2;
+const apply=()=>{im.style.transform=(z.s==1&&!z.x&&!z.y)?'':`translate(${z.x}px,${z.y}px) scale(${z.s})`};
+const clampT=()=>{const mx=Math.max(0,(im.offsetWidth*z.s-innerWidth)/2),my=Math.max(0,(im.offsetHeight*z.s-innerHeight)/2);z.x=Math.max(-mx,Math.min(mx,z.x));z.y=Math.max(-my,Math.min(my,z.y))};
+const reset=()=>{z={s:1,x:0,y:0};P.clear();g=null;im.classList.remove('gz');apply()};
+const mark=()=>{moved=true;clearTimeout(mvT);mvT=setTimeout(()=>{moved=false},450)};
+const zoomAt=(ns,fx,fy)=>{const k=ns/z.s;z.x=(fx-cx())-k*((fx-cx())-z.x);z.y=(fy-cy())-k*((fy-cy())-z.y);z.s=ns};
+const ready=()=>lb.classList.contains('sh');
+const startG=()=>{const v=[...P.values()];
+ if(v.length>=2){const[a,b]=v;g={t:'p',d0:Math.hypot(a.x-b.x,a.y-b.y)||1,s0:z.s,x0:z.x,y0:z.y,fx0:(a.x+b.x)/2,fy0:(a.y+b.y)/2};im.classList.add('gz');mark()}
+ else if(v.length==1){g={t:'d',px:v[0].x,py:v[0].y,x0:z.x,y0:z.y}}else g=null};
+lb.addEventListener('pointerdown',e=>{if(!ready()||e.target.closest('.ib'))return;P.set(e.pointerId,{x:e.clientX,y:e.clientY});if(P.size==1){sx=e.clientX;sy=e.clientY}startG()});
+lb.addEventListener('pointermove',e=>{const p=P.get(e.pointerId);if(!p)return;p.x=e.clientX;p.y=e.clientY;if(!g)return;
+ if(g.t=='p'&&P.size>=2){const[a,b]=[...P.values()],d=Math.hypot(a.x-b.x,a.y-b.y)||1,fx=(a.x+b.x)/2,fy=(a.y+b.y)/2,ns=Math.max(.7,Math.min(MAXZ,g.s0*d/g.d0)),k=ns/g.s0;
+  z.s=ns;z.x=(fx-cx())-k*((g.fx0-cx())-g.x0);z.y=(fy-cy())-k*((g.fy0-cy())-g.y0);clampT();apply();mark();e.preventDefault()}
+ else if(g.t=='d'&&P.size==1){if(Math.hypot(e.clientX-sx,e.clientY-sy)>8)mark();
+  if(z.s>1){im.classList.add('gz');z.x=g.x0+(p.x-g.px);z.y=g.y0+(p.y-g.py);clampT();apply()}}});
+const up=e=>{if(!P.delete(e.pointerId))return;if(P.size>=1){startG();return}
+ g=null;im.classList.remove('gz');if(z.s<1.02)z={s:1,x:0,y:0};else clampT();apply()};
+lb.addEventListener('pointerup',up);lb.addEventListener('pointercancel',up);
+/* Trackpad en escritorio: pinch llega como rueda con ctrlKey; dos dedos mueven la imagen ya ampliada */
+lb.addEventListener('wheel',e=>{if(!ready())return;
+ if(e.ctrlKey){e.preventDefault();im.classList.add('gz');zoomAt(Math.max(1,Math.min(MAXZ,z.s*Math.exp(-e.deltaY*.01))),e.clientX,e.clientY);clampT();apply();clearTimeout(wT);wT=setTimeout(()=>{im.classList.remove('gz');if(z.s<1.02)z={s:1,x:0,y:0};apply()},140)}
+ else if(z.s>1){e.preventDefault();im.classList.add('gz');z.x-=e.deltaX;z.y-=e.deltaY;clampT();apply();clearTimeout(wT);wT=setTimeout(()=>im.classList.remove('gz'),140)}},{passive:false});
+/* Safari de escritorio: eventos de gesto del trackpad */
+lb.addEventListener('gesturestart',e=>{e.preventDefault();gs0=z.s});
+lb.addEventListener('gesturechange',e=>{e.preventDefault();if(P.size>=2||!ready())return;im.classList.add('gz');zoomAt(Math.max(1,Math.min(MAXZ,gs0*e.scale)),e.clientX||cx(),e.clientY||cy());clampT();apply()});
+lb.addEventListener('gestureend',e=>{e.preventDefault();im.classList.remove('gz');if(z.s<1.02)z={s:1,x:0,y:0};else clampT();apply()});
+/* Un gesto no debe cerrar el visor al terminar */
+document.addEventListener('click',e=>{if(moved&&e.target.closest&&e.target.closest('#lb')){e.stopImmediatePropagation();e.preventDefault()}},true);
+const _o=openLb;openLb=function(){reset();return _o.apply(this,arguments)};
+const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remove('gz');z={s:1,x:0,y:0};apply()}return _c.apply(this,arguments)};
+}
+</script>
 <!-- ===== Versión 3.0: inicio de sesión con código QR =====
    En la versión de escritorio, el cuadro de sincronización muestra un QR. Al escanearlo con el
    teléfono o tablet (con la sesión ya iniciada) se entra al instante y se accede a publicaciones,
