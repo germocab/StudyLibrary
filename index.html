@@ -163,7 +163,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 3.0.1</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 3.0.2</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -499,13 +499,13 @@ const bx=md.firstChild;
 function setSt(s){st=s;b.className=s=='off'?'':s;if(s=='err')b.title=msg;paintModal()}
 b.onclick=()=>{qrHint='';md.classList.add('on');paintModal();if(!user&&DESK())qrStart()};md.onclick=e=>{if(e.target==md){md.classList.remove('on');qrStop()}};
 function paintModal(){if(!md.classList.contains('on')){qrStop();return}
- if(user){bx.innerHTML=`<h3>Sincronización</h3><p>${user.email}<br>${st=='ok'?'Todo sincronizado ✓':st=='sync'?'Sincronizando…':st=='err'?'Error: '+msg:''}</p><button id="sn">Sincronizar ahora</button><button class="g" id="sq">Escanear QR</button><button class="g" id="so">Cerrar sesión</button>`;qrStop();
-  bx.querySelector('#sn').onclick=sync;bx.querySelector('#sq').onclick=qrScan;bx.querySelector('#so').onclick=async()=>{await sb.auth.signOut();md.classList.remove('on')}}
- else if(!bx.querySelector('#se')){bx.innerHTML=`<h3>Sincronizar dispositivos</h3><p>Inicia sesión para acceder a tus notas, subrayados y artículos en cualquier dispositivo.</p>${qrHint?`<p style="color:var(--ic)">${qrHint}</p>`:''}${DESK()?`<div class="qrw"><div id="qrb"></div><div id="qrm"></div></div><div class="or">o con tu correo</div>`:''}<input id="se" type="email" placeholder="Correo" autocomplete="email"><input id="sp" type="password" placeholder="Contraseña (mín. 6)" autocomplete="current-password"><button id="si">Entrar</button><button class="g" id="su">Crear cuenta</button><div class="m" id="sm"></div>`;
-  const go=async up=>{const m=bx.querySelector('#sm'),e=bx.querySelector('#se').value.trim(),p=bx.querySelector('#sp').value;m.style.color='#d33';m.textContent='';
+ if(user){bx.innerHTML=`<h3>Sincronización</h3><p>${user.email}<br>${st=='ok'?'Todo sincronizado ✓':st=='sync'?'Sincronizando…':st=='err'?'Error: '+msg:''}</p><button id="syxn">Sincronizar ahora</button><button class="g" id="syxq">Escanear QR</button><button class="g" id="syxo">Cerrar sesión</button>`;qrStop();
+  bx.querySelector('#syxn').onclick=sync;bx.querySelector('#syxq').onclick=qrScan;bx.querySelector('#syxo').onclick=async()=>{await sb.auth.signOut();md.classList.remove('on')}}
+ else if(!bx.querySelector('#syxe')){bx.innerHTML=`<h3>Sincronizar dispositivos</h3><p>Inicia sesión para acceder a tus notas, subrayados y artículos en cualquier dispositivo.</p>${qrHint?`<p style="color:var(--ic)">${qrHint}</p>`:''}${DESK()?`<div class="qrw"><div id="qrb"></div><div id="qrm"></div></div><div class="or">o con tu correo</div>`:''}<input id="syxe" type="email" placeholder="Correo" autocomplete="email"><input id="syxp" type="password" placeholder="Contraseña (mín. 6)" autocomplete="current-password"><button id="syxi">Entrar</button><button class="g" id="syxu">Crear cuenta</button><div class="m" id="syxm"></div>`;
+  const go=async up=>{const m=bx.querySelector('#syxm'),e=bx.querySelector('#syxe').value.trim(),p=bx.querySelector('#syxp').value;m.style.color='#d33';m.textContent='';
    const r=up?await sb.auth.signUp({email:e,password:p}):await sb.auth.signInWithPassword({email:e,password:p});
    if(r.error)m.textContent=r.error.message;else if(up&&!r.data.session){m.style.color='var(--mut)';m.textContent='Revisa tu correo para confirmar la cuenta y luego pulsa Entrar.'}else md.classList.remove('on')};
-  bx.querySelector('#si').onclick=()=>go(0);bx.querySelector('#su').onclick=()=>go(1)}
+  bx.querySelector('#syxi').onclick=()=>go(0);bx.querySelector('#syxu').onclick=()=>go(1)}
  if(!user&&DESK()&&!qrT&&!qrBusy&&!qrDead&&bx.querySelector('#qrb'))qrStart()}
 const _m=main;main=function(){_m.apply(this,arguments);const lib=!cur&&!ns;b.style.display=lib?'flex':'none';if(!lib)md.classList.remove('on')};main();
 qrFromHash();
