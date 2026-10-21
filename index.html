@@ -167,7 +167,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 6.0</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 6.1</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -1079,7 +1079,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='6.0';
+window.APP_VERSION='6.1';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1180,7 +1180,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='6.0';
+window.APP_VERSION='6.1';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r]';
@@ -1255,7 +1255,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='6.0';
+window.APP_VERSION='6.1';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1314,7 +1314,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='6.0';
+window.APP_VERSION='6.1';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1371,7 +1371,7 @@ upd();
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='6.0';
+window.APP_VERSION='6.1';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1403,7 +1403,7 @@ study=function(){const r=_s.apply(this,arguments);
 #spk #spkl{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain}
 </style>
 <script>
-window.APP_VERSION='6.0';
+window.APP_VERSION='6.1';
 /* 5.0 · Documentos: notas libres que se guardan en Artículos */
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-a=newdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
@@ -1468,7 +1468,7 @@ body.dm #mn .mopt,body.dm #mn [data-a=anote],body.dm #mn [data-a=edit]{display:n
 .docb:empty::before{content:attr(data-ph);color:var(--mut)}
 </style>
 <script>
-window.APP_VERSION='6.0';
+window.APP_VERSION='6.1';
 /* 5.1 · Documentos: hoja en blanco */
 {
 const OK={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1};
@@ -1527,7 +1527,7 @@ document.addEventListener('click',e=>{
 .st .bar .ned+.ndel{margin-left:8px}
 </style>
 <script>
-window.APP_VERSION='6.0';
+window.APP_VERSION='6.1';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1548,7 +1548,7 @@ study=function(){const r=_s.apply(this,arguments);
 .ntw>.ib.tt svg{width:17px;height:17px}
 </style>
 <script>
-window.APP_VERSION='6.0';
+window.APP_VERSION='6.1';
 IC.tt='M5 6V4h14v2M12 4v16M9 20h6';
 {
 const wrap=root=>{if(!root)return;root.querySelectorAll('input[data-nt]').forEach(inp=>{
@@ -1583,7 +1583,7 @@ wrap($('#st'));wrap($('#sp'));
 .tbdd.up{top:auto;bottom:calc(100% + 8px)}
 </style>
 <script>
-window.APP_VERSION='6.0';
+window.APP_VERSION='6.1';
 {
 const copyTxt=t=>{const ok=()=>toast('Texto copiado');
  const fb=()=>{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0;top:0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(_){toast('No se pudo copiar')}a.remove()};
@@ -1824,13 +1824,24 @@ dockSync();
 #pg.xvg>.lab,#pg.xvg>h1{grid-column:1/-1}
 #pg.xvg>.lab{justify-self:start}
 #pg.xvg>.sh2{grid-column:1/-1;margin:6px 0 16px!important}
+/* Expandido estructurado (6.1): cabecera arriba, y cada subtema es una sección con sus unidades (pregunta + recuadro + párrafo) */
+#pg.xvs{max-width:none;margin:0;padding-left:50px}
+#pg.xvs .xh,#pg.xvs .xg{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));column-gap:68px;align-items:start}
+#pg.xvs .xg{grid-auto-rows:4px}
+#pg.xvs .xh{margin-bottom:14px}
+#pg.xvs .xhg,#pg.xvs .xu{min-width:0}
+#pg.xvs .xhg>:first-child{margin-top:0}
+#pg.xvs .xu{margin-bottom:24px}
+#pg.xvs .xu>:last-child{margin-bottom:0!important}
+#pg.xvs .xs>.sh2{margin:10px 0 16px}
 </style>
 <script>
 {
 /* ===== Versión 6.0 =====
    1) «Editar artículo» ya no está en Más opciones: se mantiene presionada la portada en Mi Biblioteca (botón «Editar»).
    2) El tamaño del texto ya no se sincroniza entre dispositivos (cada uno conserva el suyo).
-   3) Nueva vista «Expandido» (Más opciones): solo pantallas grandes. Se desactiva sola con la StudyBar fija. */
+   3) Nueva vista «Expandido» (Más opciones): solo pantallas grandes. Se desactiva sola con la StudyBar fija.
+   (6.1) Expandido por secciones: cabecera arriba; pregunta + recuadro + párrafo siempre juntos; cada subtítulo, una sección. */
 const XI='<svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>';
 const docked=()=>!!(sOpen&&cur&&S.dock&&!SP);
 const xvOn=()=>{const a=A();return !!(S.xv&&!isSmall()&&cur&&a&&!a.doc&&!edit&&!ns&&!docked())};
@@ -1838,16 +1849,47 @@ window.xvItem=()=>{const a=A();if(isSmall()||(a&&a.doc))return '';
  return `<button data-a="xv">${XI}Expandido: ${S.xv?(docked()?'On · en pausa':'On'):'Off'}</button>`};
 
 let xro=null,raf=0;
+const WR='.xh,.xhg,.xs,.xg,.xu';
+/* Qué es cada elemento del artículo */
+const kind=el=>el.matches('.lab')?'lab':el.matches('h1')?'h1':el.matches('figure')?'img':el.matches('.song')?'song':el.matches('h2')?'h':el.matches('.qt')?'quote':el.matches('.box')?'box':el.matches('.qs')?'q':el.matches('p.p')?(el.dataset.num?'np':'p'):'o';
+const mkd=(c,kids)=>{const d=document.createElement('div');d.className=c;kids.forEach(k=>d.appendChild(k));return d};
+const items=pg=>pg.classList.contains('xvs')?[...pg.querySelectorAll('.xg>.xu')]:[...pg.children];
 const span=el=>{const cs=getComputedStyle(el),h=el.getBoundingClientRect().height+(parseFloat(cs.marginTop)||0)+(parseFloat(cs.marginBottom)||0);
  el.style.gridRowEnd='span '+Math.max(1,Math.ceil(h/4))};
-const lay=()=>{raf=0;const pg=$('#pg');if(!pg||!pg.classList.contains('xvg'))return;[...pg.children].forEach(span)};
+const lay=()=>{raf=0;const pg=$('#pg');if(!pg||!(pg.classList.contains('xvs')||pg.classList.contains('xvg')))return;items(pg).forEach(span)};
 const later=()=>{if(!raf)raf=requestAnimationFrame(lay)};
-function xvSync(){const pg=$('#pg');if(!pg)return;const on=xvOn(),was=pg.classList.contains('xvg');
- pg.classList.toggle('xvg',on);document.documentElement.classList.toggle('xv',on);
- if(xro){xro.disconnect()}
- if(on){if(window.ResizeObserver){xro=xro||new ResizeObserver(later);[...pg.children].forEach(c=>xro.observe(c))}lay()}
- else if(was){[...pg.children].forEach(c=>{c.style.gridRowEnd=''})}
- if(on!==was&&window.niPlace)niPlace()}
+
+/* Lógica de secciones:
+   · Cabecera = todo lo anterior a la primera pregunta, subtítulo o párrafo numerado. Se divide en el grupo del título
+     (etiqueta, título, semana, canción) y el grupo del tema (texto temático, recuadro TEMA).
+   · Cada subtítulo abre una sección nueva; las secciones se apilan una debajo de otra.
+   · Dentro de una sección, la unidad es: pregunta(s) + recuadro de respuesta + su párrafo (y la imagen que le sigue). Nunca se separan.
+   · Las unidades de una misma sección se acomodan una al lado de otra y luego hacia abajo. */
+function build(pg){const els=[...pg.children],ks=els.map(kind),he=ks.findIndex(k=>k=='q'||k=='h'||k=='np');
+ if(he<0)return 'g';
+ const head=els.slice(0,he),hk=ks.slice(0,he);let n=0;while(n<head.length&&/^(lab|h1|p|song|img)$/.test(hk[n]))n++;
+ const A=head.slice(0,n),B=head.slice(n),out=[];
+ if(head.length)out.push(mkd('xh',[A.length?mkd('xhg',A):null,B.length?mkd('xhg',B):null].filter(Boolean)));
+ const secs=[];let cs=null;
+ els.slice(he).forEach((el,i)=>{const k=ks[he+i];if(k=='h'){cs={h:el,it:[]};secs.push(cs)}else{if(!cs){cs={h:null,it:[]};secs.push(cs)}cs.it.push([el,k])}});
+ secs.forEach(sc=>{const us=[];let u=null;
+  sc.it.forEach(([el,k])=>{
+   if(k=='q'){if(!u||u.o!='q'){u={e:[],o:'q'};us.push(u)}u.e.push(el)}
+   else if(k=='np'||k=='p'){if(u&&u.o=='q'){u.e.push(el);u.o='x'}else{u={e:[el],o:'p'};us.push(u)}}
+   else if(k=='img'&&u&&u.o!='q'){u.e.push(el)}
+   else{u={e:[el],o:'x'};us.push(u)}});
+  out.push(mkd('xs',[...(sc.h?[sc.h]:[]),mkd('xg',us.map(u=>mkd('xu',u.e)))]))});
+ pg.replaceChildren(...out);return 's'}
+function unbuild(pg){const flat=[],walk=n=>[...n.children].forEach(c=>c.matches(WR)?walk(c):flat.push(c));walk(pg);
+ pg.replaceChildren(...flat);flat.forEach(c=>{c.style.gridRowEnd=''})}
+
+function xvSync(){const pg=$('#pg');if(!pg)return;const on=xvOn(),built=pg.classList.contains('xvs')||pg.classList.contains('xvg');
+ document.documentElement.classList.toggle('xv',on);
+ if(xro)xro.disconnect();
+ if(!on){if(built){unbuild(pg);pg.classList.remove('xvs','xvg');if(window.niPlace)niPlace()}return}
+ if(!built){const m=build(pg);pg.classList.add(m=='s'?'xvs':'xvg');if(window.niPlace)niPlace()}
+ if(window.ResizeObserver){xro=xro||new ResizeObserver(later);items(pg).forEach(c=>xro.observe(c))}
+ lay()}
 window.xvSync=xvSync;
 
 const _mn6=main;main=function(){const r=_mn6.apply(this,arguments);try{xvSync()}catch(_){}return r};
