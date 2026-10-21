@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#fff;--ink:#222;--mut:#6c6c6c;--chip:#efefef;--sheet:#f3f3f3;--card:#fff;--or:#e37b00;--blue:#2a6fc4;--pur:#6b3fa0;--line:#e2e2e2;--ic:#5b3c88;--fs:17px;
---pink:#ec5f9a;--orange:#f08a1c;--yellow:#f2c600;--green:#4cae5a;--bl:#3b8be0;--purple:#8a5bd0;
+--pink:#ec5f9a;--orange:#f08a1c;--yellow:#f2c600;--green:#4cae5a;--bl:#3b8be0;--purple:#8a5bd0;--gray:#8e8e93;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#151515;--ink:#ececec;--mut:#a0a0a0;--chip:#2b2b2b;--sheet:#202020;--card:#2a2a2a;--blue:#7db4f5;--line:#383838}}
 :root[data-theme="dark"]{--bg:#151515;--ink:#ececec;--mut:#a0a0a0;--chip:#2b2b2b;--sheet:#202020;--card:#2a2a2a;--blue:#7db4f5;--line:#383838}
@@ -39,7 +39,7 @@ h1{color:var(--or);font-size:clamp(26px,5vw,34px);line-height:1.12;margin:0 0 20
 figure{margin:0 0 1.2em}figure img{width:100%;border-radius:20px;display:block;cursor:zoom-in}figcaption{font-size:13px;color:var(--mut);margin-top:6px}
 .ref{color:var(--blue);font-weight:600;cursor:pointer}
 .hl{border-radius:5px;cursor:pointer;background:color-mix(in srgb,var(--c) 40%,transparent)}
-.c-pink{--c:var(--pink)}.c-orange{--c:var(--orange)}.c-yellow{--c:var(--yellow)}.c-green{--c:var(--green)}.c-blue{--c:var(--bl)}.c-purple{--c:var(--purple)}
+.c-pink{--c:var(--pink)}.c-orange{--c:var(--orange)}.c-yellow{--c:var(--yellow)}.c-green{--c:var(--green)}.c-blue{--c:var(--bl)}.c-purple{--c:var(--purple)}.c-gray{--c:var(--gray)}
 .sr{background:#ffd54a;color:#000;border-radius:4px}
 .card{background:var(--card);border-radius:22px;padding:14px 16px;margin-bottom:12px;border:1px solid var(--line)}
 .lib .card{display:flex;gap:12px;align-items:center;text-align:left;width:100%}.lib .card .lb{background:var(--or);color:#fff;border-radius:12px;padding:6px 10px;font-weight:600;font-size:13px}
@@ -121,7 +121,7 @@ window.fold=s=>String(s==null?'':s).split('').map(c=>((c.normalize('NFD')[0]||c)
 const $=s=>document.querySelector(s),E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const IC={back:'M15 5l-7 7 7 7',head:'M4 15v-3a8 8 0 0116 0v3M4 14h3v6H5a1 1 0 01-1-1zm16 0h-3v6h2a1 1 0 001-1z',srch:'M11 4a7 7 0 100 14 7 7 0 000-14zm9 16l-4.2-4.2',bm:'M7 4h10v16l-5-4-5 4z',lang:'M4 6h9M8 4v2m-3 6c3-1 5-4 6-8M6 9c1 2 3 4 5 5m3 6l4-10 4 10m-7-3h6',dots:'M5 12h.01M12 12h.01M19 12h.01',note:'M5 4h14v12l-4 4H5zM15 20v-4h4M8 9h8M8 13h4',tr:'M5 7h14M9 7V4h6v3M7 7l1 13h8l1-13',pl:'M12 5v14M5 12h14',x:'M6 6l12 12M18 6L6 18',ed:'M4 20l4-1L19 8l-3-3L5 16zM14 7l3 3',fs:'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5',tx:'M4 19l5-14 5 14M6 14h6M16 19l3-8 2 8',im:'M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M9 9h.01',ok:'M5 12l5 5 9-10',up:'M6 15l6-6 6 6',dn:'M6 9l6 6 6-6'};
 const ic=n=>`<svg viewBox="0 0 24 24"><path d="${IC[n]}"/></svg>`;
-const COLS=['pink','orange','yellow','green','blue','purple'],CN={pink:'Rosa',orange:'Naranja',yellow:'Amarillo',green:'Verde',blue:'Azul',purple:'Morado'};
+const COLS=['pink','orange','yellow','green','blue','purple','gray'],CN={pink:'Rosa',orange:'Naranja',yellow:'Amarillo',green:'Verde',blue:'Azul',purple:'Morado',gray:'Gris'};
 const RE=/(?:(?:[12] )?(?:Génesis|Éxodo|Levítico|Números|Deuteronomio|Josué|Jueces|Rut|Samuel|Reyes|Crónicas|Nehemías|Ester|Job|Salmos?|Proverbios|Eclesiastés|Isaías|Jeremías|Ezequiel|Daniel|Oseas|Joel|Amós|Jonás|Miqueas|Habacuc|Zacarías|Malaquías|Mateo|Marcos|Lucas|Juan|Hechos|Romanos|Corintios|Gálatas|Efesios|Filipenses|Colosenses|Tesalonicenses|Timoteo|Tito|Hebreos|Santiago|Pedro|Apocalipsis) \d+:\d+|(?:Filemón|Judas) \d+)(?:[-–]\d+)?/g;
 const VS={'Génesis 1:1':'En el principio crió Dios los cielos y la tierra.','Números 13:30':'Entonces Caleb hizo callar al pueblo delante de Moisés, y dijo: Subamos luego, y tomemos posesión de ella; porque más podremos nosotros que ella.','Salmos 23:1':'Jehová es mi pastor; nada me faltará.','Juan 3:16':'Porque de tal manera amó Dios al mundo, que ha dado á su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna.'};
 const seed=()=>({fs:17,verses:{},hl:[],arts:[{id:'a1',label:'12. Caleb',sub:'Seamos valientes al andar con Dios',title:'Luchó lealmente a favor de su Dios',saved:false,blocks:[
@@ -227,9 +227,21 @@ function selInfo(){const s=getSelection();if(!s.rangeCount||s.isCollapsed||edit)
 function tb(rect,ex){const t=$('#tb');t.innerHTML=COLS.map(c=>`<i class="c-${c}" data-a="col" data-v="${c}" title="${CN[c]}" role="button" aria-label="${CN[c]}"></i>`).join('')+`<button data-a="note" aria-label="Añadir nota">${ic('note')}</button>`+(ex?`<button data-a="unhl" aria-label="Quitar resaltado">${ic('tr')}</button>`:'');t.classList.add('on');
  const w=t.offsetWidth;t.style.left=Math.max(8,Math.min(innerWidth-w-8,rect.left+rect.width/2-w/2))+'px';t.style.top=Math.max(64,Math.min(innerHeight-70,rect.top>70?rect.top-52:rect.bottom+10))+'px'}
 const hideTb=()=>{$('#tb').classList.remove('on');document.querySelectorAll('.p.sel').forEach(p=>p.classList.remove('sel'))};
-let st0;document.addEventListener('selectionchange',()=>{clearTimeout(st0);st0=setTimeout(()=>{const i=selInfo();if(!i)return;
+const HL_DELAY=900;let ptrDn=false;
+const isW=(t,k)=>{const c=t[k];if(c==null)return false;if(/[\p{L}\p{N}\p{M}_]/u.test(c))return true;if(c=="'"||c=='\u2019')return /[\p{L}\p{N}]/u.test(t[k-1]||'')&&/[\p{L}\p{N}]/u.test(t[k+1]||'');return false};
+function snapSel(i){if(!i)return null;const t=(A().blocks[i.b].text)||'';let s=i.s,e=Math.min(i.e,t.length);
+ while(s<e&&/\s/.test(t[s]))s++;while(e>s&&/\s/.test(t[e-1]))e--;if(e<=s)return null;
+ while(s>0&&isW(t,s)&&isW(t,s-1))s--;while(e<t.length&&isW(t,e-1)&&isW(t,e))e++;
+ let w=false;for(let k=s;k<e;k++)if(isW(t,k)){w=true;break}if(!w)return null;
+ return{...i,s,e}}
+function mergeHl(h){if(!h||h.kind||h.note!=null)return;const t=(S.arts.find(a=>a.id==h.art)||{blocks:[]}).blocks[h.b];const tx=(t&&t.text)||'';let f=true;
+ while(f){f=false;const o=S.hl.find(k=>k!==h&&k.art==h.art&&k.b==h.b&&!k.kind&&k.note==null&&k.c==h.c&&(k.s<=h.e&&k.e>=h.s||(k.e<h.s&&!tx.slice(k.e,h.s).trim())||(h.e<k.s&&!tx.slice(h.e,k.s).trim())));
+  if(o){h.s=Math.min(h.s,o.s);h.e=Math.max(h.e,o.e);S.hl=S.hl.filter(k=>k!==o);f=true}}}
+['pointerdown'].forEach(t=>document.addEventListener(t,()=>{ptrDn=true},true));
+['pointerup','pointercancel'].forEach(t=>document.addEventListener(t,()=>{ptrDn=false;if(!getSelection().isCollapsed)document.dispatchEvent(new Event('selectionchange'))},true));
+let st0;document.addEventListener('selectionchange',()=>{clearTimeout(st0);st0=setTimeout(()=>{if(ptrDn)return;const i=snapSel(selInfo());if(!i)return;
  if(S.hl.some(h=>h.art==cur&&h.b==i.b&&!h.kind&&h.note!=null&&h.s<i.e&&h.e>i.s)){getSelection().removeAllRanges();toast('Ese texto ya tiene una nota');return}
- pend=i;const h=mk(lc,false);getSelection().removeAllRanges();save();main();pend={h:h.id};const el=document.querySelector(`[data-h="${h.id}"]`);if(el)tb(el.getBoundingClientRect(),true)},350)});
+ pend=i;const h=mk(lc,false);getSelection().removeAllRanges();save();main();pend={h:h.id};const el=document.querySelector(`[data-h="${h.id}"]`);if(el)tb(el.getBoundingClientRect(),true)},HL_DELAY)});
 $('#tb').addEventListener('mousedown',e=>e.preventDefault());
 const hidePm=()=>$('#pm').classList.remove('on');let lp;
 document.addEventListener('pointerdown',e=>{if(!e.target.closest('#pm'))hidePm();const n=e.target.closest('[data-nv]');if(!n)return;clearTimeout(lp);const x=e.clientX,y=e.clientY;lp=setTimeout(()=>{const p=$('#pm');p.innerHTML=`<button data-a="enote">${ic('ed')}Editar</button><button data-a="dnote">${ic('tr')}Borrar</button>`;p.classList.add('on');p.style.left=Math.max(8,Math.min(innerWidth-p.offsetWidth-8,x-60))+'px';p.style.top=Math.max(8,Math.min(innerHeight-p.offsetHeight-8,y+8))+'px'},500)});
@@ -259,7 +271,7 @@ const end=e=>{if(x0==null)return;x0=null;st.style.transition='';
 st.addEventListener('pointerup',end);st.addEventListener('pointercancel',end)}
 document.addEventListener('pointerdown',e=>{if(!e.target.closest('#tb,#mn,[data-a=menu]'))hideTb();if(!e.target.closest('#mn,[data-a=menu]'))$('#mn').classList.remove('on')});
 
-function mk(c,note){const i=pend;S.hl=S.hl.filter(h=>!(h.art==cur&&h.b==i.b&&h.note==null&&h.s<i.e&&h.e>i.s));const h={id:uid(),art:cur,b:i.b,s:i.s,e:i.e,c,note:note?'':null};S.hl.push(h);return h}
+function mk(c,note){const i=pend;S.hl=S.hl.filter(h=>!(h.art==cur&&h.b==i.b&&h.note==null&&h.s<i.e&&h.e>i.s));const h={id:uid(),art:cur,b:i.b,s:i.s,e:i.e,c,note:note?'':null};S.hl.push(h);if(!note)mergeHl(h);return h}
 function numHit(p,e){if(!p.dataset.num)return false;const r=p.getBoundingClientRect(),cs=getComputedStyle(p),lh=parseFloat(cs.lineHeight)||parseFloat(cs.fontSize)*1.6,w=parseFloat(getComputedStyle(p,'::before').width)||0,x=e.clientX-r.left,y=e.clientY-r.top;return x>=0&&x<=w+6&&y>=0&&y<=lh+4}
 let pd0=null;document.addEventListener('pointerdown',e=>{pd0=[e.clientX,e.clientY]},true);
 document.addEventListener('click',e=>{
@@ -295,7 +307,7 @@ document.addEventListener('click',e=>{
  case'study':sOpen=(sOpen&&!!cur&&isSmall()&&!SP&&!!S.dock)?false:true;study();break;case'ov':sv0=null;study();break;case'opennote':{if(e.detail>0&&pd0&&Math.hypot(e.clientX-pd0[0],e.clientY-pd0[1])>12)break;const p=$('#pm'),r=el.getBoundingClientRect(),x=e.detail>0?e.clientX:r.left+r.width/2,y=e.detail>0?e.clientY:r.bottom;p.innerHTML=`<button data-a="mned" data-v="${v}">${ic('ed')}Editar</button><button data-a="mndl" data-v="${v}">${ic('tr')}Borrar</button>`;p.classList.add('on');p.style.left=Math.max(8,Math.min(innerWidth-p.offsetWidth-8,x-60))+'px';p.style.top=Math.max(8,Math.min(innerHeight-p.offsetHeight-8,y+8))+'px';break}
  case'mned':{const x=S.hl.find(h=>h.id==v);hidePm();if(!x)break;sv0={t:'note',id:x.id,mode:'edit'};sOpen=true;study();{const t=document.querySelector('input[data-nt]');t&&t.focus()}break}
  case'mndl':{const x=S.hl.find(h=>h.id==v);hidePm();if(x){if(x.kind)S.hl=S.hl.filter(h=>h!==x);else x.note=null}if(sv0&&sv0.id==v)sv0=null;sv();break}case'done':sv0.mode='view';save();study();break;
-  case'col':{lc=v;if(pend.h){S.hl.find(h=>h.id==pend.h).c=v}else mk(v,false);getSelection().removeAllRanges();hideTb();pend=null;sv();break}
+  case'col':{lc=v;if(pend.h){const hh=S.hl.find(h=>h.id==pend.h);hh.c=v;mergeHl(hh)}else mk(v,false);getSelection().removeAllRanges();hideTb();pend=null;sv();break}
  case'note':{let h;if(pend.p){h={id:uid(),art:cur,b:pend.b,kind:'p',c:lc,note:'',title:''};S.hl.push(h)}else if(pend.h){h=S.hl.find(x=>x.id==pend.h);if(h.note==null)h.note=''}else h=mk(lc,true);getSelection().removeAllRanges();hideTb();pend=null;newNote(h);break}
  case'anote':{const h={id:uid(),art:cur,b:0,kind:'a',c:'purple',note:'',title:''};S.hl.push(h);newNote(h);break}
  case'num':art.blocks[+v].num=!art.blocks[+v].num;sv();break;
@@ -1023,8 +1035,13 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='3.5';
+window.APP_VERSION='3.7';
 </script>
+<!-- ===== Versión 3.7: resaltado =====
+   1) El resaltado ajusta la selección a palabras completas (nunca media palabra).
+   2) Resaltados contiguos (o separados solo por espacios) del mismo color se unen solos.
+   3) El resaltado espera 0.9 s tras el último cambio de la selección (y a que se suelte el dedo/mouse).
+   4) Nuevo color: Gris. -->
 <!-- ===== Versión 3.0: inicio de sesión con código QR =====
    En la versión de escritorio, el cuadro de sincronización muestra un QR. Al escanearlo con el
    teléfono o tablet (con la sesión ya iniciada) se entra al instante y se accede a publicaciones,
