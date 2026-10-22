@@ -167,7 +167,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 6.4</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 6.4.1</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -1079,7 +1079,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='6.4';
+window.APP_VERSION='6.4.1';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1180,7 +1180,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='6.4';
+window.APP_VERSION='6.4.1';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#nfm,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r]';
@@ -1255,7 +1255,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='6.4';
+window.APP_VERSION='6.4.1';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1314,7 +1314,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='6.4';
+window.APP_VERSION='6.4.1';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1371,7 +1371,7 @@ upd();
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='6.4';
+window.APP_VERSION='6.4.1';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1403,7 +1403,7 @@ study=function(){const r=_s.apply(this,arguments);
 #spk #spkl{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain}
 </style>
 <script>
-window.APP_VERSION='6.4';
+window.APP_VERSION='6.4.1';
 /* 5.0 · Documentos: notas libres que se guardan en Artículos */
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-a=newdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
@@ -1468,7 +1468,7 @@ body.dm #mn .mopt,body.dm #mn [data-a=anote],body.dm #mn [data-a=edit]{display:n
 .docb:empty::before{content:attr(data-ph);color:var(--mut)}
 </style>
 <script>
-window.APP_VERSION='6.4';
+window.APP_VERSION='6.4.1';
 /* 5.1 · Documentos: hoja en blanco */
 {
 const OK={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1};
@@ -1527,7 +1527,7 @@ document.addEventListener('click',e=>{
 .st .bar .ned+.ndel{margin-left:8px}
 </style>
 <script>
-window.APP_VERSION='6.4';
+window.APP_VERSION='6.4.1';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1548,7 +1548,7 @@ study=function(){const r=_s.apply(this,arguments);
 .ntw>.ib.tt svg{width:17px;height:17px}
 </style>
 <script>
-window.APP_VERSION='6.4';
+window.APP_VERSION='6.4.1';
 IC.tt='M5 6V4h14v2M12 4v16M9 20h6';
 {
 const wrap=root=>{if(!root)return;root.querySelectorAll('input[data-nt]').forEach(inp=>{
@@ -1583,7 +1583,7 @@ wrap($('#st'));wrap($('#sp'));
 .tbdd.up{top:auto;bottom:calc(100% + 8px)}
 </style>
 <script>
-window.APP_VERSION='6.4';
+window.APP_VERSION='6.4.1';
 {
 const copyTxt=t=>{const ok=()=>toast('Texto copiado');
  const fb=()=>{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0;top:0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(_){toast('No se pudo copiar')}a.remove()};
@@ -1967,7 +1967,7 @@ try{paint()}catch(_){}
 #nfm hr{border:0;border-top:1px solid var(--line);margin:6px 8px}
 </style>
 <script>
-window.APP_VERSION='6.4';
+window.APP_VERSION='6.4.1';
 {
 const STAR='M12 3l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 20.9l1.1-6.5L2.6 9.8l6.5-.9z';
 const SV=`<svg viewBox="0 0 24 24"><path d="${STAR}"/></svg>`;
@@ -2008,12 +2008,11 @@ function deco63(){const st=$('#st');if(!st||!sOpen||!cur)return;
   else if(!on&&s)s.remove()});
  /* botón de filtro + aplicación del filtro en la lista */
  if(!v&&st.querySelector('.sth')){
-  const bar=st.querySelector('.bar'),f=window.lbIds?'all':curF();
+  const bar=st.querySelector('.bar'),f=curF();
   if(bar&&!bar.querySelector('.nfb')){
    const t=`Filtrar notas (${fLabel(f)})`,b=document.createElement('button');b.type='button';b.className='bk nfb'+(f!='all'?' on':'');b.dataset.a='nfopen';
    b.setAttribute('aria-haspopup','menu');b.setAttribute('aria-expanded','false');b.title=t;b.setAttribute('aria-label',t);b.innerHTML=FI;
    const xp=bar.querySelector('.xp');xp?bar.insertBefore(b,xp):bar.appendChild(b)}
-  if(window.lbIds){st.querySelectorAll('.card.nc[data-nid]').forEach(c=>{if(!window.lbIds.includes(c.dataset.nid))c.remove()});const nb=st.querySelector('.nfb');if(nb)nb.style.display='none'}
   if(f!='all'){
    st.querySelectorAll('.card.nc[data-nid]').forEach(c=>{if(!pass(noteOf(c.dataset.nid),f))c.remove()});
    const kids=[...st.children];
@@ -2043,36 +2042,44 @@ try{study()}catch(_){}
 }
 </script>
 <style>
-/* ===== Versión 6.4: notas de imagen dentro del visor =====
-   Al abrir una imagen con nota, el botón Study sigue visible sobre el visor. Al tocarlo se abre la nota de la imagen;
-   al salir de la imagen, la StudyBar vuelve a su estado anterior. */
-html.lbn #st{z-index:95}
-html.lbn #fab{z-index:96}
+/* ===== Versión 6.4.1: nota de imagen como PopUp dentro del visor =====
+   Al abrir una imagen con nota aparece un botón circular con ícono de nota, del color de la nota. Al tocarlo se abre
+   un PopUp con la nota; se cierra al tocar fuera o al cerrar la imagen. La StudyBar no interviene. */
+#lbb{position:fixed;right:20px;bottom:calc(24px + env(safe-area-inset-bottom,0px));width:56px;height:56px;border-radius:50%;background:var(--c);color:#fff;display:none;place-items:center;z-index:96;box-shadow:0 6px 18px #0006;border:2px solid #fff8;-webkit-tap-highlight-color:transparent}
+#lbb.c-yellow{color:#222}
+#lbb.on{display:grid;animation:pop .22s}
+#lbb:active{transform:scale(.93)}
+#lbb svg{width:26px;height:26px;stroke:currentColor}
+#lbb.open{outline:3px solid #fff}
+#lbp{position:fixed;right:20px;bottom:calc(92px + env(safe-area-inset-bottom,0px));width:min(360px,calc(100vw - 24px));max-height:min(60dvh,460px);overflow:auto;z-index:97;display:none;flex-direction:column;gap:10px;transform-origin:calc(100% - 28px) 100%}
+#lbp.on{display:flex;animation:npIn .24s cubic-bezier(.2,.9,.3,1.2)}
+#lbp .lbn{border-radius:24px;padding:14px 16px;box-shadow:var(--sh2);border:1px solid color-mix(in srgb,var(--c) 55%,var(--line));background:color-mix(in srgb,var(--c) 30%,var(--card));color:var(--ink)}
+#lbp .lbn b{display:block;font-size:16px;line-height:1.3;margin:0 0 6px;overflow-wrap:anywhere}
+#lbp .lbn .nv{user-select:none;-webkit-user-select:none}
+@media(prefers-reduced-motion:reduce){#lbb.on,#lbp.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='6.4';
+window.APP_VERSION='6.4.1';
 {
-window.lbIds=null;let prev=null;const fab=$('#fab');
+const btn=document.createElement('button');btn.id='lbb';btn.type='button';btn.setAttribute('aria-haspopup','dialog');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Ver la nota de esta imagen');btn.title='Nota de la imagen';btn.innerHTML=ic('note');
+const pop=document.createElement('div');pop.id='lbp';pop.setAttribute('role','dialog');pop.setAttribute('aria-label','Nota de la imagen');
+document.body.append(btn,pop);
+const hideP=()=>{pop.classList.remove('on');btn.classList.remove('open');btn.setAttribute('aria-expanded','false')};
+const hideAll=()=>{hideP();btn.classList.remove('on')};
+let ids=null;
+const fill=()=>{pop.innerHTML=ids.map(id=>S.hl.find(k=>k.id==id)).filter(Boolean).map(x=>`<div class="lbn c-${x.c}"><b>${x.title?E(x.title):'<span style="color:var(--mut)">Sin título</span>'}</b><div class="nv">${x.note?E(x.note):'<span style="color:var(--mut)">Nota vacía</span>'}</div>${window.TG?TG(x):''}</div>`).join('')};
 const _o=openLb;
-openLb=function(im){const r=_o.apply(this,arguments);
+openLb=function(im){hideAll();ids=null;const r=_o.apply(this,arguments);
  try{const fg=im&&im.closest&&im.closest('figure[data-ib]');
-  if(fg&&cur&&!edit){const b=+fg.dataset.ib,L=S.hl.filter(h=>h.art==cur&&h.kind=='i'&&h.b==b&&h.note!=null);
-   if(L.length){window.lbIds=L.map(x=>x.id);prev={o:sOpen,v:sv0};document.documentElement.classList.add('lbn');fab.style.display='';fab.setAttribute('aria-label','Ver la nota de esta imagen')}}}catch(_){}
+  if(fg&&cur&&!edit){const L=S.hl.filter(h=>h.art==cur&&h.kind=='i'&&h.b==+fg.dataset.ib&&h.note!=null);
+   if(L.length){ids=L.map(x=>x.id);btn.className='c-'+(L[0].c||'purple')+' on'}}}catch(_){}
  return r};
 const _c=closeLb;
-closeLb=function(){const had=window.lbIds;const r=_c.apply(this,arguments);
- if(had){window.lbIds=null;document.documentElement.classList.remove('lbn');
-  if(prev){sOpen=prev.o;sv0=prev.v;prev=null}study()}
- return r};
-const _s=study;
-study=function(){const r=_s.apply(this,arguments);
- try{if(window.lbIds){fab.style.display='';fab.setAttribute('aria-label','Ver la nota de esta imagen')}}catch(_){}
- return r};
-document.addEventListener('click',e=>{if(!window.lbIds||!e.target.closest||!e.target.closest('#fab'))return;
- e.stopImmediatePropagation();e.preventDefault();
- const one=window.lbIds.length==1,open=sOpen&&((one&&sv0&&sv0.t=='note'&&sv0.id==window.lbIds[0])||(!one&&!sv0));
- if(open){sOpen=false}else{sOpen=true;sv0=one?{t:'note',id:window.lbIds[0],mode:'view'}:null}
- study()},true);
+closeLb=function(){hideAll();ids=null;return _c.apply(this,arguments)};
+document.addEventListener('click',e=>{if(!ids)return;const t=e.target;if(!t.closest)return;
+ if(t.closest('#lbb')){e.stopImmediatePropagation();e.preventDefault();
+  if(pop.classList.contains('on'))hideP();else{fill();pop.classList.add('on');btn.classList.add('open');btn.setAttribute('aria-expanded','true')}return}
+ if(pop.classList.contains('on')){e.stopImmediatePropagation();e.preventDefault();if(!t.closest('#lbp'))hideP()}},true);
 }
 </script>
 </body></html>
