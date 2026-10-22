@@ -167,7 +167,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 6.4.5</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 6.5</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -1079,7 +1079,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='6.4.5';
+window.APP_VERSION='6.5';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1180,7 +1180,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='6.4.5';
+window.APP_VERSION='6.5';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#nfm,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r]';
@@ -1202,7 +1202,7 @@ const cx=()=>innerWidth/2,cy=()=>innerHeight/2;
 const apply=()=>{im.style.transform=(z.s==1&&!z.x&&!z.y)?'':`translate(${z.x}px,${z.y}px) scale(${z.s})`};
 const clampT=()=>{const mx=Math.max(0,(im.offsetWidth*z.s-innerWidth)/2),my=Math.max(0,(im.offsetHeight*z.s-innerHeight)/2);z.x=Math.max(-mx,Math.min(mx,z.x));z.y=Math.max(-my,Math.min(my,z.y))};
 const reset=()=>{z={s:1,x:0,y:0};P.clear();g=null;im.classList.remove('gz');apply()};
-const mark=()=>{moved=true;clearTimeout(mvT);mvT=setTimeout(()=>{moved=false},450)};
+window.lbReset=reset;const mark=()=>{moved=true;clearTimeout(mvT);mvT=setTimeout(()=>{moved=false},450)};
 const zoomAt=(ns,fx,fy)=>{const k=ns/z.s;z.x=(fx-cx())-k*((fx-cx())-z.x);z.y=(fy-cy())-k*((fy-cy())-z.y);z.s=ns};
 const ready=()=>lb.classList.contains('sh');
 const startG=()=>{const v=[...P.values()];
@@ -1255,7 +1255,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='6.4.5';
+window.APP_VERSION='6.5';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1314,7 +1314,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='6.4.5';
+window.APP_VERSION='6.5';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1371,7 +1371,7 @@ upd();
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='6.4.5';
+window.APP_VERSION='6.5';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1403,7 +1403,7 @@ study=function(){const r=_s.apply(this,arguments);
 #spk #spkl{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain}
 </style>
 <script>
-window.APP_VERSION='6.4.5';
+window.APP_VERSION='6.5';
 /* 5.0 · Documentos: notas libres que se guardan en Artículos */
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-a=newdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
@@ -1468,7 +1468,7 @@ body.dm #mn .mopt,body.dm #mn [data-a=anote],body.dm #mn [data-a=edit]{display:n
 .docb:empty::before{content:attr(data-ph);color:var(--mut)}
 </style>
 <script>
-window.APP_VERSION='6.4.5';
+window.APP_VERSION='6.5';
 /* 5.1 · Documentos: hoja en blanco */
 {
 const OK={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1};
@@ -1527,7 +1527,7 @@ document.addEventListener('click',e=>{
 .st .bar .ned+.ndel{margin-left:8px}
 </style>
 <script>
-window.APP_VERSION='6.4.5';
+window.APP_VERSION='6.5';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1548,7 +1548,7 @@ study=function(){const r=_s.apply(this,arguments);
 .ntw>.ib.tt svg{width:17px;height:17px}
 </style>
 <script>
-window.APP_VERSION='6.4.5';
+window.APP_VERSION='6.5';
 IC.tt='M5 6V4h14v2M12 4v16M9 20h6';
 {
 const wrap=root=>{if(!root)return;root.querySelectorAll('input[data-nt]').forEach(inp=>{
@@ -1583,7 +1583,7 @@ wrap($('#st'));wrap($('#sp'));
 .tbdd.up{top:auto;bottom:calc(100% + 8px)}
 </style>
 <script>
-window.APP_VERSION='6.4.5';
+window.APP_VERSION='6.5';
 {
 const copyTxt=t=>{const ok=()=>toast('Texto copiado');
  const fb=()=>{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0;top:0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(_){toast('No se pudo copiar')}a.remove()};
@@ -1967,7 +1967,7 @@ try{paint()}catch(_){}
 #nfm hr{border:0;border-top:1px solid var(--line);margin:6px 8px}
 </style>
 <script>
-window.APP_VERSION='6.4.5';
+window.APP_VERSION='6.5';
 {
 const STAR='M12 3l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 20.9l1.1-6.5L2.6 9.8l6.5-.9z';
 const SV=`<svg viewBox="0 0 24 24"><path d="${STAR}"/></svg>`;
@@ -2059,7 +2059,7 @@ try{study()}catch(_){}
 @media(prefers-reduced-motion:reduce){#lbb.on,#lbp.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='6.4.5';
+window.APP_VERSION='6.5';
 {
 const btn=document.createElement('button');btn.id='lbb';btn.type='button';btn.setAttribute('aria-haspopup','dialog');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Ver la nota de esta imagen');btn.title='Nota de la imagen';btn.innerHTML=ic('note');
 const pop=document.createElement('div');pop.id='lbp';pop.setAttribute('role','dialog');pop.setAttribute('aria-label','Nota de la imagen');
@@ -2069,10 +2069,11 @@ const hideAll=()=>{hideP();btn.classList.remove('on')};
 let ids=null;
 const fill=()=>{pop.innerHTML=ids.map(id=>S.hl.find(k=>k.id==id)).filter(Boolean).map(x=>`<div class="lbn c-${x.c}"><b>${x.title?E(x.title):'<span style="color:var(--mut)">Sin título</span>'}</b><div class="nv">${x.note?E(x.note):'<span style="color:var(--mut)">Nota vacía</span>'}</div>${window.TG?TG(x):''}</div>`).join('')};
 const _o=openLb;
+const setN=bi=>{hideAll();ids=null;if(bi==null||!cur||edit)return;const L=S.hl.filter(h=>h.art==cur&&h.kind=='i'&&h.b==bi&&h.note!=null);
+ if(L.length){ids=L.map(x=>x.id);btn.className='c-'+(L[0].c||'purple')+' on'}};
+window.lbNotes=setN;
 openLb=function(im){hideAll();ids=null;const r=_o.apply(this,arguments);
- try{const fg=im&&im.closest&&im.closest('figure[data-ib]');
-  if(fg&&cur&&!edit){const L=S.hl.filter(h=>h.art==cur&&h.kind=='i'&&h.b==+fg.dataset.ib&&h.note!=null);
-   if(L.length){ids=L.map(x=>x.id);btn.className='c-'+(L[0].c||'purple')+' on'}}}catch(_){}
+ try{const fg=im&&im.closest&&im.closest('figure[data-ib]');if(fg)setN(+fg.dataset.ib)}catch(_){}
  return r};
 const _c=closeLb;
 closeLb=function(){hideAll();ids=null;return _c.apply(this,arguments)};
@@ -2083,7 +2084,7 @@ document.addEventListener('click',e=>{if(!ids)return;const t=e.target;if(!t.clos
 }
 </script>
 <script>
-window.APP_VERSION='6.4.5';
+window.APP_VERSION='6.5';
 /* 6.4.5 · 1) Pantallas pequeñas (vertical): arrastrar el handle de la StudyBar hacia arriba la Expande
             (el botón «Expandir» del menú del handle sigue disponible). Estando expandida, arrastrar hacia abajo la reduce.
           2) Al subrayar / crear una nota, el artículo conserva su posición de scroll (ya no vuelve al inicio). */
@@ -2102,6 +2103,97 @@ main=function(){const keep=(cur===lastCur&&edit===lastEdit&&!!cur)?sc.scrollTop:
  const r=_m.apply(this,arguments);
  if(keep!=null){sc.scrollTop=keep;requestAnimationFrame(()=>{if(Math.abs(sc.scrollTop-keep)>1)sc.scrollTop=keep})}
  return r};
+}
+</script>
+<style>
+/* ===== Versión 6.5 =====
+   1) Visor de imágenes del artículo: galería. Se navega deslizando de lado a lado, con las flechas del teclado o con la barra
+      inferior de previews. La barra se oculta sola a los 2 s; al tocar la pantalla vuelve a aparecer. (Con galería, cerrar = botón ✕.)
+   2) StudyBar fija: si se ensancha lo suficiente, las notas se muestran en cuadrícula de 2 columnas; si se reduce, vuelve la lista normal. */
+#lbs{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);max-width:calc(100vw - 150px);display:none;gap:8px;padding:8px;border-radius:18px;background:rgba(20,20,20,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);overflow-x:auto;z-index:3;transition:opacity .3s ease,transform .3s ease;touch-action:pan-x}
+#lb.lbg.sh #lbs{display:flex}
+#lbs.hide{opacity:0;pointer-events:none;transform:translateX(-50%) translateY(14px)}
+#lbs .lbt{flex:none;width:68px;height:46px;border-radius:9px;overflow:hidden;padding:0;opacity:.65;border:2px solid transparent;background:#222;transition:opacity .2s,transform .2s,border-color .2s;-webkit-tap-highlight-color:transparent}
+#lbs .lbt.on{opacity:1;border-color:#fff;transform:scale(1.06)}
+.lbx #lbs .lbt img{position:static;width:100%;height:100%;object-fit:cover;display:block;border-radius:0;transition:none}
+#lb.lbg img:first-of-type{will-change:translate,opacity}
+.st.dk{container:stbar/inline-size}
+.ngrid{display:block}
+@container stbar (min-width:560px){
+ .ngrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
+ .ngrid>.card{margin:0}
+ .ngrid .nv2{-webkit-line-clamp:6}
+}
+</style>
+<script>
+window.APP_VERSION='6.5';
+/* 6.5 · StudyBar: agrupa las tarjetas de notas para poder mostrarlas en cuadrícula cuando hay ancho */
+{
+const _s=study;
+study=function(){const r=_s.apply(this,arguments);
+ try{const st=$('#st');let g=null;[...st.children].forEach(c=>{if(c.matches&&c.matches('.card.nc')){if(!g){g=document.createElement('div');g.className='ngrid';c.before(g)}g.appendChild(c)}else g=null})}catch(_){}
+ return r};
+try{study()}catch(_){}
+}
+/* 6.5 · Galería en el visor de imágenes */
+{
+const lb=$('#lb'),im=lb.querySelector('img');
+const strip=document.createElement('div');strip.id='lbs';strip.setAttribute('role','listbox');strip.setAttribute('aria-label','Imágenes del artículo');lb.appendChild(strip);
+let G=null,tm=0,busy=false,sp=null;const pts=new Set();
+const fitBox=(nw,nh)=>{const W=innerWidth,H=innerHeight,ar=(nw||W)/(nh||H||1);let w=W,h=W/ar;if(h>H){h=H;w=H*ar}return{left:(W-w)/2,top:(H-h)/2,width:w,height:h}};
+const showS=()=>{strip.classList.remove('hide');clearTimeout(tm);tm=setTimeout(()=>strip.classList.add('hide'),2000)};
+const center=()=>{const c=strip.querySelector('.lbt.on');if(c)strip.scrollLeft=c.offsetLeft-strip.clientWidth/2+c.offsetWidth/2};
+const figImg=bi=>document.querySelector(`#pg figure[data-ib="${bi}"] img`);
+function paint(){strip.innerHTML=G.list.map((o,i)=>`<button type="button" class="lbt${i==G.idx?' on':''}" role="option" aria-selected="${i==G.idx}" aria-label="Imagen ${i+1} de ${G.list.length}" data-lbi="${i}"><img src="${E(o.src)}" alt=""></button>`).join('');center()}
+const _o=openLb;
+openLb=function(im0){busy=false;sp=null;pts.clear();im.style.translate='';im.style.opacity='';G=null;lb.classList.remove('lbg');
+ const r=_o.apply(this,arguments);
+ try{const fg=im0&&im0.closest&&im0.closest('figure[data-ib]'),a=A();
+  if(fg&&a&&!edit){const list=[];a.blocks.forEach((b,i)=>{if(b.type=='img'&&b.src)list.push({bi:i,src:b.src})});
+   const idx=list.findIndex(o=>o.bi==+fg.dataset.ib);
+   if(list.length>1&&idx>=0){G={list,idx};lb.classList.add('lbg');paint();showS();setTimeout(center,450)}}}catch(_){}
+ return r};
+const _c=closeLb;
+closeLb=function(){if(G){G=null;busy=false;sp=null;pts.clear();clearTimeout(tm);lb.classList.remove('lbg');strip.classList.remove('hide');im.style.translate='';im.style.opacity='';im.style.transition=''}
+ return _c.apply(this,arguments)};
+async function go(n,dir0){if(!G||busy||n<0||n>=G.list.length||n==G.idx||!lb.classList.contains('sh'))return;busy=true;
+ const dir=dir0||(n>G.idx?1:-1),o=G.list[n],pre=new Image();pre.src=o.src;try{await pre.decode()}catch(_){}
+ if(!G){busy=false;return}
+ im.style.transition='translate .16s ease-in,opacity .16s ease-in';im.style.translate=`${-dir*innerWidth*.25}px 0`;im.style.opacity='0';
+ await new Promise(r=>setTimeout(r,170));
+ if(!G){busy=false;return}
+ if(window.lbReset)lbReset();
+ const nf=figImg(o.bi),old=lbEl;
+ if(nf){if(old&&old!==nf)old.style.visibility='';nf.style.visibility='hidden';lbEl=nf;try{nf.scrollIntoView({block:'center'})}catch(_){}}
+ im.style.transition='none';const b=fitBox(pre.naturalWidth,pre.naturalHeight);
+ im.src=o.src;Object.assign(im.style,{left:b.left+'px',top:b.top+'px',width:b.width+'px',height:b.height+'px',borderRadius:'0px',translate:`${dir*innerWidth*.25}px 0`});
+ im.offsetWidth;
+ im.style.transition='translate .2s ease-out,opacity .2s ease-out';im.style.translate='0px 0';im.style.opacity='1';
+ G.idx=n;paint();if(window.lbNotes)lbNotes(o.bi);
+ setTimeout(()=>{im.style.transition='';im.style.translate='';busy=false},230)}
+lb.addEventListener('pointerdown',e=>{pts.add(e.pointerId);
+ if(!G||busy||pts.size>1||!lb.classList.contains('sh')||(e.target.closest&&e.target.closest('.ib,#lbs'))){sp=null;return}
+ sp={x:e.clientX,y:e.clientY,t:Date.now(),id:e.pointerId,drag:false,dx:0}});
+lb.addEventListener('pointermove',e=>{if(!sp||e.pointerId!==sp.id)return;
+ if(pts.size>1){if(sp.drag)snap();sp=null;return}
+ const dx=e.clientX-sp.x,dy=e.clientY-sp.y;
+ if(!sp.drag){if(im.style.transform){sp=null;return}
+  if(Math.abs(dx)<10||Math.abs(dx)<Math.abs(dy)*1.2){if(Math.abs(dy)>16&&Math.abs(dy)>Math.abs(dx))sp=null;return}
+  sp.drag=true;im.style.transition='none'}
+ sp.dx=dx;const edge=(dx>0&&G.idx==0)||(dx<0&&G.idx==G.list.length-1);im.style.translate=(edge?dx*.3:dx)+'px 0'});
+function snap(){im.style.transition='translate .2s ease-out';im.style.translate='0px 0';setTimeout(()=>{if(!busy){im.style.transition='';im.style.translate=''}},220)}
+const endS=e=>{pts.delete(e.pointerId);if(!sp||e.pointerId!==sp.id)return;const s=sp;sp=null;if(!s.drag||!G)return;
+ const dx=s.dx,v=Math.abs(dx)/Math.max(1,Date.now()-s.t),dir=dx<0?1:-1,n=G.idx+dir;
+ if((Math.abs(dx)>innerWidth*.18||(Math.abs(dx)>30&&v>.5))&&n>=0&&n<G.list.length)go(n,dir);else snap()};
+lb.addEventListener('pointerup',endS);lb.addEventListener('pointercancel',endS);
+document.addEventListener('click',e=>{if(!G||!lb.classList.contains('on'))return;const t=e.target;if(!t.closest)return;
+ const b=t.closest('.lbt');
+ if(b){e.stopImmediatePropagation();e.preventDefault();showS();go(+b.dataset.lbi);return}
+ if(t.closest('#lbs')){e.stopImmediatePropagation();e.preventDefault();showS();return}
+ if(t.closest('.ib'))return;
+ if(t.closest('#lb')){e.stopImmediatePropagation();e.preventDefault();showS()}},true);
+addEventListener('keydown',e=>{if(!G||!lb.classList.contains('on'))return;
+ if(e.key=='ArrowRight'){e.preventDefault();showS();go(G.idx+1)}else if(e.key=='ArrowLeft'){e.preventDefault();showS();go(G.idx-1)}});
 }
 </script>
 </body></html>
