@@ -170,7 +170,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 7.1</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 7.1.2</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -1093,7 +1093,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1194,7 +1194,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#nfm,#tcm,#hd .t,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r]';
@@ -1269,7 +1269,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1328,7 +1328,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1385,7 +1385,7 @@ upd();
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1417,7 +1417,7 @@ study=function(){const r=_s.apply(this,arguments);
 #spk #spkl{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain}
 </style>
 <script>
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 /* 5.0 · Documentos: notas libres que se guardan en Artículos */
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-a=newdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
@@ -1482,7 +1482,7 @@ body.dm #mn .mopt,body.dm #mn [data-a=anote],body.dm #mn [data-a=edit]{display:n
 .docb:empty::before{content:attr(data-ph);color:var(--mut)}
 </style>
 <script>
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 /* 5.1 · Documentos: hoja en blanco */
 {
 const OK={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1};
@@ -1541,7 +1541,7 @@ document.addEventListener('click',e=>{
 .st .bar .ned+.ndel{margin-left:8px}
 </style>
 <script>
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1562,7 +1562,7 @@ study=function(){const r=_s.apply(this,arguments);
 .ntw>.ib.tt svg{width:17px;height:17px}
 </style>
 <script>
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 IC.tt='M5 6V4h14v2M12 4v16M9 20h6';
 {
 const wrap=root=>{if(!root)return;root.querySelectorAll('input[data-nt]').forEach(inp=>{
@@ -1597,7 +1597,7 @@ wrap($('#st'));wrap($('#sp'));
 .tbdd.up{top:auto;bottom:calc(100% + 8px)}
 </style>
 <script>
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 {
 const copyTxt=t=>{const ok=()=>toast('Texto copiado');
  const fb=()=>{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0;top:0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(_){toast('No se pudo copiar')}a.remove()};
@@ -1942,7 +1942,7 @@ html.xd-c{--xcols:repeat(auto-fill,minmax(min(var(--xw),100%),var(--xw)));--xjc:
 @media(prefers-reduced-motion:reduce){#xwp.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 /* 7.1 · «Expandida» pasa a llamarse «Expansiva». Nuevo ajuste «Ancho de párrafos»: define cuántos párrafos caben por fila y cómo se reparten. */
 {
 const MIN=240,MAX=720,DEF=340,D={s:'Rellenar todo el espacio',l:'Alinear a la izquierda',c:'Centrar'};
@@ -2049,26 +2049,27 @@ try{paint()}catch(_){}
 #nfm hr{border:0;border-top:1px solid var(--line);margin:6px 8px}
 </style>
 <script>
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 {
 const STAR='M12 3l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 20.9l1.1-6.5L2.6 9.8l6.5-.9z';
 const SV=`<svg viewBox="0 0 24 24"><path d="${STAR}"/></svg>`;
 const FI='<svg viewBox="0 0 24 24"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg>';
 const LI='<svg viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>';
 const MI='<svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M9 9.5h.01"/></svg>';
+const BI='<svg viewBox="0 0 24 24"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v16H6.5A1.5 1.5 0 0 0 5 20.5zM5 20.5A1.5 1.5 0 0 0 6.5 22H19M12 7v7M9 9.5h6"/></svg>';
 const CK='<svg class="nfk" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>';
 const noteOf=id=>S.hl.find(k=>k.id==id);
 if(S.favf){S.nf='fav';delete S.favf}
-const curF=()=>{const f=S.nf||'all';return(f=='all'||f=='fav'||f=='media'||(/^c:/.test(f)&&COLS.includes(f.slice(2))))?f:'all'};
+const curF=()=>{const f=S.nf||'all';return(f=='all'||f=='fav'||f=='media'||f=='ref'||(/^c:/.test(f)&&COLS.includes(f.slice(2))))?f:'all'};
 const hasMedia=x=>{if(x.img)return true;if(x.kind=='i'){const ar=S.arts.find(z=>z.id==x.art),b=ar&&ar.blocks[x.b];return !!(b&&b.type=='img'&&b.src)}return false};
-const pass=(x,f)=>{if(!x)return false;if(f=='all')return true;if(f=='fav')return !!x.fav;if(f=='media')return hasMedia(x);
+const pass=(x,f)=>{if(!x)return false;if(f=='all')return true;if(f=='fav')return !!x.fav;if(f=='media')return hasMedia(x);if(f=='ref')return x.kind=='v';
  if(f.slice(0,2)=='c:')return !x.kind&&x.c==f.slice(2);return true};
-const fLabel=f=>f=='all'?'Todas las notas':f=='fav'?'Elegidas':f=='media'?'Con multimedia':'Color '+(CN[f.slice(2)]||'').toLowerCase();
+const fLabel=f=>f=='all'?'Todas las notas':f=='fav'?'Elegidas':f=='media'?'Con multimedia':f=='ref'?'Con referencias bíblicas':'Color '+(CN[f.slice(2)]||'').toLowerCase();
 
 const nfm=document.createElement('div');nfm.id='nfm';nfm.className='pm';nfm.setAttribute('role','menu');nfm.setAttribute('aria-label','Filtro de notas');document.body.appendChild(nfm);
 const hideNf=()=>{nfm.classList.remove('on');const b=document.querySelector('#st .nfb');if(b)b.setAttribute('aria-expanded','false')};
 function openNf(btn){const f=curF(),it=(v,ico,t)=>`<button type="button" role="menuitemradio" aria-checked="${f==v}" class="${f==v?'on':''}" data-a="nfset" data-v="${v}">${ico}${t}${CK}</button>`;
- nfm.innerHTML=`<div class="nft">Mostrar</div>`+it('all',LI,'Todas las notas')+it('fav',SV,'Solo elegidas')+it('media',MI,'Solo con multimedia')+'<hr><div class="nft">Por color</div>'+
+ nfm.innerHTML=`<div class="nft">Mostrar</div>`+it('all',LI,'Todas las notas')+it('fav',SV,'Solo elegidas')+it('media',MI,'Solo con multimedia')+it('ref',BI,'Solo con Referencias Bíblicas')+'<hr><div class="nft">Por color</div>'+
   COLS.map(c=>it('c:'+c,`<i class="nfd c-${c}"></i>`,'Solo '+CN[c].toLowerCase())).join('');
  nfm.classList.add('on');btn.setAttribute('aria-expanded','true');
  const r=btn.getBoundingClientRect(),w=nfm.offsetWidth,h=nfm.offsetHeight;
@@ -2141,7 +2142,7 @@ try{study()}catch(_){}
 @media(prefers-reduced-motion:reduce){#lbb.on,#lbp.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 {
 const btn=document.createElement('button');btn.id='lbb';btn.type='button';btn.setAttribute('aria-haspopup','dialog');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Ver la nota de esta imagen');btn.title='Nota de la imagen';btn.innerHTML=ic('note');
 const pop=document.createElement('div');pop.id='lbp';pop.setAttribute('role','dialog');pop.setAttribute('aria-label','Nota de la imagen');
@@ -2166,7 +2167,7 @@ document.addEventListener('click',e=>{if(!ids)return;const t=e.target;if(!t.clos
 }
 </script>
 <script>
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 /* 6.4.5 · 1) Pantallas pequeñas (vertical): arrastrar el handle de la StudyBar hacia arriba la Expande
             (el botón «Expandir» del menú del handle sigue disponible). Estando expandida, arrastrar hacia abajo la reduce.
           2) Al subrayar / crear una nota, el artículo conserva su posición de scroll (ya no vuelve al inicio). */
@@ -2208,7 +2209,7 @@ main=function(){const keep=(cur===lastCur&&edit===lastEdit&&!!cur)?sc.scrollTop:
 }
 </style>
 <script>
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 /* 6.5 · StudyBar: agrupa las tarjetas de notas para poder mostrarlas en cuadrícula cuando hay ancho */
 {
 const _s=study;
@@ -2294,7 +2295,7 @@ addEventListener('keydown',e=>{if(!G||!lb.classList.contains('on'))return;
 @media(prefers-reduced-motion:reduce){#tcm.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 {
 const tcm=document.createElement('div');tcm.id='tcm';tcm.setAttribute('role','menu');tcm.setAttribute('aria-label','Subtemas del artículo');document.body.appendChild(tcm);
 const subs=()=>{const a=A();return a?a.blocks.map((b,i)=>b.type=='h'?i:-1).filter(i=>i>=0):[]};
@@ -2340,12 +2341,42 @@ const _m=main;main=function(){hide();return _m.apply(this,arguments)};
 }
 </script>
 <script>
-window.APP_VERSION='7.1';
+window.APP_VERSION='7.1.2';
 /* 6.7 · Vista Expandido compatible con la StudyBar fija (si hay espacio). Se reevalúa al cambiar el ancho del artículo. */
 {
 const mn=document.querySelector('.main');let w0=0,raf=0;
 if(window.ResizeObserver&&mn)new ResizeObserver(en=>{const w=Math.round(en[0].contentRect.width);if(Math.abs(w-w0)<2)return;w0=w;
  cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{try{window.xvSync&&xvSync()}catch(_){}try{menu()}catch(_){}})}).observe(mn);
+}
+</script>
+<style>
+/* ===== 7.1.2 · acciones visibles dentro de la nota ===== */
+.st .nacts{display:flex;gap:8px;margin:12px 0 0}
+.st .nacts button{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:99px;background:var(--chip);font-weight:600;font-size:14px;min-height:40px}
+.st .nacts button svg{width:18px;height:18px;color:var(--ic)}
+</style>
+<script>
+window.APP_VERSION='7.1.2';
+/* 7.1.2 · 1) Los indicadores de notas se recolocan al cambiar el ancho de los párrafos (o cualquier reflujo del texto).
+           2) Filtro «Solo con Referencias Bíblicas» (notas de tipo texto bíblico).
+           3) Dentro de una nota de la StudyBar, «Editar» y «Borrar» están visibles dentro de la propia nota (sin mantener presionado). */
+{
+let t=0;const ro=window.ResizeObserver?new ResizeObserver(()=>{clearTimeout(t);t=setTimeout(()=>{try{niPlace()}catch(_){}},70)}):null;
+const obs=()=>{if(!ro)return;ro.disconnect();document.querySelectorAll('#pg .p[data-b],#pg figure[data-ib] img').forEach(p=>ro.observe(p))};
+window.niReflow=()=>{obs();clearTimeout(t);t=setTimeout(()=>{try{niPlace()}catch(_){}},90)};
+const _m=main;main=function(){const r=_m.apply(this,arguments);setTimeout(obs,0);return r};
+const _x=window.xvSync;if(_x){window.xvSync=function(){const r=_x.apply(this,arguments);setTimeout(niReflow,0);return r}}
+const _a=window.xvSync;
+document.addEventListener('input',e=>{if(e.target.matches&&e.target.matches('#xwp input[type=range]'))setTimeout(niReflow,120)});
+document.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('#xwp [data-xd],#xwp [data-xz]'))setTimeout(niReflow,160)},true);
+setTimeout(obs,0);
+}
+{
+const st=$('#st'),_s=study;
+study=function(){const r=_s.apply(this,arguments);
+ try{const v=sv0;if(v&&v.t=='note'&&v.mode=='view'&&sOpen&&cur){const c=st.querySelector('.card.ncard[data-nid]:not(.nc)');
+  if(c&&!c.querySelector('.nacts'))c.insertAdjacentHTML('beforeend',`<div class="nacts"><button type="button" data-a="enote">${ic('ed')}Editar</button><button type="button" data-a="dnote">${ic('tr')}Borrar</button></div>`)}}catch(_){}
+ return r};
 }
 </script>
 </body></html>
