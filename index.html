@@ -167,7 +167,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 6.2</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 6.3</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -1079,7 +1079,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='6.2';
+window.APP_VERSION='6.3';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1180,7 +1180,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='6.2';
+window.APP_VERSION='6.3';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r]';
@@ -1255,7 +1255,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='6.2';
+window.APP_VERSION='6.3';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1314,7 +1314,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='6.2';
+window.APP_VERSION='6.3';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1371,7 +1371,7 @@ upd();
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='6.2';
+window.APP_VERSION='6.3';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1403,7 +1403,7 @@ study=function(){const r=_s.apply(this,arguments);
 #spk #spkl{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain}
 </style>
 <script>
-window.APP_VERSION='6.2';
+window.APP_VERSION='6.3';
 /* 5.0 · Documentos: notas libres que se guardan en Artículos */
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-a=newdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
@@ -1468,7 +1468,7 @@ body.dm #mn .mopt,body.dm #mn [data-a=anote],body.dm #mn [data-a=edit]{display:n
 .docb:empty::before{content:attr(data-ph);color:var(--mut)}
 </style>
 <script>
-window.APP_VERSION='6.2';
+window.APP_VERSION='6.3';
 /* 5.1 · Documentos: hoja en blanco */
 {
 const OK={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1};
@@ -1527,7 +1527,7 @@ document.addEventListener('click',e=>{
 .st .bar .ned+.ndel{margin-left:8px}
 </style>
 <script>
-window.APP_VERSION='6.2';
+window.APP_VERSION='6.3';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1548,7 +1548,7 @@ study=function(){const r=_s.apply(this,arguments);
 .ntw>.ib.tt svg{width:17px;height:17px}
 </style>
 <script>
-window.APP_VERSION='6.2';
+window.APP_VERSION='6.3';
 IC.tt='M5 6V4h14v2M12 4v16M9 20h6';
 {
 const wrap=root=>{if(!root)return;root.querySelectorAll('input[data-nt]').forEach(inp=>{
@@ -1583,7 +1583,7 @@ wrap($('#st'));wrap($('#sp'));
 .tbdd.up{top:auto;bottom:calc(100% + 8px)}
 </style>
 <script>
-window.APP_VERSION='6.2';
+window.APP_VERSION='6.3';
 {
 const copyTxt=t=>{const ok=()=>toast('Texto copiado');
  const fb=()=>{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0;top:0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(_){toast('No se pudo copiar')}a.remove()};
@@ -1940,4 +1940,70 @@ try{paint()}catch(_){}
    En la versión de escritorio, el cuadro de sincronización muestra un QR. Al escanearlo con el
    teléfono o tablet (con la sesión ya iniciada) se entra al instante y se accede a publicaciones,
    marcadores y notas. Requiere qr-login.sql y la función qr-login (ver /supabase). -->
+<style>
+/* ===== Versión 6.3: notas «Elegidas» =====
+   1) Dentro de una nota abierta en la StudyTab, un botón circular con estrella la marca o desmarca como «Elegida» (sin límite).
+   2) Las notas elegidas muestran una estrella abajo a la derecha.
+   3) En la lista de notas de la StudyTab hay un selector: Todas / Elegidas. */
+.st .bar .nfav{margin-left:auto;flex:none}
+.st .bar .nfav~.ned,.st .bar .nfav~.ndel{margin-left:8px}
+.st .bar .nfav svg{fill:none}
+.st .bar .nfav.on{color:#b8860b}
+.st .bar .nfav.on svg{fill:#f2b01e;stroke:#c98f00}
+.st .ncard.fav{position:relative;padding-bottom:36px}
+.st .ncard.fav .nstar{position:absolute;right:14px;bottom:10px;width:20px;height:20px;pointer-events:none;display:block}
+.st .ncard.fav .nstar svg{width:20px;height:20px;fill:#f2b01e;stroke:#c98f00;stroke-width:1.5}
+.nflt{display:flex;gap:6px;background:var(--chip);border-radius:99px;padding:4px;margin:0 0 12px}
+.nflt button{flex:1;padding:7px 10px;border-radius:99px;font-weight:600;font-size:13.5px;color:var(--mut);display:flex;align-items:center;justify-content:center;gap:6px}
+.nflt button.on{background:var(--card);color:var(--ink);box-shadow:var(--sh1)}
+.nflt button svg{width:15px;height:15px;fill:#f2b01e;stroke:#c98f00;stroke-width:1.7}
+</style>
+<script>
+window.APP_VERSION='6.3';
+{
+const STAR='M12 3l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 20.9l1.1-6.5L2.6 9.8l6.5-.9z';
+const SV=`<svg viewBox="0 0 24 24"><path d="${STAR}"/></svg>`;
+const noteOf=id=>S.hl.find(k=>k.id==id);
+
+function deco63(){const st=$('#st');if(!st||!sOpen||!cur)return;
+ /* a) botón estrella en la barra de la nota abierta */
+ const v=sv0;
+ if(v&&v.t=='note'){const x=noteOf(v.id),bar=st.querySelector('.bar');
+  if(x&&bar&&!bar.querySelector('.nfav')){
+   const b=document.createElement('button');b.type='button';b.className='bk nfav'+(x.fav?' on':'');b.dataset.a='nfav';b.dataset.v=x.id;
+   b.setAttribute('aria-pressed',!!x.fav);const t=x.fav?'Quitar de elegidas':'Marcar como elegida';b.title=t;b.setAttribute('aria-label',t);b.innerHTML=SV;
+   const ref=bar.querySelector('.ned,.ndel');ref?bar.insertBefore(b,ref):bar.appendChild(b)}}
+ /* b) estrella en las tarjetas de notas elegidas */
+ st.querySelectorAll('.ncard[data-nid]').forEach(c=>{const x=noteOf(c.dataset.nid),on=!!(x&&x.fav);
+  c.classList.toggle('fav',on);const s=c.querySelector('.nstar');
+  if(on&&!s)c.insertAdjacentHTML('beforeend',`<span class="nstar" aria-label="Elegida" title="Elegida">${SV}</span>`);
+  else if(!on&&s)s.remove()});
+ /* c) selector Todas / Elegidas + filtro en la lista de notas */
+ if(!v&&st.querySelector('.sth')){
+  const bar=st.querySelector('.bar'),f=!!S.favf;
+  if(bar&&!st.querySelector('.nflt'))bar.insertAdjacentHTML('afterend',`<div class="nflt" role="group" aria-label="Filtrar notas"><button type="button" data-a="nflt" data-v="all" class="${f?'':'on'}" aria-pressed="${!f}">Todas</button><button type="button" data-a="nflt" data-v="fav" class="${f?'on':''}" aria-pressed="${f}">${SV}Elegidas</button></div>`);
+  if(f){
+   st.querySelectorAll('.card.nc[data-nid]').forEach(c=>{const x=noteOf(c.dataset.nid);if(!(x&&x.fav))c.remove()});
+   const kids=[...st.children];let tot=0;
+   kids.forEach((el,i)=>{if(!el.classList.contains('sgh'))return;let n=0;
+    for(let j=i+1;j<kids.length&&!kids[j].classList.contains('sgh');j++){if(kids[j].matches('.card.nc'))n++;if(kids[j].classList.contains('sgn'))kids[j].remove()}
+    tot+=n;const bn=el.querySelector('b');if(bn)bn.textContent=n;
+    if(!n)el.insertAdjacentHTML('afterend','<div class="sgn">Sin notas elegidas</div>')});
+   if(!st.querySelector('.card.nc'))st.insertAdjacentHTML('beforeend','<div class="emp nn">No hay notas elegidas</div>')}}}
+
+const _st63=study;
+study=function(){const r=_st63.apply(this,arguments);try{deco63()}catch(_){}return r};
+
+document.addEventListener('click',e=>{
+ const fb=e.target.closest&&e.target.closest('[data-a="nfav"]');
+ if(fb){e.stopImmediatePropagation();e.preventDefault();
+  const x=noteOf(fb.dataset.v);if(!x)return;x.fav=!x.fav;if(!x.fav)delete x.fav;
+  save();study();toast(x.fav?'Nota elegida ★':'Nota quitada de elegidas');return}
+ const fl=e.target.closest&&e.target.closest('[data-a="nflt"]');
+ if(fl){e.stopImmediatePropagation();e.preventDefault();
+  S.favf=fl.dataset.v=='fav';if(!S.favf)delete S.favf;save();study()}
+},true);
+try{study()}catch(_){}
+}
+</script>
 </body></html>
