@@ -167,7 +167,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 6.5.1</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 6.5.5</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -603,6 +603,8 @@ function results(){
  if(bib.length){tot+=bib.length;h+=`<div class="sqh">Textos bíblicos (${bib.length})</div>`+bib.slice(0,MAXR).map(r=>{const t=vtext(r)||'';return`<button class="sqi" data-sq="b|${E(r)}"><b>${E(r)}</b>${t?`<span>${snip(t,k)}</span>`:''}</button>`}).join('')}
  const par=[];a.blocks.forEach((b,i)=>{const t=[b.label,b.n,b.text].filter(Boolean).join(' ');if(b.type!='img'&&has(t,m))par.push([i,t])});
  if(par.length){tot+=par.length;h+=`<div class="sqh">Párrafos (${par.length})</div>`+par.slice(0,MAXR).map(([i,t])=>`<button class="sqi" data-sq="p|${i}"><span>${snip(t,k)}</span></button>`).join('')}
+ const ans=[];a.blocks.forEach((b,i)=>{if(b.type=='q'&&b.ans&&has(b.ans,m))ans.push([i,b])});
+ if(ans.length){tot+=ans.length;h+=`<div class="sqh">Respuestas (${ans.length})</div>`+ans.slice(0,MAXR).map(([i,b])=>`<button class="sqi" data-sq="r|${i}"><b>${E((b.text||'Pregunta').replace(/\s+/g,' ').slice(0,80))}</b><span>${snip(b.ans,k)}</span></button>`).join('')}
  return tot?h:'<div class="sqe">Sin resultados</div>'}
 const closeSearch=()=>{sOn=false;q='';ri=-1;main();header();menu()};
 window.toggleSearch=()=>{if(!cur)return;if(sOn){closeSearch();study();return}sOn=true;sOpen=true;q='';ri=-1;header();menu();study();const i=$('#sqi');i&&i.focus()};
@@ -616,7 +618,7 @@ function dockUI(){
  if(d)st.querySelectorAll('[data-a=xp]').forEach(b=>b.remove());
  {const fb=$('#fab');fb.style.display=((!sOpen&&!!cur)||(on&&dSm))?'':'none';fb.setAttribute('aria-label',on&&dSm?'Cerrar pestaña de estudio':'Abrir pestaña de estudio')}
  if(on&&sOn){[...st.children].forEach(n=>{if(!n.classList.contains('hdl')&&!n.classList.contains('xr'))n.remove()});
-  st.insertAdjacentHTML('beforeend',`${xpH?`<div class="bar" style="margin:0 0 10px">${xpH}</div>`:''}<div class="sqb">${ic('srch')}<input id="sqi" type="search" value="${E(q)}" placeholder="Buscar en notas, textos y párrafos" aria-label="Buscar" autocomplete="off"></div><div id="sqr">${results()}</div>`)}}
+  st.insertAdjacentHTML('beforeend',`${xpH?`<div class="bar" style="margin:0 0 10px">${xpH}</div>`:''}<div class="sqb">${ic('srch')}<input id="sqi" type="search" value="${E(q)}" placeholder="Buscar en notas, textos, párrafos y respuestas" aria-label="Buscar" autocomplete="off"></div><div id="sqr">${results()}</div>`)}}
 const _s=study;study=function(){const r=_s.apply(this,arguments);dockUI();return r};
 let tm;
 document.addEventListener('input',e=>{if(e.target.id!='sqi')return;q=e.target.value;ri=-1;clearTimeout(tm);tm=setTimeout(()=>{const r=$('#sqr');if(r)r.innerHTML=results();if(!edit)main()},150)});
@@ -624,6 +626,8 @@ document.addEventListener('click',e=>{
  if(e.target.closest('[data-a=stx]')){sOpen=false;study();return}
  const b=e.target.closest('[data-sq]');if(!b)return;const [k,v]=[b.dataset.sq.slice(0,1),b.dataset.sq.slice(2)];
  if(k=='p'){const el=$('#pg').children[+v+2];if(el){el.scrollIntoView({block:'center',behavior:'smooth'});el.classList.remove('flashp');void el.offsetWidth;el.classList.add('flashp')}}
+ else if(k=='r'){const ta=document.querySelector('#pg textarea[data-ans="'+v+'"]'),el=ta?(ta.closest('.qs')||ta):document.querySelector('#pg [data-i="'+v+'"]');
+  if(el){el.scrollIntoView({block:'center',behavior:'smooth'});el.classList.remove('flashp');void el.offsetWidth;el.classList.add('flashp');if(ta&&ta.classList.contains('ac'))ta.click()}}
  else if(k=='n'){const x=S.hl.find(h=>h.id==v);if(!x)return;closeSearch();sv0={t:'note',id:x.id,mode:'view'};study();gotoN(x)}
  else if(k=='b'){closeSearch();sv0={t:'bible',ref:v};study()}});
 study();
@@ -1079,7 +1083,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='6.5.1';
+window.APP_VERSION='6.5.5';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1180,7 +1184,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='6.5.1';
+window.APP_VERSION='6.5.5';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#nfm,#tcm,#hd .t,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r]';
@@ -1255,7 +1259,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='6.5.1';
+window.APP_VERSION='6.5.5';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1314,7 +1318,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='6.5.1';
+window.APP_VERSION='6.5.5';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1371,7 +1375,7 @@ upd();
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='6.5.1';
+window.APP_VERSION='6.5.5';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1403,7 +1407,7 @@ study=function(){const r=_s.apply(this,arguments);
 #spk #spkl{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain}
 </style>
 <script>
-window.APP_VERSION='6.5.1';
+window.APP_VERSION='6.5.5';
 /* 5.0 · Documentos: notas libres que se guardan en Artículos */
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-a=newdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
@@ -1468,7 +1472,7 @@ body.dm #mn .mopt,body.dm #mn [data-a=anote],body.dm #mn [data-a=edit]{display:n
 .docb:empty::before{content:attr(data-ph);color:var(--mut)}
 </style>
 <script>
-window.APP_VERSION='6.5.1';
+window.APP_VERSION='6.5.5';
 /* 5.1 · Documentos: hoja en blanco */
 {
 const OK={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1};
@@ -1527,7 +1531,7 @@ document.addEventListener('click',e=>{
 .st .bar .ned+.ndel{margin-left:8px}
 </style>
 <script>
-window.APP_VERSION='6.5.1';
+window.APP_VERSION='6.5.5';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1548,7 +1552,7 @@ study=function(){const r=_s.apply(this,arguments);
 .ntw>.ib.tt svg{width:17px;height:17px}
 </style>
 <script>
-window.APP_VERSION='6.5.1';
+window.APP_VERSION='6.5.5';
 IC.tt='M5 6V4h14v2M12 4v16M9 20h6';
 {
 const wrap=root=>{if(!root)return;root.querySelectorAll('input[data-nt]').forEach(inp=>{
@@ -1583,7 +1587,7 @@ wrap($('#st'));wrap($('#sp'));
 .tbdd.up{top:auto;bottom:calc(100% + 8px)}
 </style>
 <script>
-window.APP_VERSION='6.5.1';
+window.APP_VERSION='6.5.5';
 {
 const copyTxt=t=>{const ok=()=>toast('Texto copiado');
  const fb=()=>{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0;top:0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(_){toast('No se pudo copiar')}a.remove()};
@@ -1967,7 +1971,7 @@ try{paint()}catch(_){}
 #nfm hr{border:0;border-top:1px solid var(--line);margin:6px 8px}
 </style>
 <script>
-window.APP_VERSION='6.5.1';
+window.APP_VERSION='6.5.5';
 {
 const STAR='M12 3l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 20.9l1.1-6.5L2.6 9.8l6.5-.9z';
 const SV=`<svg viewBox="0 0 24 24"><path d="${STAR}"/></svg>`;
@@ -2059,7 +2063,7 @@ try{study()}catch(_){}
 @media(prefers-reduced-motion:reduce){#lbb.on,#lbp.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='6.5.1';
+window.APP_VERSION='6.5.5';
 {
 const btn=document.createElement('button');btn.id='lbb';btn.type='button';btn.setAttribute('aria-haspopup','dialog');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Ver la nota de esta imagen');btn.title='Nota de la imagen';btn.innerHTML=ic('note');
 const pop=document.createElement('div');pop.id='lbp';pop.setAttribute('role','dialog');pop.setAttribute('aria-label','Nota de la imagen');
@@ -2084,7 +2088,7 @@ document.addEventListener('click',e=>{if(!ids)return;const t=e.target;if(!t.clos
 }
 </script>
 <script>
-window.APP_VERSION='6.5.1';
+window.APP_VERSION='6.5.5';
 /* 6.4.5 · 1) Pantallas pequeñas (vertical): arrastrar el handle de la StudyBar hacia arriba la Expande
             (el botón «Expandir» del menú del handle sigue disponible). Estando expandida, arrastrar hacia abajo la reduce.
           2) Al subrayar / crear una nota, el artículo conserva su posición de scroll (ya no vuelve al inicio). */
@@ -2126,7 +2130,7 @@ main=function(){const keep=(cur===lastCur&&edit===lastEdit&&!!cur)?sc.scrollTop:
 }
 </style>
 <script>
-window.APP_VERSION='6.5.1';
+window.APP_VERSION='6.5.5';
 /* 6.5 · StudyBar: agrupa las tarjetas de notas para poder mostrarlas en cuadrícula cuando hay ancho */
 {
 const _s=study;
@@ -2212,7 +2216,7 @@ addEventListener('keydown',e=>{if(!G||!lb.classList.contains('on'))return;
 @media(prefers-reduced-motion:reduce){#tcm.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='6.5.1';
+window.APP_VERSION='6.5.5';
 {
 const tcm=document.createElement('div');tcm.id='tcm';tcm.setAttribute('role','menu');tcm.setAttribute('aria-label','Subtemas del artículo');document.body.appendChild(tcm);
 const subs=()=>{const a=A();return a?a.blocks.map((b,i)=>b.type=='h'?i:-1).filter(i=>i>=0):[]};
