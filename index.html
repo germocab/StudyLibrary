@@ -170,7 +170,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 7.0.2</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 7.1</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -1093,7 +1093,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='7.0.2';
+window.APP_VERSION='7.1';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1194,7 +1194,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='7.0.2';
+window.APP_VERSION='7.1';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#nfm,#tcm,#hd .t,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r]';
@@ -1269,7 +1269,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='7.0.2';
+window.APP_VERSION='7.1';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1328,7 +1328,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='7.0.2';
+window.APP_VERSION='7.1';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1385,7 +1385,7 @@ upd();
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='7.0.2';
+window.APP_VERSION='7.1';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1417,7 +1417,7 @@ study=function(){const r=_s.apply(this,arguments);
 #spk #spkl{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain}
 </style>
 <script>
-window.APP_VERSION='7.0.2';
+window.APP_VERSION='7.1';
 /* 5.0 · Documentos: notas libres que se guardan en Artículos */
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-a=newdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
@@ -1482,7 +1482,7 @@ body.dm #mn .mopt,body.dm #mn [data-a=anote],body.dm #mn [data-a=edit]{display:n
 .docb:empty::before{content:attr(data-ph);color:var(--mut)}
 </style>
 <script>
-window.APP_VERSION='7.0.2';
+window.APP_VERSION='7.1';
 /* 5.1 · Documentos: hoja en blanco */
 {
 const OK={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1};
@@ -1541,7 +1541,7 @@ document.addEventListener('click',e=>{
 .st .bar .ned+.ndel{margin-left:8px}
 </style>
 <script>
-window.APP_VERSION='7.0.2';
+window.APP_VERSION='7.1';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1562,7 +1562,7 @@ study=function(){const r=_s.apply(this,arguments);
 .ntw>.ib.tt svg{width:17px;height:17px}
 </style>
 <script>
-window.APP_VERSION='7.0.2';
+window.APP_VERSION='7.1';
 IC.tt='M5 6V4h14v2M12 4v16M9 20h6';
 {
 const wrap=root=>{if(!root)return;root.querySelectorAll('input[data-nt]').forEach(inp=>{
@@ -1597,7 +1597,7 @@ wrap($('#st'));wrap($('#sp'));
 .tbdd.up{top:auto;bottom:calc(100% + 8px)}
 </style>
 <script>
-window.APP_VERSION='7.0.2';
+window.APP_VERSION='7.1';
 {
 const copyTxt=t=>{const ok=()=>toast('Texto copiado');
  const fb=()=>{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0;top:0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(_){toast('No se pudo copiar')}a.remove()};
@@ -1832,7 +1832,7 @@ dockSync();
 #lsb{gap:8px}#lsb button{padding:9px 13px}#lsb b{min-width:0;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #lsb button:disabled{opacity:.4}
 /* Vista Expandido: los elementos del artículo se acomodan uno al lado del otro y, cuando se llena la fila, hacia abajo */
-#pg.xvg{max-width:none;margin:0;padding-left:50px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));grid-auto-rows:4px;column-gap:68px;align-items:start}
+#pg.xvg{max-width:none;margin:0;padding-left:50px;display:grid;grid-template-columns:var(--xcols);justify-content:var(--xjc);grid-auto-rows:4px;column-gap:68px;align-items:start}
 #pg.xvg>*{min-width:0;align-self:start}
 #pg.xvg>:where(:not(.lab):not(h1)){margin:0 0 22px!important}
 #pg.xvg>.lab,#pg.xvg>h1{grid-column:1/-1}
@@ -1840,7 +1840,7 @@ dockSync();
 #pg.xvg>.sh2{grid-column:1/-1;margin:6px 0 16px!important}
 /* Expandido estructurado (6.1): cabecera arriba, y cada subtema es una sección con sus unidades (pregunta + recuadro + párrafo) */
 #pg.xvs{max-width:none;margin:0;padding-left:50px}
-#pg.xvs .xh,#pg.xvs .xg{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));column-gap:68px;align-items:start}
+#pg.xvs .xh,#pg.xvs .xg{display:grid;grid-template-columns:var(--xcols);justify-content:var(--xjc);column-gap:68px;align-items:start}
 #pg.xvs .xg{grid-auto-rows:4px}
 #pg.xvs .xh{margin-bottom:14px}
 #pg.xvs .xhg,#pg.xvs .xu{min-width:0}
@@ -1862,7 +1862,7 @@ const docked=()=>!!(sOpen&&cur&&S.dock&&!SP);
 const XVMIN=860,fits=()=>{if(!docked())return true;const p=Math.max(22,Math.min(78,+S.splitw||50));return innerWidth*(1-p/100)>=XVMIN};window.xvFits=fits;
 const xvOn=()=>{const a=A();return !!(S.xv&&!isSmall()&&cur&&a&&!a.doc&&!edit&&!ns&&fits())};
 window.xvItem=()=>{const a=A();if(isSmall()||(a&&a.doc))return '';
- return `<button data-a="xv">${XI}Expandido: ${S.xv?(docked()&&!fits()?'On · poco espacio':'On'):'Off'}</button>`};
+ return `<button data-a="xv">${XI}Vista Expansiva: ${S.xv?(docked()&&!fits()?'On · poco espacio':'On'):'Off'}</button>`+(S.xv?`<button data-a="xw"><svg viewBox="0 0 24 24"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg>Ancho de párrafos</button>`:'')};
 
 let xro=null,raf=0;
 const WR='.xh,.xhg,.xs,.xg,.xu';
@@ -1914,10 +1914,70 @@ addEventListener('resize',()=>{try{xvSync()}catch(_){}});
 
 document.addEventListener('click',e=>{const el=e.target.closest&&e.target.closest('[data-a="xv"]');if(!el)return;
  e.preventDefault();e.stopImmediatePropagation();S.xv=!S.xv;save();$('#mn').classList.remove('on');xvSync();menu();
- toast(S.xv?(docked()&&!fits()?'Expandido activado: se verá cuando haya más espacio':'Vista Expandido activada'):'Vista Expandido desactivada')},true);
+ toast(S.xv?(docked()&&!fits()?'Vista Expansiva activada: se verá cuando haya más espacio':'Vista Expansiva activada'):'Vista Expansiva desactivada')},true);
 try{xvSync()}catch(_){}
 }
 </script>
+<style>
+/* ===== 7.1 · Ancho de párrafos (Vista Expansiva) ===== */
+:root{--xw:340px;--xcols:repeat(auto-fill,minmax(min(var(--xw),100%),1fr));--xjc:stretch}
+html.xd-l{--xcols:repeat(auto-fill,minmax(min(var(--xw),100%),var(--xw)));--xjc:start}
+html.xd-c{--xcols:repeat(auto-fill,minmax(min(var(--xw),100%),var(--xw)));--xjc:center}
+#xwp{position:fixed;z-index:61;display:none;width:min(330px,calc(100vw - 16px));background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--sh2);padding:14px 16px 12px}
+#xwp.on{display:block;animation:mnIn .26s cubic-bezier(.2,.9,.3,1.2)}
+#xwp .xt{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);margin:0 0 8px}
+#xwp .xr{display:flex;align-items:center;gap:10px}
+#xwp input[type=range]{flex:1;accent-color:#5b3c88;height:28px}
+#xwp output{font-weight:700;min-width:54px;text-align:right;font-variant-numeric:tabular-nums}
+#xwp .xn{font-size:13px;color:var(--mut);margin:2px 0 12px}
+#xwp .xo{display:flex;flex-direction:column;gap:2px;margin:0 -6px}
+#xwp .xo button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 10px;border-radius:12px;min-height:44px}
+#xwp .xo button:hover{background:var(--chip)}
+#xwp .xo button.on{background:var(--chip);font-weight:600}
+#xwp .xo svg{width:20px;height:20px;flex:none;color:var(--ic)}
+#xwp .xo b{margin-left:auto;opacity:0;width:18px;height:18px}
+#xwp .xo button.on b{opacity:1}
+#xwp .xz{display:block;margin:8px 0 0 auto;padding:8px 12px;border-radius:99px;font-size:13px;color:var(--mut)}
+#xwp .xz:hover{background:var(--chip)}
+@media(prefers-reduced-motion:reduce){#xwp.on{animation:none}}
+</style>
+<script>
+window.APP_VERSION='7.1';
+/* 7.1 · «Expandida» pasa a llamarse «Expansiva». Nuevo ajuste «Ancho de párrafos»: define cuántos párrafos caben por fila y cómo se reparten. */
+{
+const MIN=240,MAX=720,DEF=340,D={s:'Rellenar todo el espacio',l:'Alinear a la izquierda',c:'Centrar'};
+const IC={s:'<svg viewBox="0 0 24 24"><path d="M4 5v14M20 5v14M7 12h10M7 12l3-3M7 12l3 3M17 12l-3-3M17 12l-3 3"/></svg>',
+ l:'<svg viewBox="0 0 24 24"><path d="M4 5v14M8 8h8v8H8z"/></svg>',
+ c:'<svg viewBox="0 0 24 24"><path d="M12 5v14M7 8h10v8H7z"/></svg>'};
+const CK='<b><svg viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M5 12l5 5 9-10"/></svg></b>';
+const w=()=>Math.max(MIN,Math.min(MAX,+S.xw||DEF)),d=()=>(S.xd=='l'||S.xd=='c')?S.xd:'s';
+const root=document.documentElement;
+function apply(){root.style.setProperty('--xw',w()+'px');root.classList.toggle('xd-l',d()=='l');root.classList.toggle('xd-c',d()=='c');
+ try{window.xvSync&&xvSync()}catch(_){}}
+const pn=document.createElement('div');pn.id='xwp';pn.setAttribute('role','dialog');pn.setAttribute('aria-label','Ancho de párrafos');document.body.appendChild(pn);
+const cols=()=>{const g=document.querySelector('#pg.xvs .xg, #pg.xvg');if(!g)return 0;const c=getComputedStyle(g).gridTemplateColumns;return c&&c!='none'?c.split(' ').length:0};
+function note(){const n=pn.querySelector('.xn');if(!n)return;const c=cols();n.textContent=c?(c==1?'1 párrafo por fila':c+' párrafos por fila'):'Se verá al haber espacio suficiente'}
+function draw(){pn.innerHTML=`<div class="xt">Ancho de párrafos</div><div class="xr"><input type="range" min="${MIN}" max="${MAX}" step="10" value="${w()}" aria-label="Ancho de cada párrafo"><output>${w()} px</output></div><div class="xn"></div>
+ <div class="xt">Distribución</div><div class="xo">${['s','l','c'].map(k=>`<button type="button" data-xd="${k}" class="${d()==k?'on':''}">${IC[k]}${D[k]}${CK}</button>`).join('')}</div>
+ <button type="button" class="xz" data-xz>Restablecer</button>`;note()}
+const hide=()=>pn.classList.remove('on');
+window.xwHide=hide;
+document.addEventListener('click',e=>{const t=e.target;if(!t.closest)return;
+ const b=t.closest('[data-a="xw"]');
+ if(b){e.stopImmediatePropagation();e.preventDefault();$('#mn').classList.remove('on');draw();pn.classList.add('on');
+  const W=Math.min(330,innerWidth-16);pn.style.left=Math.max(8,innerWidth-W-12)+'px';pn.style.top='64px';return}
+ const o=t.closest('#xwp [data-xd]');if(o){S.xd=o.dataset.xd;if(S.xd=='s')delete S.xd;save();apply();draw();return}
+ if(t.closest('#xwp [data-xz]')){delete S.xw;delete S.xd;save();apply();draw();return}},true);
+document.addEventListener('input',e=>{const r=e.target;if(!r.matches||!r.matches('#xwp input[type=range]'))return;
+ S.xw=+r.value;pn.querySelector('output').textContent=r.value+' px';apply();setTimeout(note,60)});
+document.addEventListener('change',e=>{if(e.target.matches&&e.target.matches('#xwp input[type=range]'))save()});
+document.addEventListener('pointerdown',e=>{if(pn.classList.contains('on')&&!e.target.closest('#xwp,[data-a="xw"]'))hide()},true);
+addEventListener('keydown',e=>{if(e.key=='Escape')hide()});
+const _m=main;main=function(){hide();return _m.apply(this,arguments)};
+apply();
+}
+</script>
+
 <style>
 /* ===== Versión 6.2: recuadros de respuesta con contenido ===== */
 .ans.ac{max-height:calc(3.7em + 22px)!important;overflow:hidden!important;cursor:pointer}
@@ -1989,7 +2049,7 @@ try{paint()}catch(_){}
 #nfm hr{border:0;border-top:1px solid var(--line);margin:6px 8px}
 </style>
 <script>
-window.APP_VERSION='7.0.2';
+window.APP_VERSION='7.1';
 {
 const STAR='M12 3l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 20.9l1.1-6.5L2.6 9.8l6.5-.9z';
 const SV=`<svg viewBox="0 0 24 24"><path d="${STAR}"/></svg>`;
@@ -2081,7 +2141,7 @@ try{study()}catch(_){}
 @media(prefers-reduced-motion:reduce){#lbb.on,#lbp.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='7.0.2';
+window.APP_VERSION='7.1';
 {
 const btn=document.createElement('button');btn.id='lbb';btn.type='button';btn.setAttribute('aria-haspopup','dialog');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Ver la nota de esta imagen');btn.title='Nota de la imagen';btn.innerHTML=ic('note');
 const pop=document.createElement('div');pop.id='lbp';pop.setAttribute('role','dialog');pop.setAttribute('aria-label','Nota de la imagen');
@@ -2106,7 +2166,7 @@ document.addEventListener('click',e=>{if(!ids)return;const t=e.target;if(!t.clos
 }
 </script>
 <script>
-window.APP_VERSION='7.0.2';
+window.APP_VERSION='7.1';
 /* 6.4.5 · 1) Pantallas pequeñas (vertical): arrastrar el handle de la StudyBar hacia arriba la Expande
             (el botón «Expandir» del menú del handle sigue disponible). Estando expandida, arrastrar hacia abajo la reduce.
           2) Al subrayar / crear una nota, el artículo conserva su posición de scroll (ya no vuelve al inicio). */
@@ -2148,7 +2208,7 @@ main=function(){const keep=(cur===lastCur&&edit===lastEdit&&!!cur)?sc.scrollTop:
 }
 </style>
 <script>
-window.APP_VERSION='7.0.2';
+window.APP_VERSION='7.1';
 /* 6.5 · StudyBar: agrupa las tarjetas de notas para poder mostrarlas en cuadrícula cuando hay ancho */
 {
 const _s=study;
@@ -2234,7 +2294,7 @@ addEventListener('keydown',e=>{if(!G||!lb.classList.contains('on'))return;
 @media(prefers-reduced-motion:reduce){#tcm.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='7.0.2';
+window.APP_VERSION='7.1';
 {
 const tcm=document.createElement('div');tcm.id='tcm';tcm.setAttribute('role','menu');tcm.setAttribute('aria-label','Subtemas del artículo');document.body.appendChild(tcm);
 const subs=()=>{const a=A();return a?a.blocks.map((b,i)=>b.type=='h'?i:-1).filter(i=>i>=0):[]};
@@ -2280,7 +2340,7 @@ const _m=main;main=function(){hide();return _m.apply(this,arguments)};
 }
 </script>
 <script>
-window.APP_VERSION='7.0.2';
+window.APP_VERSION='7.1';
 /* 6.7 · Vista Expandido compatible con la StudyBar fija (si hay espacio). Se reevalúa al cambiar el ancho del artículo. */
 {
 const mn=document.querySelector('.main');let w0=0,raf=0;
