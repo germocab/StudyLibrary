@@ -167,7 +167,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 6.8</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 6.8.5</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar otro fragmento, selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -1090,7 +1090,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='6.8';
+window.APP_VERSION='6.8.5';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1191,7 +1191,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='6.8';
+window.APP_VERSION='6.8.5';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#nfm,#tcm,#hd .t,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r]';
@@ -1266,7 +1266,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='6.8';
+window.APP_VERSION='6.8.5';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1325,7 +1325,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='6.8';
+window.APP_VERSION='6.8.5';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1382,7 +1382,7 @@ upd();
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='6.8';
+window.APP_VERSION='6.8.5';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1414,7 +1414,7 @@ study=function(){const r=_s.apply(this,arguments);
 #spk #spkl{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain}
 </style>
 <script>
-window.APP_VERSION='6.8';
+window.APP_VERSION='6.8.5';
 /* 5.0 · Documentos: notas libres que se guardan en Artículos */
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-a=newdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
@@ -1479,7 +1479,7 @@ body.dm #mn .mopt,body.dm #mn [data-a=anote],body.dm #mn [data-a=edit]{display:n
 .docb:empty::before{content:attr(data-ph);color:var(--mut)}
 </style>
 <script>
-window.APP_VERSION='6.8';
+window.APP_VERSION='6.8.5';
 /* 5.1 · Documentos: hoja en blanco */
 {
 const OK={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1};
@@ -1538,7 +1538,7 @@ document.addEventListener('click',e=>{
 .st .bar .ned+.ndel{margin-left:8px}
 </style>
 <script>
-window.APP_VERSION='6.8';
+window.APP_VERSION='6.8.5';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1559,7 +1559,7 @@ study=function(){const r=_s.apply(this,arguments);
 .ntw>.ib.tt svg{width:17px;height:17px}
 </style>
 <script>
-window.APP_VERSION='6.8';
+window.APP_VERSION='6.8.5';
 IC.tt='M5 6V4h14v2M12 4v16M9 20h6';
 {
 const wrap=root=>{if(!root)return;root.querySelectorAll('input[data-nt]').forEach(inp=>{
@@ -1594,7 +1594,7 @@ wrap($('#st'));wrap($('#sp'));
 .tbdd.up{top:auto;bottom:calc(100% + 8px)}
 </style>
 <script>
-window.APP_VERSION='6.8';
+window.APP_VERSION='6.8.5';
 {
 const copyTxt=t=>{const ok=()=>toast('Texto copiado');
  const fb=()=>{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0;top:0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(_){toast('No se pudo copiar')}a.remove()};
@@ -1926,7 +1926,7 @@ try{xvSync()}catch(_){}
    Un recuadro de respuesta CON contenido que no cabe en ~3 líneas se muestra recortado; al presionarlo se despliega
    para ver todo (sin abrir el teclado). Al tocar fuera, o al terminar de escribir, vuelve a recortarse.
    Si el contenido ya cabe, o el recuadro está vacío, funciona como siempre (se escribe de inmediato). */
-let open=null,quiet=false;
+let open=null,quiet=false,hv=null;
 function collapse(t){if(!t||!t.isConnected)return;if(open===t)open=null;
  t.classList.remove('ac','ov');t.readOnly=false;t.removeAttribute('title');
  if(!t.value.trim())return;
@@ -1935,11 +1935,17 @@ function collapse(t){if(!t||!t.isConnected)return;if(open===t)open=null;
  else t.classList.remove('ac')}
 function expand(t){t.classList.remove('ac','ov');t.readOnly=false;t.removeAttribute('title');rs(t);open=t;
  if(document.activeElement===t){quiet=true;t.blur();quiet=false}}
-const paint=()=>document.querySelectorAll('#pg .ans').forEach(t=>{if(t===document.activeElement||t===open)return;collapse(t)});
+const paint=()=>document.querySelectorAll('#pg .ans').forEach(t=>{if(t===document.activeElement||t===open||t===hv)return;collapse(t)});
 
 document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('.ans.ac');if(!t)return;e.preventDefault();expand(t)},true);
 document.addEventListener('keydown',e=>{const t=e.target;if(t&&t.classList&&t.classList.contains('ac')&&(e.key=='Enter'||e.key==' ')){e.preventDefault();expand(t)}},true);
 document.addEventListener('pointerdown',e=>{if(open&&e.target!==open)collapse(open)},true);
+/* 6.8.5 · Hover (solo mouse): el recuadro recortado se expande mientras el mouse está encima; al salir vuelve a recortarse. Presionarlo lo deja abierto. */
+document.addEventListener('pointerover',e=>{if(e.pointerType!='mouse')return;const t=e.target.closest&&e.target.closest('.ans.ac');if(!t||(e.relatedTarget&&t.contains(e.relatedTarget)))return;
+ t.classList.remove('ac','ov');t.readOnly=false;t.removeAttribute('title');rs(t);hv=t});
+document.addEventListener('pointerout',e=>{if(!hv||e.pointerType!='mouse')return;const t=e.target.closest&&e.target.closest('.ans');if(t!==hv||(e.relatedTarget&&hv.contains(e.relatedTarget)))return;
+ hv=null;if(open!==t&&document.activeElement!==t)collapse(t)});
+document.addEventListener('pointerdown',e=>{if(hv&&e.target===hv){open=hv;hv=null}},true);
 document.addEventListener('focusout',e=>{const t=e.target;if(quiet||!t||!t.classList||!t.classList.contains('ans'))return;setTimeout(()=>{if(document.activeElement!==t)collapse(t)},0)});
 
 const _mn62=main;main=function(){const r=_mn62.apply(this,arguments);open=null;try{paint()}catch(_){}return r};
@@ -1980,7 +1986,7 @@ try{paint()}catch(_){}
 #nfm hr{border:0;border-top:1px solid var(--line);margin:6px 8px}
 </style>
 <script>
-window.APP_VERSION='6.8';
+window.APP_VERSION='6.8.5';
 {
 const STAR='M12 3l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 20.9l1.1-6.5L2.6 9.8l6.5-.9z';
 const SV=`<svg viewBox="0 0 24 24"><path d="${STAR}"/></svg>`;
@@ -2072,7 +2078,7 @@ try{study()}catch(_){}
 @media(prefers-reduced-motion:reduce){#lbb.on,#lbp.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='6.8';
+window.APP_VERSION='6.8.5';
 {
 const btn=document.createElement('button');btn.id='lbb';btn.type='button';btn.setAttribute('aria-haspopup','dialog');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Ver la nota de esta imagen');btn.title='Nota de la imagen';btn.innerHTML=ic('note');
 const pop=document.createElement('div');pop.id='lbp';pop.setAttribute('role','dialog');pop.setAttribute('aria-label','Nota de la imagen');
@@ -2097,7 +2103,7 @@ document.addEventListener('click',e=>{if(!ids)return;const t=e.target;if(!t.clos
 }
 </script>
 <script>
-window.APP_VERSION='6.8';
+window.APP_VERSION='6.8.5';
 /* 6.4.5 · 1) Pantallas pequeñas (vertical): arrastrar el handle de la StudyBar hacia arriba la Expande
             (el botón «Expandir» del menú del handle sigue disponible). Estando expandida, arrastrar hacia abajo la reduce.
           2) Al subrayar / crear una nota, el artículo conserva su posición de scroll (ya no vuelve al inicio). */
@@ -2139,7 +2145,7 @@ main=function(){const keep=(cur===lastCur&&edit===lastEdit&&!!cur)?sc.scrollTop:
 }
 </style>
 <script>
-window.APP_VERSION='6.8';
+window.APP_VERSION='6.8.5';
 /* 6.5 · StudyBar: agrupa las tarjetas de notas para poder mostrarlas en cuadrícula cuando hay ancho */
 {
 const _s=study;
@@ -2225,7 +2231,7 @@ addEventListener('keydown',e=>{if(!G||!lb.classList.contains('on'))return;
 @media(prefers-reduced-motion:reduce){#tcm.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='6.8';
+window.APP_VERSION='6.8.5';
 {
 const tcm=document.createElement('div');tcm.id='tcm';tcm.setAttribute('role','menu');tcm.setAttribute('aria-label','Subtemas del artículo');document.body.appendChild(tcm);
 const subs=()=>{const a=A();return a?a.blocks.map((b,i)=>b.type=='h'?i:-1).filter(i=>i>=0):[]};
@@ -2271,7 +2277,7 @@ const _m=main;main=function(){hide();return _m.apply(this,arguments)};
 }
 </script>
 <script>
-window.APP_VERSION='6.8';
+window.APP_VERSION='6.8.5';
 /* 6.7 · Vista Expandido compatible con la StudyBar fija (si hay espacio). Se reevalúa al cambiar el ancho del artículo. */
 {
 const mn=document.querySelector('.main');let w0=0,raf=0;
