@@ -1,9 +1,9 @@
-/* JW Library Pro · Service Worker (v7.1.2)
+/* JW Library Pro · Service Worker (v7.2)
    - Precachea la app para que abra sin conexión.
    - HTML: red primero (siempre la última versión) y caché si no hay conexión.
    - Archivos estáticos, fuentes y librerías: caché primero y se actualizan en segundo plano.
    - Supabase (sincronización / sesión) nunca se guarda en caché. */
-const VERSION = '7.1.2';
+const VERSION = '7.2';
 const CACHE = 'biblioteca-' + VERSION;
 const ICONS = 'favicon_io%20(1)/';
 const SHELL = [
