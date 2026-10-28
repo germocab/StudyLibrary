@@ -122,7 +122,7 @@ textarea.n,.card textarea{width:100%;border:0;background:var(--chip);border-radi
 <script>
 window.fold=s=>String(s==null?'':s).split('').map(c=>((c.normalize('NFD')[0]||c).toLowerCase()[0])||c).join('');
 const $=s=>document.querySelector(s),E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const IC={back:'M15 5l-7 7 7 7',head:'M4 15v-3a8 8 0 0116 0v3M4 14h3v6H5a1 1 0 01-1-1zm16 0h-3v6h2a1 1 0 001-1z',srch:'M11 4a7 7 0 100 14 7 7 0 000-14zm9 16l-4.2-4.2',bm:'M7 4h10v16l-5-4-5 4z',lang:'M4 6h9M8 4v2m-3 6c3-1 5-4 6-8M6 9c1 2 3 4 5 5m3 6l4-10 4 10m-7-3h6',dots:'M5 12h.01M12 12h.01M19 12h.01',note:'M5 4h14v12l-4 4H5zM15 20v-4h4M8 9h8M8 13h4',tr:'M5 7h14M9 7V4h6v3M7 7l1 13h8l1-13',pl:'M12 5v14M5 12h14',x:'M6 6l12 12M18 6L6 18',ed:'M4 20l4-1L19 8l-3-3L5 16zM14 7l3 3',fs:'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5',tx:'M4 19l5-14 5 14M6 14h6M16 19l3-8 2 8',im:'M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M9 9h.01',ok:'M5 12l5 5 9-10',up:'M6 15l6-6 6 6',dn:'M6 9l6 6 6-6',cp:'M9 9h11v11H9zM5 15V5h10'};
+const IC={back:'M15 5l-7 7 7 7',head:'M5 4h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1zM10 8.5v7l6-3.5z',srch:'M11 4a7 7 0 100 14 7 7 0 000-14zm9 16l-4.2-4.2',bm:'M7 4h10v16l-5-4-5 4z',lang:'M4 6h9M8 4v2m-3 6c3-1 5-4 6-8M6 9c1 2 3 4 5 5m3 6l4-10 4 10m-7-3h6',dots:'M5 12h.01M12 12h.01M19 12h.01',note:'M5 4h14v12l-4 4H5zM15 20v-4h4M8 9h8M8 13h4',tr:'M5 7h14M9 7V4h6v3M7 7l1 13h8l1-13',pl:'M12 5v14M5 12h14',x:'M6 6l12 12M18 6L6 18',ed:'M4 20l4-1L19 8l-3-3L5 16zM14 7l3 3',fs:'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5',tx:'M4 19l5-14 5 14M6 14h6M16 19l3-8 2 8',im:'M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M9 9h.01',ok:'M5 12l5 5 9-10',up:'M6 15l6-6 6 6',dn:'M6 9l6 6 6-6',cp:'M9 9h11v11H9zM5 15V5h10'};
 const ic=n=>`<svg viewBox="0 0 24 24"><path d="${IC[n]}"/></svg>`;
 const COLS=['pink','orange','yellow','green','blue','purple','gray'],CN={pink:'Rosa',orange:'Naranja',yellow:'Amarillo',green:'Verde',blue:'Azul',purple:'Morado',gray:'Gris'};
 const RE=/(?:(?:[12] )?(?:Génesis|Éxodo|Levítico|Números|Deuteronomio|Josué|Jueces|Rut|Samuel|Reyes|Crónicas|Nehemías|Ester|Job|Salmos?|Proverbios|Eclesiastés|Isaías|Jeremías|Ezequiel|Daniel|Oseas|Joel|Amós|Jonás|Miqueas|Habacuc|Zacarías|Malaquías|Mateo|Marcos|Lucas|Juan|Hechos|Romanos|Corintios|Gálatas|Efesios|Filipenses|Colosenses|Tesalonicenses|Timoteo|Tito|Hebreos|Santiago|Pedro|Apocalipsis) \d+:\d+|(?:Filemón|Judas) \d+)(?:[-–]\d+)?/g;
@@ -188,7 +188,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 9.10</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 9.15</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar cualquier otro fragmento (a un texto normal, un texto bíblico, otro artículo o una página web), selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><div class="lks" id="e-tl">${LKH(lkT(a,-1),-1)}</div><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -2444,7 +2444,7 @@ const sec=(t,ic,L,msg)=>`<section class="sec"><h2>${ic||''}${t}</h2>${shelf(L,ms
 function home(){const sm=isSmall(),rec=S.arts.filter(a=>a.ro).sort((x,y)=>y.ro-x.ro).slice(0,8),fav=S.arts.filter(a=>a.fav);
  return `<div class="ep${sm?' sm':''}">`+sec('Recientes',HI,rec,'Aún no has abierto nada')+sec('Favoritos',HR,fav,'No hay favoritos')+
   (sm?sec('Todo',IT,S.arts,'Aún no tienes nada. Toca + para crear un artículo o documento.'):sec('Artículos',IA,arts(),'No hay artículos')+sec('Documentos',ID,docs(),'No hay documentos'))+
-  `<p class="ep-hint">Versión 9.10</p></div>`}
+  `<p class="ep-hint">Versión 9.15</p></div>`}
 const CL='<svg viewBox="0 0 24 24"><path d="M18 10a6 6 0 0 0-11.6-1.5A4.5 4.5 0 0 0 7 18h11a4 4 0 0 0 0-8z"/></svg>';
 const syCls=()=>{const y=document.getElementById('sy');return y?(y.className.match(/\b(ok|sync|err)\b/)||[''])[0]:''};
 const syBtn=()=>`<button class="ib syb ${syCls()}" data-a="syopen" aria-label="Sincronización" title="Sincronización">${CL}<i></i></button>`;
@@ -2996,6 +2996,24 @@ body.anon #ann{pointer-events:auto;touch-action:none;cursor:crosshair}
    4) Artículo: el botón Idioma de la barra superior pasa a ser Anotaciones; Idioma queda dentro de «Más opciones».
    5) StudyBar: mantener presionada una nota permite seleccionar varias para cambiarles el color o borrarlas. */
 .menu .mlang{display:flex!important}
+/* ===== Versión 9.15 =====
+   1) StudyBar: al seleccionar varias notas también se pueden marcar como «Elegidas».
+   2) El menú de colores de la selección muestra cada color junto a su nombre.
+   3) Nuevo ícono para el botón Medios.
+   4) Documentos Handnote sin límites laterales: se puede escribir y dibujar en todo el ancho de la pantalla.
+   5) StudyBoard (solo pantallas grandes): la StudyBar en forma pequeña y casi cuadrada, que se mueve a cualquier parte de la pantalla.
+      Menú del handle: «Usar como Board» / «Usar como Bar». */
+.hdw{border:0;border-radius:0;overflow:visible}
+#nsm button{gap:12px;font-weight:600;margin:2px 0}
+#nsm button[data-nsc]{background:color-mix(in srgb,var(--c) 24%,transparent)}
+#nsm button i.nfd{width:24px;height:24px;background:var(--c)}
+.st .nsbar [data-ns=f].on svg{fill:currentColor}
+.st.bd{left:var(--bx,auto)!important;top:var(--by,80px)!important;right:auto!important;bottom:auto!important;width:min(420px,calc(100vw - 24px))!important;height:min(460px,calc(100dvh - 24px))!important;max-width:none!important;max-height:none!important;border-radius:28px!important;box-shadow:var(--sh2,0 10px 40px #0006)!important;border:1px solid var(--line)!important;z-index:30}
+.st.bd.cl{border-radius:50%!important}
+.st.bd .hdl{position:sticky;top:0;z-index:3;background:var(--sbg,var(--sheet));cursor:grab;margin:-6px 0 0;padding:10px 0 14px}
+.st.bd .hdl:active{cursor:grabbing}
+.st.bd .xp,.st.bd .xr{display:none!important}
+.app.bdm:not(.spl):not(.spr) .main{margin-left:0!important;margin-right:0!important}
 .menu .mann{display:none!important}
 @media(max-width:600px){.menu .mann{display:flex!important}}
 .hd.cmp .menu .mann{display:flex!important}
@@ -3017,7 +3035,7 @@ body.anon #ann{pointer-events:auto;touch-action:none;cursor:crosshair}
 </style>
 <script>
 {
-window.APP_VERSION='9.10';
+window.APP_VERSION='9.15';
 const LW=900,TH=1024,BK='#1a1a1a',WH='#ffffff',CO=[BK,WH,'#2a6fc4','#c0392b'],CN={[BK]:'Negro',[WH]:'Blanco','#2a6fc4':'Azul','#c0392b':'Rojo'},SZ=[2.5,4.5,8],
  SV=d=>`<svg viewBox="0 0 24 24"><path d="${d}"/></svg>`,
  I={pen:SV('M4 20l1-4L16 5a2.1 2.1 0 013 3L8 19zM14 7l3 3'),er:SV('M20 20H9l-5-5a2 2 0 010-3l8-8a2 2 0 013 0l5 5a2 2 0 010 3l-8 8M8 9l7 7'),
@@ -3152,7 +3170,9 @@ function mountHn(){const v=sv0,st=$('#st'),x=v&&v.t=='note'&&v.mode=='edit'?S.hl
  if(!hro&&window.ResizeObserver){hro=new ResizeObserver(()=>fitHn());hro.observe(st)}}
 
 /* ---- Documento Handnote: hoja que solo se usa con lápiz; el título es lo único con teclado ---- */
-function fitHd(){const w=HD.host&&HD.host.parentNode;if(!w)return;const W=w.clientWidth;if(W<50)return;const g=W+'x'+HD.LH;if(HD.fg==g)return;HD.fg=g;build(HD,W,HD.LH*W/1000,W/1000);repaint(HD)}
+function fitHd(){const w=HD.host&&HD.host.parentNode;if(!w)return;const W=w.clientWidth;if(W<50)return;const sc=scE(),u=W/1000,
+ L=sc?Math.max(0,Math.round(w.getBoundingClientRect().left-sc.getBoundingClientRect().left-(sc.clientLeft||0)+sc.scrollLeft)):0,FW=sc?Math.max(W,sc.clientWidth):W,
+ g=W+'x'+HD.LH+'x'+L+'x'+FW;if(HD.fg==g)return;HD.fg=g;HD.ox=L/u;HD.host.style.marginLeft=(-L)+'px';build(HD,FW,HD.LH*u,u);repaint(HD)}
 HD.changed=()=>{const a=A();if(!a||a.id!=HD.id)return;a.hs=HD.strokes;let m=0;HD.strokes.forEach(s=>{const b=bb(s);if(b[3]>m)m=b[3]});
  if(m>HD.LH-500){HD.LH+=1000;fitHd()}a.hh=HD.LH;saveSoon();refreshTb()};
 function hdocMain(){const a=A(),pg=$('#pg'),DT='Documento sin título';document.body.classList.add('dm');edit=false;sOn=false;sOpen=false;$('#sb').classList.remove('on');pg.className='pg';
@@ -3163,7 +3183,7 @@ function hdocMain(){const a=A(),pg=$('#pg'),DT='Documento sin título';document.
  ti.addEventListener('keydown',e=>{if(e.key=='Enter'){e.preventDefault();ti.blur()}});
  HD.host=w.firstChild;HD.tiles=[];HD.fg='';HD.id=a.id;HD.strokes=Array.isArray(a.hs)?a.hs:[];HD.undo=[];HD.redo=[];HD.LH=a.hh||1600;
  attach(HD.host,HD);fitHd();bindSc();refreshTb();
- if(window.ResizeObserver){if(hdro)hdro.disconnect();hdro=new ResizeObserver(()=>fitHd());hdro.observe(w)}
+ if(window.ResizeObserver){if(hdro)hdro.disconnect();hdro=new ResizeObserver(()=>fitHd());hdro.observe(w);{const sc=scE();if(sc)hdro.observe(sc)}}
  if(def)setTimeout(()=>ti.focus(),60)}
 
 /* ---- Anotaciones (solo lápiz; cada trazo se ancla al elemento donde empieza) ---- */
@@ -3245,6 +3265,7 @@ let NS=null,lpT=null,lpOn=false,sx=0,sy=0;
 const stE=()=>document.querySelector('#st'),CARD='.card.nc[data-nid]',
  CKS='<span class="nck"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>',
  XS='<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+ STR='<svg viewBox="0 0 24 24"><path d="M12 3l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 20.9l1.1-6.5L2.6 9.8l6.5-.9z"/></svg>',
  PAL='<svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 100 18c1.4 0 2-.9 2-1.8 0-1.2-.9-1.4-.9-2.5 0-1 .8-1.7 1.9-1.7H17a4 4 0 004-4c0-4.4-4-8-9-8zM7.5 12h.01M9.5 8h.01M14.5 8h.01"/></svg>';
 const cm=document.createElement('div');cm.id='nsm';cm.className='pm';cm.setAttribute('role','menu');cm.setAttribute('aria-label','Color de las notas');document.body.appendChild(cm);
 const hideCm=()=>cm.classList.remove('on');
@@ -3257,9 +3278,10 @@ function paintNS(){const s=stE();if(!s)return;
  let b=s.querySelector('.nsbar');
  if(!NS){if(b)b.remove();hideCm();return}
  if(!b){b=document.createElement('div');b.className='bar nsbar';
-  b.innerHTML=`<button type="button" class="bk" data-ns="x" aria-label="Cancelar selección" title="Cancelar">${XS}</button><b></b><button type="button" class="bk" data-ns="c" aria-label="Cambiar color" title="Cambiar color">${PAL}</button><button type="button" class="bk" data-ns="d" aria-label="Borrar notas" title="Borrar">${ic('tr')}</button>`;
+  b.innerHTML=`<button type="button" class="bk" data-ns="x" aria-label="Cancelar selección" title="Cancelar">${XS}</button><b></b><button type="button" class="bk" data-ns="f" aria-label="Marcar como Elegidas" title="Marcar como Elegidas">${STR}</button><button type="button" class="bk" data-ns="c" aria-label="Cambiar color" title="Cambiar color">${PAL}</button><button type="button" class="bk" data-ns="d" aria-label="Borrar notas" title="Borrar">${ic('tr')}</button>`;
   const f=s.querySelector('.bar');f?f.insertAdjacentElement('afterend',b):s.appendChild(b)}
- const n=NS.size;b.querySelector('b').textContent=n+(n==1?' seleccionada':' seleccionadas')}
+ const n=NS.size;b.querySelector('b').textContent=n+(n==1?' seleccionada':' seleccionadas');
+ {const fb=b.querySelector('[data-ns=f]'),all=[...NS].every(i=>{const x=S.hl.find(h=>h.id==i);return x&&x.fav});fb.classList.toggle('on',all);const t=all?'Quitar de Elegidas':'Marcar como Elegidas';fb.title=t;fb.setAttribute('aria-label',t)}}
 const _sN=study;study=function(){const r=_sN.apply(this,arguments);try{paintNS()}catch(e){console.error(e)}return r};
 document.addEventListener('pointerdown',e=>{lpOn=false;if(NS||sv0)return;
  const c=e.target.closest&&e.target.closest('#st '+CARD);if(!c||e.button>0)return;const s=stE();if(!s||!s.querySelector('.sth'))return;
@@ -3281,13 +3303,54 @@ window.addEventListener('click',e=>{const t=e.target;if(!t.closest)return;
   toast(T.length?(T.length==1?'Color cambiado':'Color cambiado en '+T.length+' notas'):'Las notas de artículo no tienen color');return}
  const b=t.closest('[data-ns]');if(!b)return;e.stopImmediatePropagation();e.preventDefault();const a=b.dataset.ns;
  if(a=='x'){NS=null;hideCm();paintNS()}
+ else if(a=='f'){const L=[...NS].map(i=>S.hl.find(h=>h.id==i)).filter(Boolean);if(!L.length)return;const on=L.some(x=>!x.fav);L.forEach(x=>{if(on)x.fav=true;else delete x.fav});NS=null;hideCm();save();study();toast(on?'Notas marcadas como Elegidas':'Notas quitadas de Elegidas')}
  else if(a=='c'){if(cm.classList.contains('on')){hideCm();return}
-  cm.innerHTML='<div class="nft">Color de las notas</div>'+COLS.map(k=>`<button type="button" role="menuitem" data-nsc="${k}"><i class="nfd c-${k}"></i>${CN[k]}</button>`).join('');
+  cm.innerHTML='<div class="nft">Color de las notas</div>'+COLS.map(k=>`<button type="button" role="menuitem" class="c-${k}" data-nsc="${k}"><i class="nfd"></i><span>${CN[k]}</span></button>`).join('');
   cm.classList.add('on');const r=b.getBoundingClientRect(),w=cm.offsetWidth,h=cm.offsetHeight;
   cm.style.left=Math.max(8,Math.min(innerWidth-w-8,r.right-w))+'px';cm.style.top=Math.max(8,Math.min(innerHeight-h-8,r.bottom+8))+'px'}
  else if(a=='d'){if(!NS||!NS.size)return;const n=NS.size;if(!confirm(n==1?'¿Borrar esta nota?':'¿Borrar '+n+' notas?'))return;
   [...NS].forEach(i=>{const x=S.hl.find(h=>h.id==i);if(x)delNote(x)});NS=null;hideCm();sv();toast(n==1?'Nota borrada':n+' notas borradas')}
 },true);
+}
+</script>
+<script>
+/* ===== Versión 9.15 · StudyBoard: la StudyBar en forma pequeña, movible por toda la pantalla (solo pantallas grandes) ===== */
+{
+const KEY='jwl_board',hmE=document.getElementById('hm');
+let BD={on:false,x:null,y:null};try{Object.assign(BD,JSON.parse(localStorage.getItem(KEY))||{})}catch(_){}
+const saveBd=()=>{try{localStorage.setItem(KEY,JSON.stringify(BD))}catch(_){}},
+ boardOn=()=>!!BD.on&&!isSmall(),
+ BDI='<svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="3"/><path d="M9 9h6"/></svg>',
+ BAI='<svg viewBox="0 0 24 24"><path d="M14 4h6v16h-6zM4 4h7v16H4z"/></svg>';
+function size(){const st=document.querySelector('#st'),r=st?st.getBoundingClientRect():null;return[r&&r.width>50?r.width:Math.min(420,innerWidth-24),r&&r.height>50?r.height:Math.min(460,innerHeight-24)]}
+function clampBd(){const[w,h]=size();if(BD.x==null||BD.y==null){BD.x=innerWidth-w-24;BD.y=innerHeight-h-24}
+ BD.x=Math.round(Math.max(-(w-110),Math.min(innerWidth-110,BD.x)));BD.y=Math.round(Math.max(0,Math.min(innerHeight-70,BD.y)))}
+function applyBd(){const st=document.querySelector('#st');if(!st)return;clampBd();st.style.setProperty('--bx',BD.x+'px');st.style.setProperty('--by',BD.y+'px')}
+function applyBoard(){const st=document.querySelector('#st'),ap=document.querySelector('#app'),on=boardOn();if(!st||!ap)return;
+ st.classList.toggle('bd',on);ap.classList.toggle('bdm',on&&sOpen&&!!cur);if(on){st.classList.remove('full','dk','dkl','dkr');applyBd()}}
+const _sB=study;study=function(){if(boardOn()&&S.dock){S.dock=null;save()}const r=_sB.apply(this,arguments);try{applyBoard()}catch(e){console.error(e)}return r};
+addEventListener('resize',()=>{if(boardOn()){applyBd();saveBd()}});
+matchMedia('(max-width:899px)').addEventListener('change',()=>{try{study()}catch(_){}});
+/* Menú del handle */
+const place=()=>{const h=document.querySelector('#st .hdl');if(!h)return;const r=h.getBoundingClientRect();hmE.style.left=Math.max(8,Math.min(innerWidth-hmE.offsetWidth-8,r.left+r.width/2-hmE.offsetWidth/2))+'px';hmE.style.top=(r.bottom+4)+'px'};
+new MutationObserver(()=>{if(!hmE.classList.contains('on')||isSmall()||boardOn()||hmE.querySelector('[data-hm=bd]'))return;
+ if(!document.querySelector('#st .hdl'))return;hmE.insertAdjacentHTML('beforeend',`<button data-hm="bd">${BDI}Usar como Board</button>`);place()}).observe(hmE,{attributes:true,attributeFilter:['class']});
+function boardMenu(){hmE.innerHTML=`<button data-hm="x">${ic('x')||''}Cerrar</button><button data-hm="bu">${BAI}Usar como Bar</button>`;hmE.classList.add('on');place()}
+/* Arrastrar el handle (solo en modo Board); un toque abre el menú */
+let drag=null;
+window.addEventListener('pointerdown',e=>{if(!boardOn())return;const h=e.target.closest&&e.target.closest('#st .hdl');if(!h||e.button>0)return;
+ e.stopImmediatePropagation();e.preventDefault();hmE.classList.remove('on');const r=document.querySelector('#st').getBoundingClientRect();
+ drag={id:e.pointerId,sx:e.clientX,sy:e.clientY,x:r.left,y:r.top,mv:false};try{h.setPointerCapture(e.pointerId)}catch(_){}},true);
+window.addEventListener('pointermove',e=>{if(!drag||e.pointerId!==drag.id)return;const dx=e.clientX-drag.sx,dy=e.clientY-drag.sy;
+ if(!drag.mv&&Math.hypot(dx,dy)>6)drag.mv=true;if(!drag.mv)return;e.preventDefault();BD.x=drag.x+dx;BD.y=drag.y+dy;applyBd()},true);
+['pointerup','pointercancel'].forEach(t=>window.addEventListener(t,e=>{if(!drag||e.pointerId!==drag.id)return;const d=drag;drag=null;
+ if(!d.mv&&t=='pointerup')boardMenu();else saveBd()},true));
+/* Usar como Board / Usar como Bar */
+window.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#hm [data-hm=bd],#hm [data-hm=bu]');if(!b)return;
+ e.stopImmediatePropagation();e.preventDefault();hmE.classList.remove('on');
+ if(b.dataset.hm=='bd'){if(isSmall())return;BD.on=true;S.dock=null;save();saveBd();study()}
+ else{BD.on=false;saveBd();study()}},true);
+try{applyBoard()}catch(_){}
 }
 </script>
 </body></html>
