@@ -188,7 +188,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 9.5.5</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 9.7</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar cualquier otro fragmento (a un texto normal, un texto bíblico, otro artículo o una página web), selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><div class="lks" id="e-tl">${LKH(lkT(a,-1),-1)}</div><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -2441,7 +2441,7 @@ const sec=(t,ic,L,msg)=>`<section class="sec"><h2>${ic||''}${t}</h2>${shelf(L,ms
 function home(){const sm=isSmall(),rec=S.arts.filter(a=>a.ro).sort((x,y)=>y.ro-x.ro).slice(0,8),fav=S.arts.filter(a=>a.fav);
  return `<div class="ep${sm?' sm':''}">`+sec('Recientes',HI,rec,'Aún no has abierto nada')+sec('Favoritos',HR,fav,'No hay favoritos')+
   (sm?sec('Todo',IT,S.arts,'Aún no tienes nada. Toca + para crear un artículo o documento.'):sec('Artículos',IA,arts(),'No hay artículos')+sec('Documentos',ID,docs(),'No hay documentos'))+
-  `<p class="ep-hint">Versión 9.5.5</p></div>`}
+  `<p class="ep-hint">Versión 9.7</p></div>`}
 const CL='<svg viewBox="0 0 24 24"><path d="M18 10a6 6 0 0 0-11.6-1.5A4.5 4.5 0 0 0 7 18h11a4 4 0 0 0 0-8z"/></svg>';
 const syCls=()=>{const y=document.getElementById('sy');return y?(y.className.match(/\b(ok|sync|err)\b/)||[''])[0]:''};
 const syBtn=()=>`<button class="ib syb ${syCls()}" data-a="syopen" aria-label="Sincronización" title="Sincronización">${CL}<i></i></button>`;
@@ -2956,15 +2956,21 @@ document.addEventListener('click',e=>{
 })();
 </script>
 <style>
-/* ===== Versión 9.5 · Handnote en la StudyBar + Anotaciones de artículo ===== */
+/* ===== Versión 9.7 · Handnote a pantalla completa en la StudyBar, Documentos Handnote, menú "+" y motor de dibujo por teselas ===== */
 .toast{z-index:300}
 .nim.hnim{background:transparent!important;border:0;object-fit:contain;width:100%}
+.hnpv{height:96px;overflow:hidden;border-radius:10px;margin-top:8px}
+.hnpv img.nim{width:100%!important;height:100%!important;max-height:none!important;object-fit:cover;object-position:top left;display:block;border:0}
 .hnbtn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);display:inline-grid;place-items:center;padding:0;box-shadow:var(--sh1);cursor:pointer;flex:none}
 .hnbtn.on{background:var(--ic);border-color:var(--ic);color:var(--bg)}
-.hnbtn svg,.hntb svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hnbtn svg,.hntb svg,#nwm svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.st .bar .nfav+.hnbtn{margin-left:8px}.st .bar .hnbtn{width:42px;height:42px}
+.card.hmc textarea[data-n],.card.hmc .nimr{display:none!important}
 .hnx{margin:10px 0 4px}
-.hnx .hnp{margin-top:8px;border-radius:12px;border:1px dashed color-mix(in srgb,var(--ink) 35%,transparent);overflow:hidden}
-.hnx canvas{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.hnp,.hdw{margin-top:8px;border-radius:12px;border:1px dashed color-mix(in srgb,var(--ink) 35%,transparent);overflow:hidden}
+.hnp{display:flex;justify-content:center;align-items:flex-start}
+.hnh,.hdh{position:relative;flex:none;touch-action:none;cursor:crosshair;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.hdp .hntb{position:sticky;top:0;z-index:4;margin:6px 0}
 .hntb{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;padding:6px 8px;background:var(--card);border:1px solid var(--line);border-radius:16px}
 .hntb .g{display:flex;gap:6px;align-items:center;padding-right:8px;border-right:1px solid var(--line)}
 .hntb .g:last-child{border:0;padding-right:0}
@@ -2977,37 +2983,37 @@ document.addEventListener('click',e=>{
 #pg{position:relative}
 #ann{position:absolute;left:0;top:0;pointer-events:none;z-index:5;-webkit-user-select:none;user-select:none}
 body.anon #ann{pointer-events:auto;touch-action:none;cursor:crosshair}
-.st .bar .nfav+.hnbtn{margin-left:8px}.st .bar .hnbtn{width:42px;height:42px}
-.card.hmc textarea[data-n],.card.hmc .nimr{display:none!important}
-.card.hmc .hnx{margin:10px 0}
 #anb{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:60;max-width:calc(100vw - 16px);box-shadow:0 10px 30px #0004}
+#nwm{min-width:250px;padding:8px}#nwm button{min-height:48px;gap:12px}
 </style>
 <script>
 {
-window.APP_VERSION='9.5.5';
-const LW=900,K=2,BK='#1a1a1a',WH='#ffffff',CO=[BK,WH,'#2a6fc4','#c0392b'],CN={[BK]:'Negro',[WH]:'Blanco','#2a6fc4':'Azul','#c0392b':'Rojo'},
- SZ=[2.5,4.5,8], /* 3 tamaños fijos del lápiz */
+window.APP_VERSION='9.7';
+const LW=900,TH=1024,BK='#1a1a1a',WH='#ffffff',CO=[BK,WH,'#2a6fc4','#c0392b'],CN={[BK]:'Negro',[WH]:'Blanco','#2a6fc4':'Azul','#c0392b':'Rojo'},SZ=[2.5,4.5,8],
  SV=d=>`<svg viewBox="0 0 24 24"><path d="${d}"/></svg>`,
  I={pen:SV('M4 20l1-4L16 5a2.1 2.1 0 013 3L8 19zM14 7l3 3'),er:SV('M20 20H9l-5-5a2 2 0 010-3l8-8a2 2 0 013 0l5 5a2 2 0 010 3l-8 8M8 9l7 7'),
   un:SV('M9 14L4 9l5-5M4 9h10a6 6 0 010 12h-3'),re:SV('M15 14l5-5-5-5M20 9H10a6 6 0 000 12h3'),tr:SV('M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3'),
-  ok:SV('M5 12.5l4.5 4.5L19 7.5'),dd:SV('M3 16c2.5-6 4-8 5.5-6S9 17 12 15s2-8 4.5-7 1 6 4.5 5')};
+  ok:SV('M5 12.5l4.5 4.5L19 7.5'),dd:SV('M3 16c2.5-6 4-8 5.5-6S9 17 12 15s2-8 4.5-7 1 6 4.5 5'),
+  lk:SV('M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1'),fp:SV('M6 3h8l4 4v14H6zM14 3v4h4M12 11v6M9 14h6'),dc:SV('M6 3h8l4 4v14H6zM14 3v4h4M9 13h6M9 17h6')};
 const T={tool:'pen',color:null,size:1},col=()=>T.color||(isDark()?WH:BK),pr=e=>e.pointerType=='pen'?Math.round((e.pressure||.5)*10)/10:.5;
-const HN={id:null,strokes:[],undo:[],redo:[],LH:675,R:24,ws:3,k:K,cv:null,cur:null},
-      AN={id:null,strokes:[],undo:[],redo:[],R:10,ws:1,k:1,cv:null,cur:null,on:false,penOnly:true};
-const hnImg=x=>x.hn?`<img class="nim hnim" src="${x.hn}" alt="Handnote">`:'';
+const mkS=o=>Object.assign({strokes:[],undo:[],redo:[],cur:null,tiles:[],host:null,u:1,k:1,w:0,h:0},o);
+const HN=mkS({id:null,LH:675,R:24,ws:3}),AN=mkS({id:null,R:10,ws:1,cull:true,penOnly:true,on:false}),HD=mkS({id:null,LH:1600,R:20,ws:1.5,cull:true,penOnly:true}),SF={h:HN,a:AN,d:HD};
+let NSM='',hro=null,hdro=null,aro=null,rt=0,rq=0,sq=0,svT=0;
+const saveSoon=()=>{clearTimeout(svT);svT=setTimeout(()=>{svT=0;save()},500)},flushSave=()=>{if(svT){clearTimeout(svT);svT=0;save()}};
+addEventListener('pagehide',()=>{flushHn();flushSave()});document.addEventListener('visibilitychange',()=>{if(document.hidden){flushHn();flushSave()}});
 
 /* ---- Integración con las notas ---- */
+const hnImg=x=>x.hn?`<img class="nim hnim" src="${x.hn}" alt="Handnote">`:'';
 const oV=NIMG.view,oT=NIMG.thumb;
 NIMG.view=x=>hnImg(x)+oV(x);
-NIMG.thumb=x=>(x.hn?`<img class="nim hnim sm" src="${x.hn}" alt="Handnote">`:'')+oT(x);
+NIMG.thumb=x=>(x.hn?`<div class="hnpv"><img class="nim hnim" src="${x.hn}" alt="Handnote"></div>`:'')+oT(x); /* vista previa de tamaño fijo */
 NIMG.editImg=x=>x.img?`<div class="nimr"><img class="nim" src="${x.img}" alt=""></div>`:'';
-NIMG.editBtns=()=>'';/* ya no se agregan imágenes a las notas; el botón Handnote está en la barra superior */
-/* En SplitView / panel flotante ya no se abre Handnote: solo se muestra */
+NIMG.editBtns=()=>'';
 NIMG.edit=x=>(x.hn||x.img)?`<div class="nimr">${hnImg(x)}${x.img?`<img class="nim" src="${x.img}" alt="">`:''}</div>`:'';
 function fix(){document.querySelectorAll('#st .nv2,#st .nv').forEach(el=>{const c=el.closest('[data-nid],[data-nv]');if(!c)return;
  const x=S.hl.find(h=>h.id==(c.dataset.nid||c.dataset.nv));el.style.display=(x&&((x.hm&&el.classList.contains('nv'))||(x.hn&&!x.note&&el.textContent.trim()=='Nota vacía')))?'none':''})}
 
-/* ---- Dibujo (compartido por Handnote y Anotaciones) ---- */
+/* ---- Trazos ---- */
 function dstroke(g,s,k){
  const q=s.q,n=q.length;if(!n)return;
  g.save();g.lineCap='round';g.lineJoin='round';g.strokeStyle=g.fillStyle=s.c;
@@ -3027,110 +3033,173 @@ function hit(s,p,R){const q=s.q,r=R+s.w/2;
   let t=l?((p[0]-a[0])*dx+(p[1]-a[1])*dy)/l:0;t=Math.max(0,Math.min(1,t));
   if(Math.hypot(p[0]-(a[0]+t*dx),p[1]-(a[1]+t*dy))<=r)return true}
  return false}
-function mkp(S){let raf=0;S.paint=()=>{if(raf)return;raf=requestAnimationFrame(()=>{raf=0;if(!S.cv)return;const g=S.cv.getContext('2d');g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,S.cv.width,S.cv.height);
- S.strokes.forEach(s=>dstroke(g,s,S.k));if(S.cur)dstroke(g,S.cur,S.k)})}}
-function attach(cv,S){let pid=null,pre=null,pen=false,pan=null;mkp(S);
- const era=p=>{const k=S.strokes.filter(s=>!hit(s,p,S.R));if(k.length!=S.strokes.length){if(pre){S.undo.push(pre);pre=null;S.redo=[]}S.strokes=k;S.paint();S.changed()}};
- cv.onpointerdown=e=>{if(S.penOnly&&e.pointerType!='pen'){if(e.pointerType=='touch')pan={id:e.pointerId,x:e.clientX,y:e.clientY};return}if(e.pointerType=='pen')pen=true;if(e.pointerType=='touch'&&pen)return;if(pid!==null||e.button>0)return;
-  e.preventDefault();pid=e.pointerId;try{cv.setPointerCapture(pid)}catch(_){}const p=S.pt(e);
-  if(T.tool=='er'){pre=S.strokes;era(p)}else{S.cur={t:'p',c:col(),w:SZ[T.size]*S.ws,q:[p]};S.paint()}};
- cv.onpointermove=e=>{if(pan&&e.pointerId===pan.id){const sc=scE();if(sc){sc.scrollTop-=e.clientY-pan.y;sc.scrollLeft-=e.clientX-pan.x}pan.x=e.clientX;pan.y=e.clientY;return}if(e.pointerId!==pid)return;e.preventDefault();const L=e.getCoalescedEvents?e.getCoalescedEvents():[];
-  (L.length?L:[e]).forEach(ev=>{const p=S.pt(ev);if(T.tool=='er')era(p);else if(S.cur){const l=S.cur.q[S.cur.q.length-1];if(Math.hypot(p[0]-l[0],p[1]-l[1])>=.8)S.cur.q.push(p)}});S.paint()};
- cv.onpointerup=cv.onpointercancel=e=>{if(pan&&e.pointerId===pan.id){pan=null;return}if(e.pointerId!==pid)return;const s=S.cur;S.cur=null;pid=null;pre=null;
-  if(s&&e.type!='pointercancel')commit(S,S.strokes.concat([s]));S.paint()};
- cv.oncontextmenu=e=>e.preventDefault()}
-function commit(S,next){S.undo.push(S.strokes);if(S.undo.length>80)S.undo.shift();S.redo=[];S.strokes=next;S.paint();S.changed()}
+
+const BB=new WeakMap();
+const bb=s=>{let b=BB.get(s);if(!b){let a=1e9,c=1e9,d=-1e9,e=-1e9;s.q.forEach(p=>{if(p[0]<a)a=p[0];if(p[0]>d)d=p[0];if(p[1]<c)c=p[1];if(p[1]>e)e=p[1]});const r=s.w*1.5+1;b=[a-r,c-r,d+r,e+r];BB.set(s,b)}return b};
+const hitB=(s,p,R)=>{const b=bb(s);return p[0]>=b[0]-R&&p[0]<=b[2]+R&&p[1]>=b[1]-R&&p[1]<=b[3]+R&&hit(s,p,R)};
+
+/* ---- Motor por teselas: lienzos de 1024 px que solo existen cerca de la pantalla; el trazo en curso se dibuja segmento a segmento ---- */
+function build(S,w,h,u){S.w=w;S.h=h;S.u=u;S.k=Math.min(window.devicePixelRatio||1,2);S.host.style.width=w+'px';S.host.style.height=h+'px';
+ const n=Math.max(1,Math.ceil(h/TH));while(S.tiles.length>n)S.tiles.pop().el.remove();
+ while(S.tiles.length<n){const el=document.createElement('canvas');el.style.cssText='position:absolute;left:0;pointer-events:none';S.host.appendChild(el);S.tiles.push({el,i:S.tiles.length,on:false})}
+ S.tiles.forEach(t=>{t.th=Math.min(TH,h-t.i*TH);t.el.style.top=t.i*TH+'px';t.el.style.width=w+'px';t.el.style.height=t.th+'px';t.on=false;t.el.width=0;t.el.height=0});cull(S)}
+function vis(S,t){if(!S.cull)return true;const top=S.host.getBoundingClientRect().top+t.i*TH;return top<innerHeight+TH&&top+t.th>-TH}
+function cull(S){if(!S.host)return;S.tiles.forEach(t=>{const v=vis(S,t);
+ if(v&&!t.on){t.el.width=Math.max(1,Math.round(S.w*S.k));t.el.height=Math.max(1,Math.round(t.th*S.k));t.on=true;ptile(S,t)}
+ else if(!v&&t.on){t.el.width=0;t.el.height=0;t.on=false}})}
+function ptile(S,t){const g=t.el.getContext('2d'),k=S.k*S.u,y0=t.i*TH/S.u,y1=(t.i*TH+t.th)/S.u;
+ g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,t.el.width,t.el.height);g.setTransform(1,0,0,1,0,-t.i*TH*S.k);
+ S.strokes.forEach(s=>{const b=bb(s);if(b[3]>=y0&&b[1]<=y1)dstroke(g,s,k)});if(S.cur)dstroke(g,S.cur,k)}
+const rng=(S,t)=>[t.i*TH/S.u,(t.i*TH+t.th)/S.u];
+function dirty(S,L){S.tiles.forEach(t=>{if(!t.on)return;const[y0,y1]=rng(S,t);if(L.some(s=>{const b=bb(s);return b[3]>=y0&&b[1]<=y1}))ptile(S,t)})}
+const repaint=S=>S.tiles.forEach(t=>t.on&&ptile(S,t));
+function drawOn(S,s){const b=bb(s),k=S.k*S.u;S.tiles.forEach(t=>{if(!t.on)return;const[y0,y1]=rng(S,t);if(b[3]<y0||b[1]>y1)return;const g=t.el.getContext('2d');g.setTransform(1,0,0,1,0,-t.i*TH*S.k);dstroke(g,s,k)})}
+function live(S,s){const q=s.q,n=q.length;if(n<3)return;const i=n-2,m=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2],a=i==1?q[0]:m(q[i-1],q[i]),b=m(q[i],q[i+1]),k=S.k*S.u,r=s.w*1.5,
+ ya=Math.min(a[1],q[i][1],b[1])-r,yb=Math.max(a[1],q[i][1],b[1])+r,lw=s.w*(.55+.9*((q[i-1][2]+q[i][2])/2))*k;
+ S.tiles.forEach(t=>{if(!t.on)return;const[y0,y1]=rng(S,t);if(yb<y0||ya>y1)return;const g=t.el.getContext('2d');
+  g.setTransform(1,0,0,1,0,-t.i*TH*S.k);g.lineCap=g.lineJoin='round';g.strokeStyle=s.c;g.lineWidth=lw;g.beginPath();g.moveTo(a[0]*k,a[1]*k);g.quadraticCurveTo(q[i][0]*k,q[i][1]*k,b[0]*k,b[1]*k);g.stroke()})}
+function attach(host,S){let pid=null,pre=null,pen=false,pan=null;
+ S.pt=e=>{const r=S.host.getBoundingClientRect();return[Math.round((e.clientX-r.left)/S.u*10)/10,Math.round((e.clientY-r.top)/S.u*10)/10,pr(e)]};
+ const era=p=>{const rm=[],k=S.strokes.filter(s=>hitB(s,p,S.R)?(rm.push(s),false):true);if(rm.length){if(pre){S.undo.push(pre);pre=null;S.redo=[]}S.strokes=k;dirty(S,rm);S.changed()}};
+ host.onpointerdown=e=>{
+  if(S.penOnly&&e.pointerType!='pen'){if(e.pointerType=='touch')pan={id:e.pointerId,x:e.clientX,y:e.clientY};return}
+  if(e.pointerType=='pen')pen=true;if(e.pointerType=='touch'&&pen)return;if(pid!==null||e.button>0)return;
+  e.preventDefault();e.stopPropagation();pid=e.pointerId;try{host.setPointerCapture(pid)}catch(_){}
+  const p=S.pt(e);if(T.tool=='er'){pre=S.strokes;era(p)}else{S.cur={t:'p',c:col(),w:SZ[T.size]*S.ws,q:[p]};drawOn(S,S.cur)}};
+ host.onpointermove=e=>{
+  if(pan&&e.pointerId===pan.id){const sc=scE();if(sc){sc.scrollTop-=e.clientY-pan.y;sc.scrollLeft-=e.clientX-pan.x}pan.x=e.clientX;pan.y=e.clientY;return}
+  if(e.pointerId!==pid)return;e.preventDefault();const L=e.getCoalescedEvents?e.getCoalescedEvents():[];
+  (L.length?L:[e]).forEach(ev=>{const p=S.pt(ev);if(T.tool=='er')era(p);else if(S.cur){const l=S.cur.q[S.cur.q.length-1];if(Math.hypot(p[0]-l[0],p[1]-l[1])>=.8){S.cur.q.push(p);live(S,S.cur)}}})};
+ host.onpointerup=host.onpointercancel=e=>{if(pan&&e.pointerId===pan.id){pan=null;return}if(e.pointerId!==pid)return;
+  const s=S.cur;S.cur=null;pid=null;pre=null;
+  if(s){BB.delete(s);if(e.type!='pointercancel'){S.undo.push(S.strokes);if(S.undo.length>80)S.undo.shift();S.redo=[];S.strokes=S.strokes.concat([s]);dirty(S,[s]);S.changed()}else dirty(S,[s])}};
+ host.oncontextmenu=e=>e.preventDefault()}
 
 /* ---- Barra de herramientas (lápiz, borrador, 4 colores, 3 tamaños) ---- */
 const tbH=k=>`<div class="hntb" data-tb="${k}"><div class="g"><button type="button" class="b" data-h="pen" aria-label="Lápiz" title="Lápiz">${I.pen}</button><button type="button" class="b" data-h="er" aria-label="Borrador" title="Borrador">${I.er}</button></div>
 <div class="g">${CO.map(c=>`<button type="button" class="sw" data-h="c" data-v="${c}" style="background:${c}" aria-label="${CN[c]}" title="${CN[c]}"></button>`).join('')}</div>
 <div class="g">${SZ.map((w,i)=>`<button type="button" class="b sz" data-h="s" data-v="${i}" aria-label="Tamaño ${i+1}" title="Tamaño ${i+1}"><i style="width:${4+i*4}px;height:${4+i*4}px"></i></button>`).join('')}</div>
 <div class="g"><button type="button" class="b" data-h="un" aria-label="Deshacer" title="Deshacer">${I.un}</button><button type="button" class="b" data-h="re" aria-label="Rehacer" title="Rehacer">${I.re}</button><button type="button" class="b" data-h="cl" aria-label="Borrar todo" title="Borrar todo">${I.tr}</button>${k=='a'?`<button type="button" class="b" data-h="aoff" aria-label="Listo" title="Listo">${I.ok}</button>`:''}</div></div>`;
-function refreshTb(){document.querySelectorAll('[data-tb]').forEach(t=>{const S=t.dataset.tb=='h'?HN:AN;
+function refreshTb(){document.querySelectorAll('[data-tb]').forEach(t=>{const S=SF[t.dataset.tb];if(!S)return;
  t.querySelectorAll('[data-h=pen],[data-h=er]').forEach(b=>b.classList.toggle('on',(b.dataset.h=='er')==(T.tool=='er')));
  t.querySelectorAll('.sw').forEach(b=>b.classList.toggle('on',b.dataset.v==col()));
  t.querySelectorAll('.sz').forEach(b=>b.classList.toggle('on',+b.dataset.v==T.size));
  t.querySelector('[data-h=un]').disabled=!S.undo.length;t.querySelector('[data-h=re]').disabled=!S.redo.length;t.querySelector('[data-h=cl]').disabled=!S.strokes.length})}
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-h]');if(!b)return;const k=b.dataset.h;
- if(k=='tog'){e.preventDefault();e.stopPropagation();const x=S.hl.find(h=>h.id==b.dataset.id);if(!x||!sv0||sv0.id!=x.id)return;
-  if(sv0.mode=='view'){x.hm=true;sv0.mode='edit';save();study()}
-  else if(!x.hm){x.hm=true;save();study()}
-  else if(!HN.strokes.length){delete x.hm;save();study()}
-  else toast('Borra el Handnote (papelera) para volver a escribir');return}
- const tb=b.closest('[data-tb]');if(!tb)return;e.preventDefault();e.stopPropagation();
- const S=tb.dataset.tb=='h'?HN:AN;
+ if(k=='tog'){e.preventDefault();e.stopPropagation();const x=S.hl.find(h=>h.id==b.dataset.id);if(!x)return;
+  const has=HN.id==x.id?HN.strokes.length:(x.hs||[]).length;
+  if(!x.hm)x.hm=true;else if(!has)delete x.hm;else{toast('Borra el Handnote (papelera) para volver a escribir');return}
+  flushHn();save();study();return}
+ const tb=b.closest('[data-tb]');if(!tb)return;e.preventDefault();e.stopPropagation();const S2=SF[tb.dataset.tb];
  if(k=='pen'||k=='er')T.tool=k;
  else if(k=='c'){T.color=b.dataset.v;if(T.tool=='er')T.tool='pen'}
  else if(k=='s')T.size=+b.dataset.v;
- else if(k=='un'){if(S.undo.length){S.redo.push(S.strokes);S.strokes=S.undo.pop();S.paint();S.changed()}}
- else if(k=='re'){if(S.redo.length){S.undo.push(S.strokes);S.strokes=S.redo.pop();S.paint();S.changed()}}
- else if(k=='cl'){if(S.strokes.length)commit(S,[])}
+ else if(k=='un'){if(S2.undo.length){S2.redo.push(S2.strokes);S2.strokes=S2.undo.pop();repaint(S2);S2.changed()}}
+ else if(k=='re'){if(S2.redo.length){S2.undo.push(S2.strokes);S2.strokes=S2.redo.pop();repaint(S2);S2.changed()}}
+ else if(k=='cl'){if(S2.strokes.length){S2.undo.push(S2.strokes);S2.redo=[];S2.strokes=[];repaint(S2);S2.changed()}}
  else if(k=='aoff')setAnn(false);
  refreshTb()},true);
 
-/* ---- Handnote dentro de la StudyBar (solo en modo Edición) ---- */
-HN.pt=e=>{const r=HN.cv.getBoundingClientRect();return [Math.round((e.clientX-r.left)*LW/r.width*10)/10,Math.round((e.clientY-r.top)*HN.LH/r.height*10)/10,pr(e)]};
+/* ---- Handnote en la StudyBar: ocupa todo el espacio de la nota (solo botones y título) ---- */
 function renderPng(x){const t=document.createElement('canvas');t.width=LW;t.height=x.hh||HN.LH;const g=t.getContext('2d');x.hs.forEach(s=>dstroke(g,s,1));return t.toDataURL('image/png')}
-HN.changed=()=>{const x=S.hl.find(k=>k.id==HN.id);if(!x)return;
- if(!HN.strokes.length){delete x.hn;delete x.hs;delete x.hw;delete x.hh}
- else{x.hs=HN.strokes;x.hw=LW;x.hh=HN.LH;x.hn=renderPng(x)}
- save();refreshTb()};
-function topBtn(){const v=sv0,bar=$('#st .bar'),x=v&&v.t=='note'?S.hl.find(k=>k.id==v.id):null;if(!x||!bar||bar.querySelector('.hnbtn'))return;
+HN.changed=()=>{HN.dirty=true;clearTimeout(HN.t);HN.t=setTimeout(flushHn,400);refreshTb()};
+function flushHn(){clearTimeout(HN.t);if(!HN.dirty)return;HN.dirty=false;const x=S.hl.find(k=>k.id==HN.id);if(!x)return;
+ if(!HN.strokes.length){delete x.hn;delete x.hs;delete x.hw;delete x.hh}else{x.hs=HN.strokes;x.hw=LW;x.hh=HN.LH;x.hn=renderPng(x)}saveSoon()}
+function fitHn(){const st=$('#st'),hnp=st&&st.querySelector('.hnp');if(!hnp||!HN.host||!hnp.contains(HN.host))return;
+ const card=hnp.closest('.card'),na=card&&card.querySelector('.nact'),h=Math.max(260,Math.floor(st.clientHeight-(hnp.getBoundingClientRect().top-st.getBoundingClientRect().top)-(na?na.offsetHeight+28:76))),w=hnp.clientWidth;if(w<50)return;
+ hnp.style.height=h+'px';const x=S.hl.find(k=>k.id==HN.id);if(!(x&&x.hw==LW&&x.hh))HN.LH=Math.max(400,Math.min(3000,Math.round(LW*h/w)));
+ const u=Math.min(w/LW,h/HN.LH),W=Math.floor(LW*u),Hh=Math.floor(HN.LH*u),g=W+'x'+Hh;if(HN.fg==g)return;HN.fg=g;build(HN,W,Hh,u);repaint(HN)}
+function topBtn(){const v=sv0,bar=$('#st .bar'),x=v&&v.t=='note'&&v.mode=='edit'?S.hl.find(k=>k.id==v.id):null;if(!x||!bar||bar.querySelector('.hnbtn'))return; /* solo en modo Edición */
  const b=document.createElement('button');b.type='button';b.className='hnbtn'+(x.hm?' on':'');b.dataset.h='tog';b.dataset.id=x.id;b.setAttribute('aria-label','Handnote');b.title='Handnote';b.innerHTML=I.dd;
  const f=bar.querySelector('.nfav');f?f.insertAdjacentElement('afterend',b):bar.appendChild(b)}
 function mountHn(){const v=sv0,st=$('#st'),x=v&&v.t=='note'&&v.mode=='edit'?S.hl.find(k=>k.id==v.id):null,card=x&&st&&st.querySelector('.card[data-nid]');
- if(!x||!card){HN.id=null;HN.cv=null;return}
- if(HN.id!=x.id){HN.id=x.id;HN.strokes=Array.isArray(x.hs)?x.hs:[];HN.undo=[];HN.redo=[]}
- if(!x.hm){HN.cv=null;return}
- /* el Handnote ocupa toda la nota: solo quedan botones y título */
- HN.LH=(x.hw==LW&&x.hh)?x.hh:Math.max(500,Math.min(1800,Math.round(LW*Math.max(300,st.clientHeight-300)/Math.max(200,card.clientWidth-34))));
- card.classList.add('hmc');
- const box=document.createElement('div');box.className='hnx';box.innerHTML=tbH('h')+'<div class="hnp"><canvas></canvas></div>';
+ if(!x||!card){HN.id=null;HN.host=null;return}
+ if(HN.id!=x.id){HN.id=x.id;HN.strokes=Array.isArray(x.hs)?x.hs:[];HN.undo=[];HN.redo=[];HN.LH=(x.hw==LW&&x.hh)?x.hh:675}
+ if(!x.hm){HN.host=null;return}
+ card.classList.add('hmc');st.scrollTop=0;
+ const box=document.createElement('div');box.className='hnx';box.innerHTML=tbH('h')+'<div class="hnp"><div class="hnh"></div></div>';
  card.insertBefore(box,card.querySelector('.nact'));
- const cv=HN.cv=box.querySelector('canvas');cv.width=LW*K;cv.height=HN.LH*K;attach(cv,HN);HN.paint();refreshTb()}
+ HN.host=box.querySelector('.hnh');HN.tiles=[];HN.fg='';attach(HN.host,HN);refreshTb();fitHn();requestAnimationFrame(fitHn);
+ if(!hro&&window.ResizeObserver){hro=new ResizeObserver(()=>fitHn());hro.observe(st)}}
+
+/* ---- Documento Handnote: hoja que solo se usa con lápiz; el título es lo único con teclado ---- */
+function fitHd(){const w=HD.host&&HD.host.parentNode;if(!w)return;const W=w.clientWidth;if(W<50)return;const g=W+'x'+HD.LH;if(HD.fg==g)return;HD.fg=g;build(HD,W,HD.LH*W/1000,W/1000);repaint(HD)}
+HD.changed=()=>{const a=A();if(!a||a.id!=HD.id)return;a.hs=HD.strokes;let m=0;HD.strokes.forEach(s=>{const b=bb(s);if(b[3]>m)m=b[3]});
+ if(m>HD.LH-500){HD.LH+=1000;fitHd()}a.hh=HD.LH;saveSoon();refreshTb()};
+function hdocMain(){const a=A(),pg=$('#pg'),DT='Documento sin título';document.body.classList.add('dm');edit=false;sOn=false;sOpen=false;$('#sb').classList.remove('on');pg.className='pg';
+ const def=!a.title||a.title==DT;
+ pg.innerHTML=`<div class="docp hdp"><input class="doct" id="doct" placeholder="Título" value="${def?'':E(a.title)}" aria-label="Título del documento" autocomplete="off">${tbH('d')}<div class="hdw"><div class="hdh"></div></div></div>`;
+ const ti=pg.querySelector('#doct'),w=pg.querySelector('.hdw');
+ ti.addEventListener('input',()=>{a.title=ti.value.trim()||DT;const h=$('#hd .t b');if(h)h.textContent=a.title;saveSoon()});
+ ti.addEventListener('keydown',e=>{if(e.key=='Enter'){e.preventDefault();ti.blur()}});
+ HD.host=w.firstChild;HD.tiles=[];HD.fg='';HD.id=a.id;HD.strokes=Array.isArray(a.hs)?a.hs:[];HD.undo=[];HD.redo=[];HD.LH=a.hh||1600;
+ attach(HD.host,HD);fitHd();bindSc();refreshTb();
+ if(window.ResizeObserver){if(hdro)hdro.disconnect();hdro=new ResizeObserver(()=>fitHd());hdro.observe(w)}
+ if(def)setTimeout(()=>ti.focus(),60)}
 
 /* ---- Anotaciones (solo lápiz; cada trazo se ancla al elemento donde empieza) ---- */
 const pgE=()=>document.getElementById('pg'),kids=()=>[...pgE().children].filter(c=>c.id!='ann'),scE=()=>{const p=pgE();return (p&&p.closest('#sc'))||$('#sc')};
-const xvBlock=()=>{const a=A();return !!(S.xv&&!isSmall()&&a&&!a.doc)}; /* con Vista Expansiva no hay anotaciones */
-AN.pt=e=>{const r=AN.cv.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top,pr(e)]};
+const xvBlock=()=>{const a=A();return !!(S.xv&&!isSmall()&&a&&!a.doc)};
 function toAnch(s){const ks=kids(),y0=s.q[0][1];let a=0,best=1e9;
  ks.forEach((c,i)=>{if(!c.offsetHeight)return;const d=y0<c.offsetTop?c.offsetTop-y0:y0>c.offsetTop+c.offsetHeight?y0-c.offsetTop-c.offsetHeight:0;if(d<best){best=d;a=i}});
  const c=ks[a],t=c?c.offsetTop:0,l=c?c.offsetLeft:0,w=(c&&c.offsetWidth)||1;
  return{t:'p',c:s.c,w:s.w,a,v:2,q:s.q.map(p=>[Math.round((p[0]-l)/w*1e4)/1e4,Math.round((p[1]-t)*10)/10,p[2]])}}
 function loadAnn(){const a=A(),pg=pgE();if(!a||!pg)return[];const ks=kids(),W=pg.clientWidth;
  return (a.ann||[]).map(s=>{const c=ks[s.a];if(!c)return null;const l=s.v==2?c.offsetLeft:0,w=s.v==2?c.offsetWidth:W;
-  return{t:'p',c:s.c,w:s.w,q:s.q.map(p=>[l+p[0]*w,c.offsetTop+p[1],p[2]])}}).filter(Boolean)}
+  return{t:'p',c:s.c,w:s.w,A:s,q:s.q.map(p=>[l+p[0]*w,c.offsetTop+p[1],p[2]])}}).filter(Boolean)}
 const sig=()=>{const pg=pgE();return pg.clientWidth+'|'+kids().map(k=>k.offsetTop+','+k.offsetLeft+','+k.offsetWidth+','+k.offsetHeight).join('|')};
-function sizeAnn(){const pg=pgE(),c=AN.cv;if(!pg||!c)return;const sc=scE(),W=pg.clientWidth,
- top=sc?pg.getBoundingClientRect().top-sc.getBoundingClientRect().top+sc.scrollTop:0,
- Hh=Math.max(1,kids().reduce((m,k)=>Math.max(m,k.offsetTop+k.offsetHeight),0)+24,sc?sc.clientHeight-top-8:0); /* en Documentos vacíos, toda la página */
- AN.k=Math.min(2,16000/Hh);c.style.width=W+'px';c.style.height=Hh+'px';c.width=Math.round(W*AN.k);c.height=Math.round(Hh*AN.k)}
-AN.changed=()=>{const a=A();if(!a)return;a.ann=AN.strokes.map(toAnch);if(!a.ann.length)delete a.ann;save();refreshTb()};
-let aro=null,rt=0;
-/* Si un elemento se mueve (se abre la StudyBar, cambia el ancho, etc.), sus anotaciones se mueven con él */
-function relay(){if(!AN.cv||!document.contains(AN.cv))return;const g=sig();if(g==AN.sig)return;AN.sig=g;sizeAnn();AN.strokes=loadAnn();AN.undo=[];AN.redo=[];AN.paint();refreshTb()}
+function sizeAnn(){const pg=pgE();if(!pg||!AN.host)return;const W=pg.clientWidth,Hh=Math.max(1,kids().reduce((m,k)=>Math.max(m,k.offsetTop+k.offsetHeight),0)+24);build(AN,W,Hh,1)}
+AN.changed=()=>{const a=A();if(!a)return;AN.strokes.forEach(s=>{if(!s.A)s.A=toAnch(s)});a.ann=AN.strokes.map(s=>s.A);if(!a.ann.length)delete a.ann;saveSoon();refreshTb()};
+const onSc=()=>{if(sq)return;sq=requestAnimationFrame(()=>{sq=0;cull(AN);cull(HD)})};
+function bindSc(){const sc=scE();if(sc&&AN.sc!==sc){if(AN.sc)AN.sc.removeEventListener('scroll',onSc);sc.addEventListener('scroll',onSc,{passive:true});AN.sc=sc}}
+/* Si un elemento se mueve (se abre la StudyBar, cambia el ancho…), sus anotaciones se mueven con él */
+function relay(){if(!AN.host||!document.contains(AN.host)||AN.cur)return;const g=sig();if(g==AN.sig)return;AN.sig=g;sizeAnn();AN.strokes=loadAnn();AN.undo=[];AN.redo=[];repaint(AN);refreshTb()}
+const relayQ=()=>{if(rq)return;rq=requestAnimationFrame(()=>{rq=0;relay()})};
 function mountAnn(){const pg=pgE(),a=A(),o=pg&&pg.querySelector('#ann');if(o)o.remove();
- if(!pg||!a||edit||xvBlock()){AN.cv=null;AN.id=null;if(AN.on)setAnn(false);return}
+ if(!pg||!a||edit||a.hdoc||xvBlock()){AN.host=null;AN.tiles=[];AN.id=null;if(AN.on)setAnn(false);return}
  if(AN.id!=a.id){if(AN.on)setAnn(false);AN.id=a.id}
- const c=AN.cv=document.createElement('canvas');c.id='ann';pg.appendChild(c);attach(c,AN);sizeAnn();AN.strokes=loadAnn();AN.undo=[];AN.redo=[];AN.sig=sig();AN.paint();
- if(window.ResizeObserver){if(!aro)aro=new ResizeObserver(()=>relay());aro.disconnect();aro.observe(pg);kids().forEach(k=>aro.observe(k))}}
-function setAnn(on){AN.on=!!on&&!!AN.cv;document.body.classList.toggle('anon',AN.on);let b=document.getElementById('anb');
+ const h=AN.host=document.createElement('div');h.id='ann';pg.appendChild(h);AN.tiles=[];attach(h,AN);sizeAnn();
+ AN.strokes=loadAnn();AN.undo=[];AN.redo=[];AN.sig=sig();repaint(AN);bindSc();
+ if(window.ResizeObserver){if(!aro)aro=new ResizeObserver(relayQ);aro.disconnect();aro.observe(pg);kids().forEach(k=>aro.observe(k))}}
+function setAnn(on){AN.on=!!on&&!!AN.host;document.body.classList.toggle('anon',AN.on);let b=document.getElementById('anb');
  if(AN.on){if(!b){b=document.createElement('div');b.id='anb';b.innerHTML=tbH('a');document.body.appendChild(b)}b.style.display='';try{hideTb()}catch(_){}}
  else if(b)b.style.display='none';
  refreshTb();try{menu()}catch(_){}}
 document.addEventListener('click',e=>{if(!e.target.closest||!e.target.closest('[data-a=ann]'))return;e.stopImmediatePropagation();e.preventDefault();
- $('#mn').classList.remove('on');if(xvBlock()){toast('Las anotaciones no funcionan con la Vista Expansiva');return}
- if(!AN.cv)return;setAnn(!AN.on);toast(AN.on?'Anotaciones activadas · solo con lápiz':'Anotaciones desactivadas')},true);
+ $('#mn').classList.remove('on');if(!AN.host)return;setAnn(!AN.on);toast(AN.on?'Anotaciones activadas · solo con lápiz':'Anotaciones desactivadas')},true);
 window.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('[data-a=xv]'))setTimeout(()=>{try{mountAnn()}catch(_){}try{menu()}catch(_){}},80)},true);
-addEventListener('keydown',e=>{if(e.key=='Escape'&&AN.on)setAnn(false)});
-addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{const want=!!(A()&&!edit&&!xvBlock()),has=!!(AN.cv&&pgE()&&pgE().contains(AN.cv));if(want!==has)mountAnn();else relay()},120)});
+addEventListener('keydown',e=>{if(e.key=='Escape'){if(AN.on)setAnn(false);hideNw()}});
+addEventListener('resize',()=>{hideNw();clearTimeout(rt);rt=setTimeout(()=>{const want=!!(A()&&!edit&&!A().hdoc&&!xvBlock()),has=!!(AN.host&&pgE()&&pgE().contains(AN.host));if(want!==has)mountAnn();else relay()},120)});
+
+/* ---- Menú "+" de Inicio y pantallas dedicadas ---- */
+const nwm=document.createElement('div');nwm.id='nwm';nwm.className='pm';nwm.setAttribute('role','menu');nwm.setAttribute('aria-label','Nuevo');document.body.appendChild(nwm);
+function hideNw(){nwm.classList.remove('on')}
+window.addEventListener('click',e=>{const bt=e.target.closest&&e.target.closest('[data-a=new]');
+ if(bt){e.stopImmediatePropagation();e.preventDefault();if(nwm.classList.contains('on')){hideNw();return}
+  nwm.innerHTML=`<button type="button" role="menuitem" data-nw="imp">${I.lk}Importar desde JW.ORG</button><button type="button" role="menuitem" data-nw="blank">${I.fp}Empezar desde cero</button><button type="button" role="menuitem" data-nw="doc">${I.dc}Crear Documento</button>`;
+  nwm.classList.add('on');const r=bt.getBoundingClientRect(),w=nwm.offsetWidth,h=nwm.offsetHeight;
+  nwm.style.left=Math.max(8,Math.min(innerWidth-w-8,r.right-w))+'px';nwm.style.top=Math.max(8,Math.min(innerHeight-h-8,r.bottom+8))+'px';return}
+ const it=e.target.closest&&e.target.closest('[data-nw]');
+ if(it){e.stopImmediatePropagation();e.preventDefault();hideNw();NSM=it.dataset.nw;ns=true;nsf='';cur=null;render()}},true);
+window.addEventListener('pointerdown',e=>{if(nwm.classList.contains('on')&&!e.target.closest('#nwm,[data-a=new]'))hideNw()},true);
+const docScr=()=>`<div class="card"><div class="rf" style="font-size:17px">Documento de texto</div><p class="hint">Una hoja en blanco para escribir con el teclado: título y texto con negrita, itálica o subrayado.</p><button class="btn s" data-a="newdoc">Nuevo Documento de texto</button></div><div class="card"><div class="rf" style="font-size:17px">Documento Handnote</div><p class="hint">Una hoja para dibujar y escribir a mano con el lápiz. Solo el título se escribe con el teclado.</p><button class="btn s" data-a="newhdoc">Nuevo Documento Handnote</button></div>`;
+const _ns=newScr;newScr=function(){const h=_ns(),p=h.split('<div class="card">');
+ if(NSM=='doc')return docScr();if(p.length<4)return h;if(NSM=='imp')return '<div class="card">'+p[1];if(NSM=='blank')return '<div class="card">'+p[2];return h};
+const _hd=header;header=function(){const r=_hd.apply(this,arguments);
+ if(ns&&!A()&&NSM){const t=document.querySelector('#hd .t,#hd .ep-t'),b=t&&t.querySelector('b'),s=t&&t.querySelector('small,span'),v={imp:['Importar','Desde JW.ORG'],blank:['Crear desde cero','Artículo o publicación en blanco'],doc:['Crear Documento','Texto o Handnote']}[NSM];
+  if(b)b.textContent=v[0];if(s)s.textContent=v[1]}return r};
+document.addEventListener('click',e=>{if(!e.target.closest||!e.target.closest('[data-a=newhdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
+ const n={id:uid(),label:'Documento',sub:'',title:'Documento sin título',doc:true,hdoc:true,saved:false,accent:'#2a6fc4',blocks:[{type:'p',text:''}]};
+ S.arts.push(n);cur=n.id;ns=false;nsf='';edit=false;sv0=null;sOpen=false;save();render()},true);
 
 /* ---- Enganches ---- */
-const _st=study;study=function(){const r=_st.apply(this,arguments);fix();try{topBtn();mountHn()}catch(_){}requestAnimationFrame(relay);setTimeout(relay,380);return r};
-const _mn=main;main=function(){const r=_mn.apply(this,arguments);try{mountAnn()}catch(_){}return r};
-const _me=menu;menu=function(){const r=_me.apply(this,arguments),m=$('#mn');
- if(m&&A()&&!edit){const bl=xvBlock();m.insertAdjacentHTML('beforeend',`<button data-a="ann"${bl?' style="opacity:.5"':''}>${I.dd.replace('<svg','<svg style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"')}${bl?'Anotaciones: no disponible (Vista Expansiva)':'Anotaciones: '+(AN.on?'On':'Off')}</button>`)}return r};
-/* Migración: Handnotes de la v9 → fondo transparente; y las notas con Handnote pasan a modo Handnote */
+const _st=study;study=function(){flushHn();const r=_st.apply(this,arguments);fix();try{topBtn();mountHn()}catch(e){console.error(e)}relayQ();setTimeout(relayQ,380);return r};
+const _mn=main;main=function(){if(!ns)NSM='';const a=A();
+ if(!ns&&a&&a.doc&&a.hdoc){try{hdocMain()}catch(e){console.error(e)}try{mountAnn()}catch(_){}return}
+ const r=_mn.apply(this,arguments);try{mountAnn()}catch(e){console.error(e)}return r};
+const _me=menu;menu=function(){const r=_me.apply(this,arguments),m=$('#mn'),a=A();
+ if(m&&a&&!a.hdoc&&!edit&&!xvBlock())m.insertAdjacentHTML('beforeend',`<button data-a="ann">${I.dd.replace('<svg','<svg style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"')}Anotaciones: ${AN.on?'On':'Off'}</button>`);return r};
+/* Migración: Handnotes de la v9 → fondo transparente; las notas con Handnote pasan a modo Handnote */
 try{let ch=0;S.hl.forEach(x=>{if(x.hn&&Array.isArray(x.hs)&&!x.h95){x.hn=renderPng(x);x.h95=1;ch=1}if(x.hn&&x.hm===undefined){x.hm=true;ch=1}});if(ch)save()}catch(_){}
 }
 </script>
