@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#fff;--ink:#222;--mut:#6c6c6c;--chip:#efefef;--sheet:#f3f3f3;--card:#fff;--or:#e37b00;--blue:#2a6fc4;--pur:#6b3fa0;--line:#e2e2e2;--ic:#5b3c88;--fs:17px;
---pink:#ec5f9a;--orange:#f08a1c;--yellow:#f2c600;--green:#4cae5a;--bl:#3b8be0;--purple:#8a5bd0;--gray:#8e8e93;
+--pink:#ec5f9a;--rose:#e6194f;--orange:#f08a1c;--yellow:#f2c600;--green:#4cae5a;--bl:#3b8be0;--purple:#8a5bd0;--gray:#8e8e93;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#151515;--ink:#ececec;--mut:#a0a0a0;--chip:#2b2b2b;--sheet:#202020;--card:#2a2a2a;--blue:#7db4f5;--line:#383838}}
 :root[data-theme="dark"]{--bg:#151515;--ink:#ececec;--mut:#a0a0a0;--chip:#2b2b2b;--sheet:#202020;--card:#2a2a2a;--blue:#7db4f5;--line:#383838}
@@ -42,7 +42,7 @@ h1{color:var(--or);font-size:clamp(26px,5vw,34px);line-height:1.12;margin:0 0 20
 figure{margin:0 0 1.2em}figure img{width:100%;border-radius:20px;display:block;cursor:zoom-in}figcaption{font-size:13px;color:var(--mut);margin-top:6px}
 .ref{color:var(--blue);font-weight:600;cursor:pointer}
 .hl{border-radius:5px;cursor:pointer;background:color-mix(in srgb,var(--c) 40%,transparent)}
-.c-pink{--c:var(--pink)}.c-orange{--c:var(--orange)}.c-yellow{--c:var(--yellow)}.c-green{--c:var(--green)}.c-blue{--c:var(--bl)}.c-purple{--c:var(--purple)}.c-gray{--c:var(--gray)}
+.c-pink{--c:var(--pink)}.c-rose{--c:var(--rose)}.c-orange{--c:var(--orange)}.c-yellow{--c:var(--yellow)}.c-green{--c:var(--green)}.c-blue{--c:var(--bl)}.c-purple{--c:var(--purple)}.c-gray{--c:var(--gray)}
 .sr{background:#ffd54a;color:#000;border-radius:4px}
 .card{background:var(--card);border-radius:22px;padding:14px 16px;margin-bottom:12px;border:1px solid var(--line)}
 .lib .card{display:flex;gap:12px;align-items:center;text-align:left;width:100%}.lib .card .lb{background:var(--or);color:#fff;border-radius:12px;padding:6px 10px;font-weight:600;font-size:13px}
@@ -124,7 +124,7 @@ window.fold=s=>String(s==null?'':s).split('').map(c=>((c.normalize('NFD')[0]||c)
 const $=s=>document.querySelector(s),E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const IC={back:'M15 5l-7 7 7 7',head:'M5 4h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1zM10 8.5v7l6-3.5z',srch:'M11 4a7 7 0 100 14 7 7 0 000-14zm9 16l-4.2-4.2',bm:'M7 4h10v16l-5-4-5 4z',lang:'M4 6h9M8 4v2m-3 6c3-1 5-4 6-8M6 9c1 2 3 4 5 5m3 6l4-10 4 10m-7-3h6',dots:'M5 12h.01M12 12h.01M19 12h.01',note:'M5 4h14v12l-4 4H5zM15 20v-4h4M8 9h8M8 13h4',tr:'M5 7h14M9 7V4h6v3M7 7l1 13h8l1-13',pl:'M12 5v14M5 12h14',x:'M6 6l12 12M18 6L6 18',ed:'M4 20l4-1L19 8l-3-3L5 16zM14 7l3 3',fs:'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5',tx:'M4 19l5-14 5 14M6 14h6M16 19l3-8 2 8',im:'M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M9 9h.01',ok:'M5 12l5 5 9-10',up:'M6 15l6-6 6 6',dn:'M6 9l6 6 6-6',cp:'M9 9h11v11H9zM5 15V5h10',gear:'M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z'};
 const ic=n=>`<svg viewBox="0 0 24 24"><path d="${IC[n]}"/></svg>`;
-const COLS=['pink','orange','yellow','green','blue','purple','gray'],CN={pink:'Rosa',orange:'Naranja',yellow:'Amarillo',green:'Verde',blue:'Azul',purple:'Morado',gray:'Gris'};
+const COLS=['pink','rose','orange','yellow','green','blue','purple','gray'],CN={pink:'Rosa',rose:'Rojo rosa',orange:'Naranja',yellow:'Amarillo',green:'Verde',blue:'Azul',purple:'Morado',gray:'Gris'};
 const RE=/(?:(?:[12] )?(?:Génesis|Éxodo|Levítico|Números|Deuteronomio|Josué|Jueces|Rut|Samuel|Reyes|Crónicas|Nehemías|Ester|Job|Salmos?|Proverbios|Eclesiastés|Isaías|Jeremías|Ezequiel|Daniel|Oseas|Joel|Amós|Jonás|Miqueas|Habacuc|Zacarías|Malaquías|Mateo|Marcos|Lucas|Juan|Hechos|Romanos|Corintios|Gálatas|Efesios|Filipenses|Colosenses|Tesalonicenses|Timoteo|Tito|Hebreos|Santiago|Pedro|Apocalipsis) \d+:\d+|(?:Filemón|Judas) \d+)(?:[-–]\d+)?/g;
 const VS={'Génesis 1:1':'En el principio crió Dios los cielos y la tierra.','Números 13:30':'Entonces Caleb hizo callar al pueblo delante de Moisés, y dijo: Subamos luego, y tomemos posesión de ella; porque más podremos nosotros que ella.','Salmos 23:1':'Jehová es mi pastor; nada me faltará.','Juan 3:16':'Porque de tal manera amó Dios al mundo, que ha dado á su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna.'};
 const seed=()=>({fs:17,verses:{},hl:[],arts:[{id:'a1',label:'12. Caleb',sub:'Seamos valientes al andar con Dios',title:'Luchó lealmente a favor de su Dios',saved:false,blocks:[
@@ -188,7 +188,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 9.110</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 9.120</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar cualquier otro fragmento (a un texto normal, un texto bíblico, otro artículo o una página web), selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><div class="lks" id="e-tl">${LKH(lkT(a,-1),-1)}</div><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -1116,7 +1116,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1217,7 +1217,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#nfm,#tcm,#hd .t,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r],[data-lk]';
@@ -1292,7 +1292,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1351,7 +1351,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1408,7 +1408,7 @@ upd();
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1440,7 +1440,7 @@ study=function(){const r=_s.apply(this,arguments);
 #spk #spkl{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain}
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 /* 5.0 · Documentos: notas libres que se guardan en Artículos */
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-a=newdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
@@ -1505,7 +1505,7 @@ body.dm #mn .mopt,body.dm #mn [data-a=anote],body.dm #mn [data-a=edit]{display:n
 .docb:empty::before{content:attr(data-ph);color:var(--mut)}
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 /* 5.1 · Documentos: hoja en blanco */
 {
 const OK={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1};
@@ -1561,7 +1561,7 @@ document.addEventListener('click',e=>{
 .st .bar .ned+.ndel{margin-left:8px}
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1582,7 +1582,7 @@ study=function(){const r=_s.apply(this,arguments);
 .ntw>.ib.tt svg{width:17px;height:17px}
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 IC.tt='M5 6V4h14v2M12 4v16M9 20h6';
 {
 const wrap=root=>{if(!root)return;root.querySelectorAll('input[data-nt]').forEach(inp=>{
@@ -1617,7 +1617,7 @@ wrap($('#st'));wrap($('#sp'));
 .tbdd.up{top:auto;bottom:calc(100% + 8px)}
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 {
 const copyTxt=t=>{const ok=()=>toast('Texto copiado');
  const fb=()=>{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0;top:0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(_){toast('No se pudo copiar')}a.remove()};
@@ -1962,7 +1962,7 @@ html.xd-c{--xcols:repeat(auto-fill,minmax(min(var(--xw),100%),var(--xw)));--xjc:
 @media(prefers-reduced-motion:reduce){#xwp.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 /* 7.1 · «Expandida» pasa a llamarse «Expansiva». Nuevo ajuste «Ancho de párrafos»: define cuántos párrafos caben por fila y cómo se reparten. */
 {
 const MIN=240,MAX=720,DEF=340,D={s:'Rellenar todo el espacio',l:'Alinear a la izquierda',c:'Centrar'};
@@ -2069,7 +2069,7 @@ try{paint()}catch(_){}
 #nfm hr{border:0;border-top:1px solid var(--line);margin:6px 8px}
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 {
 const STAR='M12 3l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 20.9l1.1-6.5L2.6 9.8l6.5-.9z';
 const SV=`<svg viewBox="0 0 24 24"><path d="${STAR}"/></svg>`;
@@ -2162,7 +2162,7 @@ try{study()}catch(_){}
 @media(prefers-reduced-motion:reduce){#lbb.on,#lbp.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 {
 const btn=document.createElement('button');btn.id='lbb';btn.type='button';btn.setAttribute('aria-haspopup','dialog');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Ver la nota de esta imagen');btn.title='Nota de la imagen';btn.innerHTML=ic('note');
 const pop=document.createElement('div');pop.id='lbp';pop.setAttribute('role','dialog');pop.setAttribute('aria-label','Nota de la imagen');
@@ -2187,7 +2187,7 @@ document.addEventListener('click',e=>{if(!ids)return;const t=e.target;if(!t.clos
 }
 </script>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 /* 6.4.5 · 1) Pantallas pequeñas (vertical): arrastrar el handle de la StudyBar hacia arriba la Expande
             (el botón «Expandir» del menú del handle sigue disponible). Estando expandida, arrastrar hacia abajo la reduce.
           2) Al subrayar / crear una nota, el artículo conserva su posición de scroll (ya no vuelve al inicio). */
@@ -2229,7 +2229,7 @@ main=function(){const keep=(cur===lastCur&&edit===lastEdit&&!!cur)?sc.scrollTop:
 }
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 /* 6.5 · StudyBar: agrupa las tarjetas de notas para poder mostrarlas en cuadrícula cuando hay ancho */
 {
 const _s=study;
@@ -2315,7 +2315,7 @@ addEventListener('keydown',e=>{if(!G||!lb.classList.contains('on'))return;
 @media(prefers-reduced-motion:reduce){#tcm.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 {
 const tcm=document.createElement('div');tcm.id='tcm';tcm.setAttribute('role','menu');tcm.setAttribute('aria-label','Subtemas del artículo');document.body.appendChild(tcm);
 const subs=()=>{const a=A();return a?a.blocks.map((b,i)=>b.type=='h'?i:-1).filter(i=>i>=0):[]};
@@ -2361,7 +2361,7 @@ const _m=main;main=function(){hide();return _m.apply(this,arguments)};
 }
 </script>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 /* 6.7 · Vista Expandido compatible con la StudyBar fija (si hay espacio). Se reevalúa al cambiar el ancho del artículo. */
 {
 const mn=document.querySelector('.main');let w0=0,raf=0;
@@ -2370,7 +2370,7 @@ if(window.ResizeObserver&&mn)new ResizeObserver(en=>{const w=Math.round(en[0].co
 }
 </script>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 /* 7.1.2 · 1) Los indicadores de notas se recolocan al cambiar el ancho de los párrafos (o cualquier reflujo del texto).
            2) Filtro «Solo con Referencias Bíblicas» (notas de tipo texto bíblico).
            3) Notas en la StudyBar: Editar y Borrar solo con los botones circulares superiores (se eliminó el menú de pulsación larga). */
@@ -2425,7 +2425,7 @@ body.ephome{--gut:clamp(24px,5.4vw,140px)}
 #lsb [data-lf] svg{width:18px;height:18px}
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 /* 7.2 · «Mi biblioteca» pasa a ser «Estudio Personal»: Recientes, Favoritos, Artículos y Documentos en una sola pantalla
    (en pantallas pequeñas: Recientes, Favoritos y Todo). Botones circulares de Buscar y Guardados (Guardados incluye
    los artículos guardados y las notas de todos los artículos). Artículos y Documentos se pueden marcar como Favoritos. */
@@ -2444,7 +2444,7 @@ const sec=(t,ic,L,msg)=>`<section class="sec"><h2>${ic||''}${t}</h2>${shelf(L,ms
 function home(){const sm=isSmall(),rec=S.arts.filter(a=>a.ro).sort((x,y)=>y.ro-x.ro).slice(0,8),fav=S.arts.filter(a=>a.fav);
  return `<div class="ep${sm?' sm':''}">`+sec('Recientes',HI,rec,'Aún no has abierto nada')+sec('Favoritos',HR,fav,'No hay favoritos')+
   (sm?sec('Todo',IT,S.arts,'Aún no tienes nada. Toca + para crear un artículo o documento.'):sec('Artículos',IA,arts(),'No hay artículos')+sec('Documentos',ID,docs(),'No hay documentos'))+
-  `<p class="ep-hint">Versión 9.110</p></div>`}
+  `<p class="ep-hint">Versión 9.120</p></div>`}
 const CL='<svg viewBox="0 0 24 24"><path d="M18 10a6 6 0 0 0-11.6-1.5A4.5 4.5 0 0 0 7 18h11a4 4 0 0 0 0-8z"/></svg>';
 const syCls=()=>{const y=document.getElementById('sy');return y?(y.className.match(/\b(ok|sync|err)\b/)||[''])[0]:''};
 const syBtn=()=>`<button class="ib syb ${syCls()}" data-a="syopen" aria-label="Sincronización" title="Sincronización">${CL}<i></i></button>`;
@@ -2501,7 +2501,7 @@ try{header();main()}catch(_){}
 }
 </script>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 /* 7.3 · Vista Expansiva: al abrir o cerrar la StudyBar, el artículo se reacomoda de inmediato y cada bloque se desliza
    desde su posición anterior a la nueva (animación FLIP, sincronizada con la StudyBar). Sin cortes ni saltos. */
 {
@@ -2531,7 +2531,7 @@ study=function(){const w=xvWant(),s0=sig(),first=w?snap():null;
 #lsb button:not([data-ls=x]) svg{width:22px;height:22px;margin:0}
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 {const bar=$('#lsb');if(bar){
  const set=(sel,ico,label)=>{const b=bar.querySelector(sel);if(!b)return;b.innerHTML=ico;b.setAttribute('aria-label',label);b.title=label};
  set('[data-ls=e]',ic('ed'),'Editar');set('[data-lf]','<svg viewBox="0 0 24 24"><path d="M12 20.5s-8-4.6-8-10.6A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 8 2.6c0 6-8 10.6-8 10.6z"/></svg>','Favorito');set('.del',ic('tr'),'Eliminar')}}
@@ -2558,7 +2558,7 @@ window.APP_VERSION='9.110';
 #pg.mwb .song{color:var(--ink)}
 </style>
 <script>
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 {
 /* ---------- Reconocimiento de la Guía de actividades ---------- */
 const SECN={t:[/TESOROS DE LA BIBLIA/,/TREASURES FROM GOD/,/TESOUROS DA PALAVRA/,/TRESORS DE LA PAROLE/],
@@ -2906,7 +2906,7 @@ const _mn5=menu;menu=function(){const r=_mn5.apply(this,arguments);const a=A(),m
 </style>
 <script>
 (function(){
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 const SVG_SPLIT='<svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM12 5v14"/></svg>',
       SVG_OPEN='<svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5H5V6h5"/></svg>';
 const link=v=>{const a=A(),b=a&&lkT(a,v.bi);return b&&(b.links||[])[v.j]||null};
@@ -3356,7 +3356,7 @@ try{applyBoard()}catch(_){}
 }
 </script>
 <style>
-/* ===== Versión 9.110 ===== */
+/* ===== Versión 9.120 ===== */
 #nsm .nfd{border-radius:50%;border:2px solid var(--bg);box-shadow:0 0 0 1px var(--line);flex:none}
 #lbp .lbn .nim{width:100%;margin-top:8px}
 .answ{position:relative}
@@ -3498,11 +3498,11 @@ document.addEventListener('pointermove',e=>{if(!G||e.pointerId!==G.id)return;e.p
  AB.x=cx-G.ox-(hr.left+hr.width/2-br.left);AB.y=cy-G.oy-(hr.top+hr.height/2-br.top);place()},true);
 const gend=e=>{if(!G||e.pointerId!==G.id)return;const g=G;g.bar.classList.remove('drag');document.body.classList.remove('dragab');try{g.h.releasePointerCapture(g.id)}catch(_){}G=null;if(g.bub&&!g.moved&&e.type=='pointerup')AB.min=false;place();saveAb()};
 document.addEventListener('pointerup',gend,true);document.addEventListener('pointercancel',gend,true);
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 }
 </script>
 <script>
-/* ===== Versión 9.110 ===== */
+/* ===== Versión 9.120 ===== */
 {
 const NPI='<svg viewBox="0 0 24 24"><path d="M5 4h14a1 1 0 011 1v9l-6 6H5a1 1 0 01-1-1V5a1 1 0 011-1zM14 20v-5a1 1 0 011-1h6M12 7.5v5M9.5 10h5"/></svg>';
 /* 1) «JW Library»: pantalla completa */
@@ -3536,11 +3536,11 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);
     const ref=bar.querySelector('.nfb')||bar.querySelector('.xp');ref?bar.insertBefore(b,ref):bar.appendChild(b)}}}catch(_){}
  return r};
 try{study()}catch(_){}
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 }
 </script>
 <style>
-/* ===== Versión 9.110 ===== */
+/* ===== Versión 9.120 ===== */
 .menu .mqs{display:flex;gap:8px;padding:6px 14px 10px;justify-content:space-between;border-bottom:1px solid var(--line);margin-bottom:4px}
 .menu .mqs button{width:48px;height:48px;min-height:0;border-radius:50%;padding:0;justify-content:center;background:var(--chip);flex:none}
 .menu .mqs button.on{background:#5b3c88;color:#fff}.menu .mqs button.on svg{color:#fff}
@@ -3693,7 +3693,7 @@ study=function(){const st=$('#st'),was=st.classList.contains('bd'),op=!st.classL
  const r=_s.apply(this,arguments);
  try{if(r0&&r0.width>40&&op&&!st.classList.contains('cl')&&was!==st.classList.contains('bd')&&!matchMedia('(prefers-reduced-motion:reduce)').matches)morph(st,r0)}catch(e){console.error(e)}
  return r};
-window.APP_VERSION='9.110';
+window.APP_VERSION='9.120';
 try{header();menu()}catch(e){console.error(e)}
 }
 </script>
