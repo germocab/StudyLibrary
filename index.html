@@ -188,7 +188,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 8.7.1</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 9</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar cualquier otro fragmento (a un texto normal, un texto bíblico, otro artículo o una página web), selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><div class="lks" id="e-tl">${LKH(lkT(a,-1),-1)}</div><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -2441,7 +2441,7 @@ const sec=(t,ic,L,msg)=>`<section class="sec"><h2>${ic||''}${t}</h2>${shelf(L,ms
 function home(){const sm=isSmall(),rec=S.arts.filter(a=>a.ro).sort((x,y)=>y.ro-x.ro).slice(0,8),fav=S.arts.filter(a=>a.fav);
  return `<div class="ep${sm?' sm':''}">`+sec('Recientes',HI,rec,'Aún no has abierto nada')+sec('Favoritos',HR,fav,'No hay favoritos')+
   (sm?sec('Todo',IT,S.arts,'Aún no tienes nada. Toca + para crear un artículo o documento.'):sec('Artículos',IA,arts(),'No hay artículos')+sec('Documentos',ID,docs(),'No hay documentos'))+
-  `<p class="ep-hint">Versión 8.7.1</p></div>`}
+  `<p class="ep-hint">Versión 9</p></div>`}
 const CL='<svg viewBox="0 0 24 24"><path d="M18 10a6 6 0 0 0-11.6-1.5A4.5 4.5 0 0 0 7 18h11a4 4 0 0 0 0-8z"/></svg>';
 const syCls=()=>{const y=document.getElementById('sy');return y?(y.className.match(/\b(ok|sync|err)\b/)||[''])[0]:''};
 const syBtn=()=>`<button class="ib syb ${syCls()}" data-a="syopen" aria-label="Sincronización" title="Sincronización">${CL}<i></i></button>`;
@@ -2954,5 +2954,222 @@ document.addEventListener('click',e=>{
  if(isSmall()){toast('La vista dividida no está disponible en pantallas pequeñas');return}
  openSpec({k:'a',id:l.art},'r')},true);
 })();
+</script>
+<style>
+/* ===== Versión 9 · Handnote ===== */
+.toast{z-index:300}
+.hnb{display:inline-flex;align-items:center;gap:8px}
+.hnb svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hnbs{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.nimr.hnr{display:flex;flex-direction:column;align-items:stretch;gap:8px}
+.nim.hnim{background:#fffdf8!important;border:1px solid var(--line);object-fit:contain}
+[data-hn-open].nim{cursor:pointer}
+#sp .nimr.hnr .nim{max-height:40vh}
+#hn{position:fixed;inset:0;z-index:90;display:none;flex-direction:column;background:var(--sheet);color:var(--ink);font-family:Figtree,system-ui,sans-serif;padding-top:env(safe-area-inset-top,0px);-webkit-user-select:none;user-select:none}
+#hn.on{display:flex}
+#hn.dock{inset:0 auto 0 auto;width:var(--spw,50%);z-index:30}
+#hn.dock.l{left:0;border-right:1px solid var(--line)}
+#hn.dock.r{right:0;border-left:1px solid var(--line)}
+#hn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+#hn button{font:inherit;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent}
+#hn .hnh{display:flex;align-items:center;gap:8px;padding:10px 12px 6px}
+#hn .hnh b{font-size:17px;color:var(--ic)}
+#hn .hnh .sp{flex:1}
+#hn .hnc{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:var(--card);display:inline-flex;align-items:center;justify-content:center;font-size:16px;padding:0}
+#hn .hnt{height:38px;border:1px solid var(--line);border-radius:99px;background:var(--card);display:inline-flex;align-items:center;gap:7px;padding:0 14px;font-size:14px;font-weight:600}
+#hn .hnt.pri{background:var(--ic);border-color:var(--ic);color:var(--bg)}
+#hn:not(.dock) [data-h=sw]{display:none}
+#hn .hntb{display:flex;align-items:center;gap:8px;padding:6px 12px;overflow-x:auto;scrollbar-width:none;flex:none}
+#hn .hntb::-webkit-scrollbar{display:none}
+#hn .hntb .g{display:flex;align-items:center;gap:6px;flex:none;padding-right:8px;margin-right:2px;border-right:1px solid var(--line)}
+#hn .hntb .g:last-child{border:0}
+#hn .hnb2{width:38px;height:38px;border:0;border-radius:50%;background:var(--chip);display:inline-flex;align-items:center;justify-content:center;padding:0}
+#hn .hnb2.on{background:var(--ic);color:var(--bg)}
+#hn .hnb2[disabled]{opacity:.35;cursor:default}
+#hn .sw{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);padding:0;flex:none}
+#hn .sw.on{box-shadow:0 0 0 2px var(--sheet),0 0 0 4px var(--ink)}
+#hn input[type=range]{width:96px;accent-color:var(--ic)}
+#hn .hnw{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:6px 12px calc(12px + env(safe-area-inset-bottom,0px))}
+#hn .hnp{box-shadow:0 2px 6px rgba(0,0,0,.12),0 10px 30px rgba(0,0,0,.14);border-radius:10px;overflow:hidden;background:#fffdf8;flex:none}
+#hn canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair;-webkit-touch-callout:none}
+@media(max-width:520px){#hn .hnt span{display:none}#hn .hnt{padding:0 11px}}
+</style>
+<script>
+{
+window.APP_VERSION='9';
+const LW=900,K=2,PAPER='#fffdf8',
+ COLORS=['#1a1a1a','#2a6fc4','#c0392b','#2e8b57','#6b3fa0','#e37b00','#f2c600'],
+ SV=d=>`<svg viewBox="0 0 24 24"><path d="${d}"/></svg>`,
+ I={pen:SV('M4 20l1-4L16 5a2.1 2.1 0 013 3L8 19zM14 7l3 3'),mk:SV('M5 20h14M7 16l9-9 3 3-9 9H7z'),er:SV('M20 20H9l-5-5a2 2 0 010-3l8-8a2 2 0 013 0l5 5a2 2 0 010 3l-8 8M8 9l7 7'),
+  un:SV('M9 14L4 9l5-5M4 9h10a6 6 0 010 12h-3'),re:SV('M15 14l5-5-5-5M20 9H10a6 6 0 000 12h3'),tr:SV('M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3'),
+  ok:SV('M5 12.5l4.5 4.5L19 7.5'),sp:SV('M4 5h16v14H4zM12 5v14'),ex:SV('M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7')};
+let hn=null,cv,cx,base,bx,wrap,pad,ro;
+let id=null,mode='full',strokes=[],undo=[],redo=[],cur=null,LH=1200,tool='pen',color=COLORS[0],size=3,dirty=false,penSeen=false,pid=null,pre=null,raf=0;
+
+const note=()=>S.hl.find(h=>h.id==id);
+const inSplit=()=>!!SP&&SP.k=='n'&&SP.id==id;
+const hnImg=(x,cls,edit)=>x.hn?`<img class="nim${cls?' '+cls:''} hnim" ${edit?`data-hn-open="${E(x.id)}" `:''}src="${x.hn}" alt="Handnote">`:'';
+const btns=x=>`<button type="button" class="btn s hnb" data-hn-open="${E(x.id)}">${I.pen}<span>${x.hn?'Editar Handnote':'Handnote'}</span></button>`+(x.hn?`<button type="button" class="btn s" data-hn-rm="${E(x.id)}">Quitar</button>`:'');
+
+/* ---- Integración con las notas existentes ---- */
+const oV=NIMG.view;
+NIMG.view=x=>hnImg(x)+oV(x);
+const oT=NIMG.thumb;
+NIMG.thumb=x=>hnImg(x,'sm')+oT(x);
+NIMG.editImg=x=>{const u=hnImg(x,'',true)+oV(x);return u?`<div class="nimr">${u}</div>`:''};
+NIMG.editBtns=x=>btns(x);
+NIMG.edit=x=>`<div class="nimr hnr">${hnImg(x,'',true)}<div class="hnbs">${btns(x)}</div></div>`;
+
+/* Oculta «Nota vacía» cuando la nota solo tiene Handnote */
+function fix(){
+ document.querySelectorAll('#st .nv2,#st .nv').forEach(el=>{
+  const c=el.closest('[data-nid],[data-nv]');if(!c)return;
+  const x=S.hl.find(h=>h.id==(c.dataset.nid||c.dataset.nv));
+  el.style.display=(x&&x.hn&&!x.note&&el.textContent.trim()=='Nota vacía')?'none':''})}
+const _st=study;study=function(){const r=_st.apply(this,arguments);fix();return r};
+const _sr=window.spRender;window.spRender=function(){const r=_sr.apply(this,arguments);sync();return r};
+
+/* ---- Dibujo ---- */
+function dstroke(g,s,k){
+ const q=s.q,n=q.length;if(!n)return;
+ g.save();g.lineCap='round';g.lineJoin='round';g.strokeStyle=g.fillStyle=s.c;
+ if(s.t=='m'){
+  g.globalAlpha=.35;g.lineWidth=s.w*k;g.lineCap='butt';g.beginPath();g.moveTo(q[0][0]*k,q[0][1]*k);
+  if(n==1)g.lineTo(q[0][0]*k+.01,q[0][1]*k);
+  for(let i=1;i<n;i++){const m=i==n-1?q[i]:[(q[i][0]+q[i+1][0])/2,(q[i][1]+q[i+1][1])/2];g.quadraticCurveTo(q[i][0]*k,q[i][1]*k,m[0]*k,m[1]*k)}
+  g.stroke()}
+ else if(n==1){g.beginPath();g.arc(q[0][0]*k,q[0][1]*k,Math.max(.6,s.w*(.55+.9*q[0][2])/2)*k,0,6.2832);g.fill()}
+ else for(let i=1;i<n;i++){
+  const a=i==1?q[0]:[(q[i-1][0]+q[i][0])/2,(q[i-1][1]+q[i][1])/2],b=i==n-1?q[i]:[(q[i][0]+q[i+1][0])/2,(q[i][1]+q[i+1][1])/2];
+  g.lineWidth=s.w*(.55+.9*((q[i-1][2]+q[i][2])/2))*k;g.beginPath();g.moveTo(a[0]*k,a[1]*k);g.quadraticCurveTo(q[i][0]*k,q[i][1]*k,b[0]*k,b[1]*k);g.stroke()}
+ g.restore()}
+function rebuild(){bx.fillStyle=PAPER;bx.fillRect(0,0,base.width,base.height);strokes.forEach(s=>dstroke(bx,s,K));paint()}
+function paint(){raf=0;cx.clearRect(0,0,cv.width,cv.height);cx.drawImage(base,0,0);if(cur)dstroke(cx,cur,K)}
+const sched=()=>{if(!raf)raf=requestAnimationFrame(paint)};
+function btnState(){hn.querySelector('[data-h=un]').disabled=!undo.length;hn.querySelector('[data-h=re]').disabled=!redo.length;hn.querySelector('[data-h=cl]').disabled=!strokes.length}
+function commit(next){undo.push(strokes);if(undo.length>80)undo.shift();redo=[];strokes=next;dirty=true;rebuild();btnState()}
+const pt=e=>{const r=cv.getBoundingClientRect();return [Math.round((e.clientX-r.left)*LW/r.width*10)/10,Math.round((e.clientY-r.top)*LH/r.height*10)/10,e.pointerType=='pen'?Math.round((e.pressure||.5)*10)/10:.5]};
+const pw=()=>1.5+size*.9;
+function hit(s,p,R){const q=s.q,r=R+s.w/2;
+ for(let i=0;i<q.length;i++){
+  const a=q[i],b=q[i-1]||a,dx=b[0]-a[0],dy=b[1]-a[1],l=dx*dx+dy*dy;
+  let t=l?((p[0]-a[0])*dx+(p[1]-a[1])*dy)/l:0;t=Math.max(0,Math.min(1,t));
+  if(Math.hypot(p[0]-(a[0]+t*dx),p[1]-(a[1]+t*dy))<=r)return true}
+ return false}
+function erase(p){const R=16,keep=strokes.filter(s=>!hit(s,p,R));
+ if(keep.length!=strokes.length){if(pre){undo.push(pre);pre=null;redo=[]}strokes=keep;dirty=true;rebuild();btnState()}}
+
+function down(e){
+ if(e.pointerType=='pen')penSeen=true;
+ if(e.pointerType=='touch'&&penSeen)return;
+ if(pid!==null||e.button>0)return;
+ e.preventDefault();pid=e.pointerId;try{cv.setPointerCapture(pid)}catch(_){}
+ const p=pt(e);
+ if(tool=='er'){pre=strokes;erase(p)}
+ else{cur={t:tool=='mk'?'m':'p',c:color,w:tool=='mk'?pw()*4:pw(),q:[p]};sched()}}
+function move(e){
+ if(e.pointerId!==pid)return;e.preventDefault();
+ const L=e.getCoalescedEvents?e.getCoalescedEvents():[];
+ (L.length?L:[e]).forEach(ev=>{const p=pt(ev);
+  if(tool=='er')erase(p);
+  else if(cur){const l=cur.q[cur.q.length-1];if(Math.hypot(p[0]-l[0],p[1]-l[1])>=.8)cur.q.push(p)}});
+ if(cur)sched()}
+function up(e){
+ if(e.pointerId!==pid)return;pid=null;pre=null;
+ if(cur){const s=cur;cur=null;if(e.type!='pointercancel')commit(strokes.concat([s]));else paint()}}
+
+/* ---- Interfaz ---- */
+function build(){
+ hn=document.createElement('div');hn.id='hn';hn.setAttribute('role','dialog');hn.setAttribute('aria-label','Handnote');
+ hn.innerHTML=`<div class="hnh"><button type="button" class="hnc" data-h="x" aria-label="Cerrar" title="Cerrar">✕</button><b>Handnote</b><span class="sp"></span>
+<button type="button" class="hnc" data-h="sw" aria-label="Cambiar de lado" title="Cambiar de lado">⇄</button>
+<button type="button" class="hnt" data-h="sv"></button>
+<button type="button" class="hnt pri" data-h="ok" aria-label="Guardar">${I.ok}<span>Guardar</span></button></div>
+<div class="hntb"><div class="g"><button type="button" class="hnb2" data-h="pen" aria-label="Lápiz" title="Lápiz">${I.pen}</button><button type="button" class="hnb2" data-h="mk" aria-label="Resaltador" title="Resaltador">${I.mk}</button><button type="button" class="hnb2" data-h="er" aria-label="Borrador" title="Borrador">${I.er}</button></div>
+<div class="g">${COLORS.map(c=>`<button type="button" class="sw" data-h="c" data-v="${c}" style="background:${c}" aria-label="Color ${c}"></button>`).join('')}</div>
+<div class="g"><input type="range" min="1" max="10" step="1" value="3" data-h="sz" aria-label="Grosor"></div>
+<div class="g"><button type="button" class="hnb2" data-h="un" aria-label="Deshacer" title="Deshacer">${I.un}</button><button type="button" class="hnb2" data-h="re" aria-label="Rehacer" title="Rehacer">${I.re}</button><button type="button" class="hnb2" data-h="cl" aria-label="Borrar todo" title="Borrar todo">${I.tr}</button></div></div>
+<div class="hnw"><div class="hnp"><canvas></canvas></div></div>`;
+ document.body.appendChild(hn);
+ wrap=hn.querySelector('.hnw');pad=hn.querySelector('.hnp');cv=hn.querySelector('canvas');cx=cv.getContext('2d');
+ base=document.createElement('canvas');bx=base.getContext('2d');
+ cv.addEventListener('pointerdown',down);cv.addEventListener('pointermove',move);cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);cv.addEventListener('contextmenu',e=>e.preventDefault());
+ hn.addEventListener('click',e=>{e.stopPropagation();const b=e.target.closest('[data-h]');if(!b)return;act(b)});
+ hn.addEventListener('input',e=>{if(e.target.dataset.h=='sz')size=+e.target.value});
+ ro=new ResizeObserver(fit);ro.observe(wrap)}
+
+function fit(){
+ if(!hn||!hn.classList.contains('on'))return;
+ const w=wrap.clientWidth-24,h=wrap.clientHeight-18;if(w<=0||h<=0)return;
+ const s=Math.min(w/LW,h/LH);pad.style.width=Math.floor(LW*s)+'px';pad.style.height=Math.floor(LH*s)+'px'}
+function ui(){
+ hn.querySelectorAll('[data-h=pen],[data-h=mk],[data-h=er]').forEach(b=>b.classList.toggle('on',b.dataset.h==tool));
+ hn.querySelectorAll('.sw').forEach(b=>b.classList.toggle('on',b.dataset.v==color));
+ hn.querySelector('[data-h=sz]').value=size;
+ const sv=hn.querySelector('[data-h=sv]'),d=mode=='dock';
+ sv.innerHTML=(d?I.ex:I.sp)+`<span>${d?'Expandir':'SplitView'}</span>`;sv.setAttribute('aria-label',d?'Expandir':'Abrir en SplitView');sv.title=sv.getAttribute('aria-label');
+ btnState()}
+function setMode(m){
+ mode=m;hn.classList.toggle('dock',m=='dock');
+ hn.classList.toggle('l',m=='dock'&&SP&&SP.side=='l');hn.classList.toggle('r',m=='dock'&&SP&&SP.side=='r');
+ if(hn.classList.contains('on')){ui();fit()}}
+function sync(){
+ if(!hn||!hn.classList.contains('on')||mode!='dock')return;
+ if(!inSplit()||isSmall())return setMode('full');
+ setMode('dock')}
+function commitNote(){
+ const x=note();if(!x)return false;
+ const old={hn:x.hn,hs:x.hs,hw:x.hw,hh:x.hh};
+ if(!strokes.length){delete x.hn;delete x.hs;delete x.hw;delete x.hh}
+ else{
+  const t=document.createElement('canvas');t.width=LW;t.height=LH;const g=t.getContext('2d');
+  g.fillStyle=PAPER;g.fillRect(0,0,LW,LH);strokes.forEach(s=>dstroke(g,s,1));
+  x.hn=t.toDataURL('image/png');x.hs=strokes;x.hw=LW;x.hh=LH}
+ try{localStorage.setItem('jwl2',JSON.stringify(S))}
+ catch(e){Object.keys(old).forEach(k=>{if(old[k]===undefined)delete x[k];else x[k]=old[k]});toast('No hay espacio suficiente para guardar el Handnote');return false}
+ save();dirty=false;return true}
+function refresh(){study();if(SP&&SP.k=='n')spRender();try{main()}catch(_){}}
+function close(){
+ if(hn)hn.classList.remove('on');mode='full';id=null;strokes=[];undo=[];redo=[];cur=null;dirty=false}
+function act(b){
+ const k=b.dataset.h;
+ if(k=='x'){if(dirty&&!confirm('¿Descartar los cambios del Handnote?'))return;close()}
+ else if(k=='ok'){if(commitNote()){close();refresh();toast('Handnote guardado')}}
+ else if(k=='sv'){
+  if(mode=='dock')return setMode('full');
+  if(isSmall())return toast('La vista dividida no está disponible en pantallas pequeñas');
+  const x=note();if(!x)return;
+  if(dirty&&!commitNote())return;
+  openSpec({k:'n',id:x.id},SP?SP.side:(S.side=='left'?'r':'l'));
+  setMode('dock');refresh()}
+ else if(k=='sw'){if(inSplit()){SP.side=SP.side=='l'?'r':'l';spRender();setMode('dock')}}
+ else if(k=='pen'||k=='mk'||k=='er'){tool=k;ui()}
+ else if(k=='c'){color=b.dataset.v;if(tool=='er')tool='pen';ui()}
+ else if(k=='un'){if(undo.length){redo.push(strokes);strokes=undo.pop();dirty=true;rebuild();btnState()}}
+ else if(k=='re'){if(redo.length){undo.push(strokes);strokes=redo.pop();dirty=true;rebuild();btnState()}}
+ else if(k=='cl'){if(strokes.length)commit([])}}
+
+function open(nid){
+ const x=S.hl.find(h=>h.id==nid);if(!x)return;
+ if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
+ if(!hn)build();
+ id=nid;strokes=Array.isArray(x.hs)?x.hs:[];undo=[];redo=[];cur=null;dirty=false;pid=null;
+ const m=(!isSmall()&&SP&&SP.k=='n'&&SP.id==nid)?'dock':'full';
+ hn.classList.add('on');setMode(m);
+ if(x.hh&&x.hw==LW)LH=x.hh;
+ else{const w=wrap.clientWidth-24,h=wrap.clientHeight-18;LH=Math.max(600,Math.min(1800,Math.round(LW*(h>0&&w>0?h/w:1.33))))}
+ cv.width=LW*K;cv.height=LH*K;base.width=LW*K;base.height=LH*K;
+ fit();rebuild();ui()}
+
+document.addEventListener('click',e=>{
+ const t=e.target;if(!t||!t.closest)return;
+ const o=t.closest('[data-hn-open]');
+ if(o){e.preventDefault();e.stopPropagation();open(o.dataset.hnOpen);return}
+ const r=t.closest('[data-hn-rm]');
+ if(r){e.preventDefault();e.stopPropagation();const x=S.hl.find(h=>h.id==r.dataset.hnRm);
+  if(x&&confirm('¿Quitar el Handnote de esta nota?')){delete x.hn;delete x.hs;delete x.hw;delete x.hh;save();refresh()}}},true);
+document.addEventListener('keydown',e=>{if(e.key=='Escape'&&hn&&hn.classList.contains('on')){const b=hn.querySelector('[data-h=x]');act(b)}});
+addEventListener('resize',sync);
+}
 </script>
 </body></html>
