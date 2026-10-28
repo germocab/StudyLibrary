@@ -188,7 +188,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 9.100</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 9.110</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar cualquier otro fragmento (a un texto normal, un texto bíblico, otro artículo o una página web), selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><div class="lks" id="e-tl">${LKH(lkT(a,-1),-1)}</div><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -1116,7 +1116,7 @@ study=function(){flush();
 <script>
 /* v3.5: al cruzar el límite móvil/escritorio, redibuja la StudyBar (X solo en escritorio) */
 matchMedia('(max-width:899px)').addEventListener('change',()=>study());
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 </script>
 <style>
 /* Ajustes de la StudyBar sobre 3.7 */
@@ -1217,7 +1217,7 @@ document.addEventListener('click',e=>{
 .lbx img.gz{transition:none!important}
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 /* 1) Tocar fuera de la StudyBar flotante (solo pantallas pequeñas) la cierra */
 {
 const KEEP='#st,#fab,#hm,#pm,#nfm,#tcm,#hd .t,#np,#tb,#mn,#gs,#md,#lb,#sp,#sy,.toast,[data-a],.ni,.hl[data-h],[data-song],[data-r],[data-lk]';
@@ -1292,7 +1292,7 @@ const _c=closeLb;closeLb=function(){if(lbEl){P.clear();g=null;im.classList.remov
 #st.nbg .card.bx{background:transparent;border-color:transparent;box-shadow:none}
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 /* 4.4 · Color de la nota abierta como fondo de la StudyBar */
 {
 const st=$('#st'),_s=study;
@@ -1351,7 +1351,7 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);setTimeout(q,80
 #edg{position:fixed;top:0;bottom:0;width:18px;z-index:19;touch-action:none;display:none}
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 /* 4.5 · Pantalla «Medios» */
 {
 const md=document.createElement('div');md.id='md';md.setAttribute('role','dialog');md.setAttribute('aria-label','Medios');
@@ -1408,7 +1408,7 @@ upd();
 @media(orientation:portrait) and (min-width:900px){.st .bar .xp+.ned{margin-left:8px}}
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1440,7 +1440,7 @@ study=function(){const r=_s.apply(this,arguments);
 #spk #spkl{overflow:auto;flex:1;min-height:0;overscroll-behavior:contain}
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 /* 5.0 · Documentos: notas libres que se guardan en Artículos */
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-a=newdoc]'))return;e.stopImmediatePropagation();e.preventDefault();
@@ -1505,7 +1505,7 @@ body.dm #mn .mopt,body.dm #mn [data-a=anote],body.dm #mn [data-a=edit]{display:n
 .docb:empty::before{content:attr(data-ph);color:var(--mut)}
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 /* 5.1 · Documentos: hoja en blanco */
 {
 const OK={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1};
@@ -1561,7 +1561,7 @@ document.addEventListener('click',e=>{
 .st .bar .ned+.ndel{margin-left:8px}
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 {
 const st=$('#st'),_s=study;
 study=function(){const r=_s.apply(this,arguments);
@@ -1582,7 +1582,7 @@ study=function(){const r=_s.apply(this,arguments);
 .ntw>.ib.tt svg{width:17px;height:17px}
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 IC.tt='M5 6V4h14v2M12 4v16M9 20h6';
 {
 const wrap=root=>{if(!root)return;root.querySelectorAll('input[data-nt]').forEach(inp=>{
@@ -1617,7 +1617,7 @@ wrap($('#st'));wrap($('#sp'));
 .tbdd.up{top:auto;bottom:calc(100% + 8px)}
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 {
 const copyTxt=t=>{const ok=()=>toast('Texto copiado');
  const fb=()=>{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0;top:0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(_){toast('No se pudo copiar')}a.remove()};
@@ -1962,7 +1962,7 @@ html.xd-c{--xcols:repeat(auto-fill,minmax(min(var(--xw),100%),var(--xw)));--xjc:
 @media(prefers-reduced-motion:reduce){#xwp.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 /* 7.1 · «Expandida» pasa a llamarse «Expansiva». Nuevo ajuste «Ancho de párrafos»: define cuántos párrafos caben por fila y cómo se reparten. */
 {
 const MIN=240,MAX=720,DEF=340,D={s:'Rellenar todo el espacio',l:'Alinear a la izquierda',c:'Centrar'};
@@ -2069,7 +2069,7 @@ try{paint()}catch(_){}
 #nfm hr{border:0;border-top:1px solid var(--line);margin:6px 8px}
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 {
 const STAR='M12 3l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 20.9l1.1-6.5L2.6 9.8l6.5-.9z';
 const SV=`<svg viewBox="0 0 24 24"><path d="${STAR}"/></svg>`;
@@ -2162,7 +2162,7 @@ try{study()}catch(_){}
 @media(prefers-reduced-motion:reduce){#lbb.on,#lbp.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 {
 const btn=document.createElement('button');btn.id='lbb';btn.type='button';btn.setAttribute('aria-haspopup','dialog');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Ver la nota de esta imagen');btn.title='Nota de la imagen';btn.innerHTML=ic('note');
 const pop=document.createElement('div');pop.id='lbp';pop.setAttribute('role','dialog');pop.setAttribute('aria-label','Nota de la imagen');
@@ -2187,7 +2187,7 @@ document.addEventListener('click',e=>{if(!ids)return;const t=e.target;if(!t.clos
 }
 </script>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 /* 6.4.5 · 1) Pantallas pequeñas (vertical): arrastrar el handle de la StudyBar hacia arriba la Expande
             (el botón «Expandir» del menú del handle sigue disponible). Estando expandida, arrastrar hacia abajo la reduce.
           2) Al subrayar / crear una nota, el artículo conserva su posición de scroll (ya no vuelve al inicio). */
@@ -2229,7 +2229,7 @@ main=function(){const keep=(cur===lastCur&&edit===lastEdit&&!!cur)?sc.scrollTop:
 }
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 /* 6.5 · StudyBar: agrupa las tarjetas de notas para poder mostrarlas en cuadrícula cuando hay ancho */
 {
 const _s=study;
@@ -2315,7 +2315,7 @@ addEventListener('keydown',e=>{if(!G||!lb.classList.contains('on'))return;
 @media(prefers-reduced-motion:reduce){#tcm.on{animation:none}}
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 {
 const tcm=document.createElement('div');tcm.id='tcm';tcm.setAttribute('role','menu');tcm.setAttribute('aria-label','Subtemas del artículo');document.body.appendChild(tcm);
 const subs=()=>{const a=A();return a?a.blocks.map((b,i)=>b.type=='h'?i:-1).filter(i=>i>=0):[]};
@@ -2361,7 +2361,7 @@ const _m=main;main=function(){hide();return _m.apply(this,arguments)};
 }
 </script>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 /* 6.7 · Vista Expandido compatible con la StudyBar fija (si hay espacio). Se reevalúa al cambiar el ancho del artículo. */
 {
 const mn=document.querySelector('.main');let w0=0,raf=0;
@@ -2370,7 +2370,7 @@ if(window.ResizeObserver&&mn)new ResizeObserver(en=>{const w=Math.round(en[0].co
 }
 </script>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 /* 7.1.2 · 1) Los indicadores de notas se recolocan al cambiar el ancho de los párrafos (o cualquier reflujo del texto).
            2) Filtro «Solo con Referencias Bíblicas» (notas de tipo texto bíblico).
            3) Notas en la StudyBar: Editar y Borrar solo con los botones circulares superiores (se eliminó el menú de pulsación larga). */
@@ -2425,7 +2425,7 @@ body.ephome{--gut:clamp(24px,5.4vw,140px)}
 #lsb [data-lf] svg{width:18px;height:18px}
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 /* 7.2 · «Mi biblioteca» pasa a ser «Estudio Personal»: Recientes, Favoritos, Artículos y Documentos en una sola pantalla
    (en pantallas pequeñas: Recientes, Favoritos y Todo). Botones circulares de Buscar y Guardados (Guardados incluye
    los artículos guardados y las notas de todos los artículos). Artículos y Documentos se pueden marcar como Favoritos. */
@@ -2444,7 +2444,7 @@ const sec=(t,ic,L,msg)=>`<section class="sec"><h2>${ic||''}${t}</h2>${shelf(L,ms
 function home(){const sm=isSmall(),rec=S.arts.filter(a=>a.ro).sort((x,y)=>y.ro-x.ro).slice(0,8),fav=S.arts.filter(a=>a.fav);
  return `<div class="ep${sm?' sm':''}">`+sec('Recientes',HI,rec,'Aún no has abierto nada')+sec('Favoritos',HR,fav,'No hay favoritos')+
   (sm?sec('Todo',IT,S.arts,'Aún no tienes nada. Toca + para crear un artículo o documento.'):sec('Artículos',IA,arts(),'No hay artículos')+sec('Documentos',ID,docs(),'No hay documentos'))+
-  `<p class="ep-hint">Versión 9.100</p></div>`}
+  `<p class="ep-hint">Versión 9.110</p></div>`}
 const CL='<svg viewBox="0 0 24 24"><path d="M18 10a6 6 0 0 0-11.6-1.5A4.5 4.5 0 0 0 7 18h11a4 4 0 0 0 0-8z"/></svg>';
 const syCls=()=>{const y=document.getElementById('sy');return y?(y.className.match(/\b(ok|sync|err)\b/)||[''])[0]:''};
 const syBtn=()=>`<button class="ib syb ${syCls()}" data-a="syopen" aria-label="Sincronización" title="Sincronización">${CL}<i></i></button>`;
@@ -2501,7 +2501,7 @@ try{header();main()}catch(_){}
 }
 </script>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 /* 7.3 · Vista Expansiva: al abrir o cerrar la StudyBar, el artículo se reacomoda de inmediato y cada bloque se desliza
    desde su posición anterior a la nueva (animación FLIP, sincronizada con la StudyBar). Sin cortes ni saltos. */
 {
@@ -2531,7 +2531,7 @@ study=function(){const w=xvWant(),s0=sig(),first=w?snap():null;
 #lsb button:not([data-ls=x]) svg{width:22px;height:22px;margin:0}
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 {const bar=$('#lsb');if(bar){
  const set=(sel,ico,label)=>{const b=bar.querySelector(sel);if(!b)return;b.innerHTML=ico;b.setAttribute('aria-label',label);b.title=label};
  set('[data-ls=e]',ic('ed'),'Editar');set('[data-lf]','<svg viewBox="0 0 24 24"><path d="M12 20.5s-8-4.6-8-10.6A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 8 2.6c0 6-8 10.6-8 10.6z"/></svg>','Favorito');set('.del',ic('tr'),'Eliminar')}}
@@ -2558,7 +2558,7 @@ window.APP_VERSION='9.100';
 #pg.mwb .song{color:var(--ink)}
 </style>
 <script>
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 {
 /* ---------- Reconocimiento de la Guía de actividades ---------- */
 const SECN={t:[/TESOROS DE LA BIBLIA/,/TREASURES FROM GOD/,/TESOUROS DA PALAVRA/,/TRESORS DE LA PAROLE/],
@@ -2906,7 +2906,7 @@ const _mn5=menu;menu=function(){const r=_mn5.apply(this,arguments);const a=A(),m
 </style>
 <script>
 (function(){
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 const SVG_SPLIT='<svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM12 5v14"/></svg>',
       SVG_OPEN='<svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5H5V6h5"/></svg>';
 const link=v=>{const a=A(),b=a&&lkT(a,v.bi);return b&&(b.links||[])[v.j]||null};
@@ -3356,7 +3356,7 @@ try{applyBoard()}catch(_){}
 }
 </script>
 <style>
-/* ===== Versión 9.100 ===== */
+/* ===== Versión 9.110 ===== */
 #nsm .nfd{border-radius:50%;border:2px solid var(--bg);box-shadow:0 0 0 1px var(--line);flex:none}
 #lbp .lbn .nim{width:100%;margin-top:8px}
 .answ{position:relative}
@@ -3498,11 +3498,11 @@ document.addEventListener('pointermove',e=>{if(!G||e.pointerId!==G.id)return;e.p
  AB.x=cx-G.ox-(hr.left+hr.width/2-br.left);AB.y=cy-G.oy-(hr.top+hr.height/2-br.top);place()},true);
 const gend=e=>{if(!G||e.pointerId!==G.id)return;const g=G;g.bar.classList.remove('drag');document.body.classList.remove('dragab');try{g.h.releasePointerCapture(g.id)}catch(_){}G=null;if(g.bub&&!g.moved&&e.type=='pointerup')AB.min=false;place();saveAb()};
 document.addEventListener('pointerup',gend,true);document.addEventListener('pointercancel',gend,true);
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 }
 </script>
 <script>
-/* ===== Versión 9.100 ===== */
+/* ===== Versión 9.110 ===== */
 {
 const NPI='<svg viewBox="0 0 24 24"><path d="M5 4h14a1 1 0 011 1v9l-6 6H5a1 1 0 01-1-1V5a1 1 0 011-1zM14 20v-5a1 1 0 011-1h6M12 7.5v5M9.5 10h5"/></svg>';
 /* 1) «JW Library»: pantalla completa */
@@ -3536,11 +3536,11 @@ const _s=study;study=function(){const r=_s.apply(this,arguments);
     const ref=bar.querySelector('.nfb')||bar.querySelector('.xp');ref?bar.insertBefore(b,ref):bar.appendChild(b)}}}catch(_){}
  return r};
 try{study()}catch(_){}
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 }
 </script>
 <style>
-/* ===== Versión 9.100 ===== */
+/* ===== Versión 9.110 ===== */
 .menu .mqs{display:flex;gap:8px;padding:6px 14px 10px;justify-content:space-between;border-bottom:1px solid var(--line);margin-bottom:4px}
 .menu .mqs button{width:48px;height:48px;min-height:0;border-radius:50%;padding:0;justify-content:center;background:var(--chip);flex:none}
 .menu .mqs button.on{background:#5b3c88;color:#fff}.menu .mqs button.on svg{color:#fff}
@@ -3565,13 +3565,31 @@ window.APP_VERSION='9.100';
 #stg .sgbar i{display:block;height:100%;background:#5b3c88;border-radius:99px}
 #stg .sgb{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
 #stg .sgk{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:3px 0}#stg .sgk span:last-child{color:var(--mut)}
+#stg .pvl{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mut);margin:16px 2px 8px}
+#stg .pvh{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--bg);border:1px solid var(--line);border-radius:24px;overflow:hidden}
+#stg .pvb{width:38px;height:38px;flex:none;box-shadow:none;border:1px solid var(--line)}#stg .pvb svg{width:19px;height:19px}
+#stg .pvt{flex:1;min-width:0}#stg .pvt b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#stg .pvt small{color:var(--mut);font-size:12px}
+#stg .pvm{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:8px;box-shadow:var(--sh2);max-width:340px;margin:0 auto}
+#stg .pvm .mqs{display:flex;gap:8px;padding:6px 14px 10px;justify-content:space-between;border-bottom:1px solid var(--line);margin-bottom:4px}
+#stg .pvm .mqs button{width:48px;height:48px;border-radius:50%;padding:0;display:grid;place-items:center;background:var(--chip);flex:none}
+#stg .pvm .mqs svg{width:22px;height:22px;color:var(--ic)}
+#stg .pve{width:48px;height:48px;border-radius:50%;border:2px dashed var(--line);flex:none}
+#stg .pvr{display:flex;align-items:center;gap:12px;padding:9px 12px;font-size:14.5px}#stg .pvr svg{width:20px;height:20px;color:var(--ic);flex:none}
+#stg .sgrow2{display:flex;align-items:center;gap:10px;padding:8px 0;flex-wrap:wrap}
+#stg .sgi{width:36px;height:36px;border-radius:50%;background:var(--chip);display:grid;place-items:center;flex:none}#stg .sgi svg{width:19px;height:19px;color:var(--ic)}
+#stg .sgn{flex:1;min-width:120px;font-size:15px}
+#stg .seg{display:flex;background:var(--chip);border-radius:99px;padding:3px}
+#stg .seg button{padding:7px 12px;border-radius:99px;font-size:13px;font-weight:600;color:var(--mut)}
+#stg .seg button.on{background:#5b3c88;color:#fff}
+:root[data-theme=dark] .menu .mqs button:not(.on),:root[data-theme=dark] #stg .pvm .mqs button{background:#404040;box-shadow:inset 0 0 0 1px #525252}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .menu .mqs button:not(.on),:root:not([data-theme=light]) #stg .pvm .mqs button{background:#404040;box-shadow:inset 0 0 0 1px #525252}}
 @media(prefers-reduced-motion:reduce){#stg.on{animation:none}}
 </style>
 <script>
 {
 const svg=d=>`<svg viewBox="0 0 24 24"><path d="${d}"/></svg>`;
 const HEART='M12 20.5s-8-4.6-8-10.6A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 8 2.6c0 6-8 10.6-8 10.6z',
- PENP='M4 20l1-4L16 5a2.1 2.1 0 013 3L8 19zM14 7l3 3',GRID='M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',
+ DOOD='M3 15c2-8 4-8 4-2s-3 3-1 3 4-9 6-9 0 8 2 8 3-3 5-3',GRID='M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',
  SWI=svg('M7 4L3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7'),SPI=svg('M3 5h18v14H3zM12 5v14');
 const ORDER=['media','search','save','ann','fs','xv','fav','edit','theme','lang'],DB=['media','search','save','ann'],DS=['fs','xv','fav','edit'];
 const isFs=()=>!!(document.fullscreenElement||document.webkitFullscreenElement);
@@ -3579,7 +3597,7 @@ const META={
  media:{i:()=>ic('head'),l:()=>'Medios'},
  search:{i:()=>ic('srch'),l:()=>sOn?'Cerrar búsqueda':'Buscar',on:()=>sOn},
  save:{i:()=>ic('bm'),l:a=>a.saved?'Quitar de guardados':'Guardar artículo',on:a=>!!a.saved},
- ann:{i:()=>svg(PENP),l:()=>'Anotaciones: '+((window.HNX&&HNX.AN.on)?'On':'Off'),on:()=>!!(window.HNX&&HNX.AN.on)},
+ ann:{i:()=>svg(DOOD),l:()=>'Anotaciones: '+((window.HNX&&HNX.AN.on)?'On':'Off'),on:()=>!!(window.HNX&&HNX.AN.on)},
  fs:{i:()=>ic('fs'),l:()=>isFs()?'Salir de pantalla completa':'Pantalla completa',on:()=>isFs()},
  xv:{i:()=>svg(GRID),l:()=>'Vista Expansiva: '+(S.xv?'On':'Off'),on:()=>!!S.xv},
  fav:{i:()=>svg(HEART),l:a=>a.fav?'Quitar de favoritos':'Marcar como favorito',on:a=>!!a.fav},
@@ -3626,6 +3644,18 @@ const fmt=n=>n<1024?n+' B':n<1048576?(n/1024).toFixed(1)+' KB':(n/1048576).toFix
 const len=o=>{try{return new Blob([JSON.stringify(o)]).size}catch(_){return 0}};
 function imgBytes(){let n=0;const add=v=>{if(typeof v=='string'&&v.startsWith('data:'))n+=v.length};
  S.arts.forEach(a=>{add(a.cover);(a.blocks||[]).forEach(b=>{add(b.src);(b.links||[]).forEach(l=>add(l.img))})});S.hl.forEach(h=>{add(h.img);add(h.hn)});return n}
+const DUM={saved:false,fav:false,doc:false};
+function cbHtml(){const bar=barIds(),sl=slotIds(),ic2=id=>META[id].i(),nm=id=>NAMES[id];
+ const top=`<div class="pvh"><span class="ib pvb">${ic('back')}</span><div class="pvt"><b>Título del artículo</b><small>Publicación</small></div>${ORDER.filter(i=>bar.includes(i)).map(i=>`<span class="ib pvb" title="${E(nm(i))}">${ic2(i)}</span>`).join('')}<span class="ib pvb">${ic('dots')}</span></div>`;
+ const rest=ORDER.filter(i=>!bar.includes(i)&&!sl.includes(i));
+ const menu=`<div class="pvm"><div class="tsz"><span class="tl">Tamaño del texto</span><div class="trow"><span style="font-size:13px">A</span><input type="range" min="13" max="30" value="${S.fs}" disabled aria-hidden="true"><span style="font-size:23px">A</span></div></div><div class="mqs">${sl.map((id,i)=>id?`<button type="button" data-pl="${id}|l" title="${E(nm(id))} · toca para quitar" aria-label="${E(nm(id))}, toca para quitar">${ic2(id)}</button>`:`<span class="pve" aria-label="Espacio vacío"></span>`).join('')}</div>${rest.map(i=>`<div class="pvr">${ic2(i)}<span>${E(nm(i))}</span></div>`).join('')}<div class="pvr">${SPI}<span>Vista dividida</span></div><div class="pvr">${svg('M9 11V5.5a1.5 1.5 0 013 0V10M12 9.5a1.5 1.5 0 013 0V11M15 10.5a1.5 1.5 0 013 0V15a6 6 0 01-6 6h-.5a6 6 0 01-5-2.7L4 15a1.5 1.5 0 012.4-1.8L9 15')}<span>Gestos</span></div></div>`;
+ const rows=ORDER.map(id=>{const w=bar.includes(id)?'b':sl.includes(id)?'s':'l';return `<div class="sgrow2"><span class="sgi">${ic2(id)}</span><span class="sgn">${E(nm(id))}</span><div class="seg" role="group" aria-label="Ubicación de ${E(nm(id))}">${[['b','Barra'],['s','Rápido'],['l','Lista']].map(([k,t])=>`<button type="button" data-pl="${id}|${k}" class="${w==k?'on':''}" aria-pressed="${w==k}">${t}</button>`).join('')}</div></div>`}).join('');
+ return `<div class="card"><p>Así se verá tu barra. Elige dónde va cada botón: en la <b>barra superior</b> del artículo, como <b>acceso rápido</b> (máx. 4) o en la <b>lista</b> de «Más opciones».</p><div class="pvl">Barra superior</div>${top}<div class="pvl">Más opciones</div>${menu}</div><div class="card"><div class="pvl" style="margin-top:0">Ubicación de cada botón</div>${rows}<div class="sgb"><button class="btn s" data-stg="rst">Restablecer valores</button></div><p style="margin-top:10px">En pantallas angostas la barra superior pasa a «Más opciones».</p></div>`}
+function cbRender(){const w=$('#cbw');if(w)w.innerHTML=cbHtml()}
+function cbPlace(id,k){const bar=barIds().filter(x=>x!=id),sl=slotIds().map(x=>x==id?'':x);
+ if(k=='b')bar.push(id);else if(k=='s'){const i=sl.indexOf('');if(i<0){toast('Los 4 espacios están llenos');return}sl[i]=id}
+ S.bar=ORDER.filter(x=>bar.includes(x));S.slots=sl;save();cbRender()}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#stg [data-pl]');if(!b)return;e.preventDefault();const[id,k]=b.dataset.pl.split('|');cbPlace(id,k)});
 function stgRender(){const sy=window.SYNC||{},has='user'in sy,u=has?sy.user:null,stt=has?sy.status:'';
  const stx=!has?'No disponible sin conexión':!u?'No has iniciado sesión':stt=='ok'?'Todo sincronizado ✓':stt=='sync'?'Sincronizando…':stt=='err'?'Error: '+(sy.msg||''):'Conectado';
  const tot=len(S),ar=len(S.arts),nt=len(S.hl),im=imgBytes();
@@ -3633,11 +3663,7 @@ function stgRender(){const sy=window.SYNC||{},has='user'in sy,u=has?sy.user:null
  $('#stgb').innerHTML=
  `<h3>Cuenta y sincronización</h3><div class="card"><div class="rf">${u?E(u.email):'Sin cuenta'}</div><p>${E(stx)}</p><div class="sgb">${!has?'':u?'<button class="btn" data-stg="sync">Sincronizar ahora</button><button class="btn s" data-stg="qr">Escanear QR</button><button class="btn s" data-stg="out">Cerrar sesión</button>':'<button class="btn" data-stg="in">Iniciar sesión o crear cuenta</button>'}</div></div>`+
  `<h3>Almacenamiento</h3><div class="card"><div class="sgk"><span>Datos de la app en este dispositivo</span><span>${fmt(tot)}</span></div><div class="sgk"><span>Artículos y documentos (${S.arts.length})</span><span>${fmt(ar)}</span></div><div class="sgk"><span>Notas y subrayados (${S.hl.length})</span><span>${fmt(nt)}</span></div><div class="sgk"><span>Imágenes y Handnotes</span><span>~${fmt(im)}</span></div><div class="sgbar"><i id="stgq" style="width:0"></i></div><p id="stgqt"></p><div class="sgb"><button class="btn s" data-stg="exp">Exportar copia de seguridad</button></div></div>`+
- `<h3>Barra personalizable</h3><div class="card"><p>Elige los botones que quieres ver en la barra superior de un artículo. Los demás siguen disponibles en «Más opciones». (En pantallas angostas todos están en «Más opciones».)</p>`+
- ORDER.map(id=>`<label class="sgrow">${META[id].i()}<span>${NAMES[id]}</span><input type="checkbox" data-sb="${id}"${bar.includes(id)?' checked':''}></label>`).join('')+`</div>`+
- `<div class="card"><p>Accesos rápidos dentro de «Más opciones» (4 botones redondos bajo el tamaño del texto).</p>`+
- [0,1,2,3].map(i=>`<div class="sgrow"><span>Espacio ${i+1}</span><select data-sl="${i}" aria-label="Espacio ${i+1}"><option value="">Vacío</option>${ORDER.map(id=>`<option value="${id}"${sl[i]==id?' selected':''}>${NAMES[id]}</option>`).join('')}</select></div>`).join('')+
- `<div class="sgb"><button class="btn s" data-stg="rst">Restablecer valores</button></div></div>`;
+ `<h3>Barra personalizable</h3><div id="cbw">${cbHtml()}</div>`;
  if(navigator.storage&&navigator.storage.estimate)navigator.storage.estimate().then(r=>{const q=$('#stgq'),t=$('#stgqt');if(!q||!r.quota)return;q.style.width=Math.max(1,Math.min(100,r.usage/r.quota*100))+'%';t.textContent='Espacio del navegador usado: '+fmt(r.usage)+' de '+fmt(r.quota)}).catch(()=>{})}
 const open=()=>{stgRender();stg.classList.add('on')},close=()=>stg.classList.remove('on');
 document.addEventListener('click',e=>{const t=e.target;if(!t.closest)return;
@@ -3647,9 +3673,6 @@ document.addEventListener('click',e=>{const t=e.target;if(!t.closest)return;
  else if(k=='sync'){sy.sync&&sy.sync()}else if(k=='qr'){sy.scan&&sy.scan()}else if(k=='out'){sy.signOut&&sy.signOut().then(stgRender)}else if(k=='in'){sy.open&&sy.open()}
  else if(k=='exp'){const u=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:'application/json'})),a=document.createElement('a');a.href=u;a.download='jw-library-copia.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000)}
  else if(k=='rst'){delete S.bar;delete S.slots;save();stgRender();toast('Valores restablecidos')}},true);
-stg.addEventListener('change',e=>{const t=e.target;
- if(t.dataset.sb){const id=t.dataset.sb,L=barIds().filter(x=>x!=id);if(t.checked)L.push(id);S.bar=ORDER.filter(x=>L.includes(x));save()}
- else if(t.dataset.sl!=null){const L=slotIds();L[+t.dataset.sl]=t.value;S.slots=L;save()}});
 addEventListener('keydown',e=>{if(e.key=='Escape'&&stg.classList.contains('on'))close()});
 {const y=document.getElementById('sy');if(y)new MutationObserver(()=>{if(stg.classList.contains('on'))stgRender()}).observe(y,{attributes:true,attributeFilter:['class']})}
 
@@ -3670,7 +3693,7 @@ study=function(){const st=$('#st'),was=st.classList.contains('bd'),op=!st.classL
  const r=_s.apply(this,arguments);
  try{if(r0&&r0.width>40&&op&&!st.classList.contains('cl')&&was!==st.classList.contains('bd')&&!matchMedia('(prefers-reduced-motion:reduce)').matches)morph(st,r0)}catch(e){console.error(e)}
  return r};
-window.APP_VERSION='9.100';
+window.APP_VERSION='9.110';
 try{header();menu()}catch(e){console.error(e)}
 }
 </script>
