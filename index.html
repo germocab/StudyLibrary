@@ -188,7 +188,7 @@ function nums(a){let n=0;return a.blocks.map((b,i)=>{if(b.type=='p'&&b.num){n++;
 
 function main(){const pg=$('#pg'),a=A();$('#sb').classList.toggle('on',sOn&&!!a);pg.style.setProperty('--or',(a&&a.accent)||'#e37b00');
  if(!a&&ns){pg.className='pg';pg.innerHTML=newScr();return}
- if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 10.0</p>`;return}
+ if(!a){pg.className='pg lib';pg.innerHTML=(window.LIBX?LIBX.tabs():'')+(window.LIBX&&LIBX.tab!='a'?LIBX.other():'<div class="shelf">'+S.arts.map(COV).join('')+'</div>')+`<p class="hint" style="text-align:center;margin-top:28px">Versión 10.0.4</p>`;return}
  pg.className='pg';const N=nums(a);
  if(edit){const ac=a.accent||SW[0];
   pg.innerHTML=ETB()+`<p class="hint">Modo edición: escribe tus bloques. Los textos como “Juan 3:16” se enlazan solos; para enlazar cualquier otro fragmento (a un texto normal, un texto bíblico, otro artículo o una página web), selecciónalo y toca “Enlazar”.</p><input class="li" id="e-l" value="${E(a.label)}" aria-label="Etiqueta"><input class="ti" id="e-t" value="${E(a.title)}" aria-label="Título"><div class="lks" id="e-tl">${LKH(lkT(a,-1),-1)}</div><input class="li" id="e-s" value="${E(a.sub||'')}" aria-label="Subtítulo">
@@ -2448,11 +2448,11 @@ let small=isSmall(),lastCur=null;
 const free=a=>!(window.bkIn&&bkIn(a)),arts=()=>S.arts.filter(a=>!a.doc&&free(a)),docs=()=>S.arts.filter(a=>a.doc&&free(a));
 const shelf=(L,msg)=>L.length?`<div class="eshelf">${L.map(COV).join('')}</div>`:`<div class="eempty">${msg}</div>`;
 const sec=(t,ic,L,msg)=>`<section class="sec"><h2>${ic||''}${t}</h2>${shelf(L,msg)}</section>`;
-function home(){if(window.bkOk&&LIBX.bk&&bkOk(LIBX.bk)){const sm0=isSmall(),bid=LIBX.bk,inb=a=>a.book==bid;return `<div class="ep${sm0?' sm':''}">`+bkBar()+(sm0?sec('Todo',IT,S.arts.filter(inb),'Este Libro/Revista está vacío'):sec('Artículos',IA,S.arts.filter(a=>!a.doc&&inb(a)),'No hay artículos')+sec('Documentos',ID,S.arts.filter(a=>a.doc&&inb(a)),'No hay documentos'))+`</div>`}
+function home(){if(window.bkOk&&LIBX.bk&&bkOk(LIBX.bk)){const sm0=isSmall();return `<div class="ep${sm0?' sm':''}">`+(window.bkView?bkView(LIBX.bk):'')+`</div>`}
  const sm=isSmall(),rec=S.arts.filter(a=>a.ro).sort((x,y)=>y.ro-x.ro).slice(0,8),fav=S.arts.filter(a=>a.fav);
  return `<div class="ep${sm?' sm':''}">`+sec('Recientes',HI,rec,'Aún no has abierto nada')+sec('Favoritos',HR,fav,'No hay favoritos')+(window.bkSec?bkSec(sm):'')+
   (sm?sec('Todo',IT,S.arts.filter(free),'Aún no tienes nada. Toca + para crear un artículo o documento.'):sec('Artículos',IA,arts(),'No hay artículos')+sec('Documentos',ID,docs(),'No hay documentos'))+
-  `<p class="ep-hint">Versión 10.0</p></div>`}
+  `<p class="ep-hint">Versión 10.0.4</p></div>`}
 const CL='<svg viewBox="0 0 24 24"><path d="M18 10a6 6 0 0 0-11.6-1.5A4.5 4.5 0 0 0 7 18h11a4 4 0 0 0 0-8z"/></svg>';
 const syCls=()=>{const y=document.getElementById('sy');return y?(y.className.match(/\b(ok|sync|err)\b/)||[''])[0]:''};
 const syBtn=()=>`<button class="ib syb ${syCls()}" data-a="syopen" aria-label="Sincronización" title="Sincronización">${CL}<i></i></button>`;
@@ -3833,6 +3833,7 @@ document.addEventListener('pointerdown',e=>{if(cpop&&!e.target.closest('.clp,[da
 
 /* ---------- 4 · Libros / Revistas ---------- */
 const bk=id=>(S.books||[]).find(b=>b.id==id),inBk=a=>!!(a.book&&bk(a.book)),cnt=id=>S.arts.filter(a=>a.book==id).length;
+const CHKI='<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>';
 const SHI='<svg viewBox="0 0 24 24"><path d="M12 3v12M8 7l4-4 4 4M5 13v6h14v-6"/></svg>';
 const PLUS='<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>';
 const BKI='<svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h11"/></svg>';
@@ -3846,7 +3847,7 @@ window.bkBar=()=>`<div class="bkrow0" style="grid-column:1/-1"><button class="bt
 /* encabezado propio al estar dentro de un Libro/Revista */
 const _hd=header;header=function(){const r=_hd.apply(this,arguments);
  try{if(!cur&&!ns&&LIBX.tab=='a'&&LIBX.bk&&bk(LIBX.bk)){const b=bk(LIBX.bk),n=cnt(b.id);
-  $('#hd').innerHTML=`<button class="ib" data-a="bkback" aria-label="Volver">${ic('back')}</button><div class="ep-t only"><b style="overflow:hidden;text-overflow:ellipsis" title="${E(b.title)}">${E(b.title)}</b></div><button class="ib" data-a="gsearch" aria-label="Buscar en toda la plataforma">${ic('srch')}</button><button class="ib" data-a="bkedit" aria-label="Editar Libro/Revista">${ic('ed')}</button><button class="ib" data-a="new" aria-label="Nuevo artículo aquí">${ic('pl')}</button><div class="menu" id="mn"></div>`}}catch(e){console.error(e)}
+  $('#hd').innerHTML=`<button class="ib" data-a="bkback" aria-label="Volver">${ic('back')}</button><div class="ep-t only"><b style="overflow:hidden;text-overflow:ellipsis" title="${E(b.title)}">${E(b.title)}</b></div><button class="ib" data-a="gsearch" aria-label="Buscar en toda la plataforma">${ic('srch')}</button><button class="ib" data-a="bkedit" aria-label="${LIBX.bke?'Listo':'Editar Libro/Revista'}">${LIBX.bke?CHKI:ic('ed')}</button><button class="ib" data-a="new" aria-label="Nuevo artículo aquí">${ic('pl')}</button><div class="menu" id="mn"></div>`}}catch(e){console.error(e)}
  return r};
 
 /* artículos nuevos creados desde dentro de un Libro/Revista */
@@ -3872,7 +3873,7 @@ function dlgBook(id,moveIds){const b=id?bk(id):null;let acc=b?(b.accent||SW[1]):
   if(t.closest('[data-bsave]')){const title=(ti.value||'').trim()||'Libro/Revista sin título';let nb=b;
    if(b){b.title=title;b.accent=acc;if(cover)b.cover=cover;else delete b.cover}
    else{nb={id:uid(),title,accent:acc};if(cover)nb.cover=cover;S.books.push(nb)}
-   (moveIds||[]).forEach(i=>{const a=S.arts.find(x=>x.id==i);if(a&&!a.doc)a.book=nb.id});
+   (moveIds||[]).forEach(i=>{const a=S.arts.find(x=>x.id==i);if(a&&!a.doc){a.book=nb.id;delete a.ord}});
    if(!b){LIBX.tab='a';LIBX.bk=nb.id;ns=false;cur=null;NEWBOOK=null}
    save();closeModal();exitSel();render();toast(b?'Cambios guardados':'Libro/Revista creado')}});
  ti.addEventListener('keydown',e=>{if(e.key=='Enter'){e.preventDefault();d.querySelector('[data-bsave]').click()}});
@@ -3883,7 +3884,7 @@ function dlgMove(ids){const all=ids.map(i=>S.arts.find(a=>a.id==i)).filter(Boole
  const d=modal(`<h3>Mover a Libro/Revista</h3><p class="bkp">${arts.length==1?E(arts[0].title):arts.length+' artículos'}</p>${B.length?`<div class="bkl">${B.map(b=>`<button type="button" data-mv="${b.id}" class="${arts.every(a=>a.book==b.id)?'on':''}"><span class="bkdot" style="background:${E(b.accent||'#5b3c88')}"></span><span>${E(b.title)}</span><small>${cnt(b.id)}</small></button>`).join('')}</div>`:'<p class="bkp">Aún no tienes Libros/Revistas. Crea el primero:</p>'}<div class="bka"><button type="button" class="btn s" data-mv="__new">${PLUS}Nuevo Libro/Revista</button>${any?'<button type="button" class="btn s" data-mv="__out">Sacar del Libro/Revista</button>':''}</div><div class="bka"><span style="flex:1"></span><button type="button" class="btn s" data-bx>Cancelar</button></div>`);
  d.addEventListener('click',e=>{const t=e.target;if(t.closest('[data-bx]')){closeModal();return}const m=t.closest('[data-mv]');if(!m)return;const v=m.dataset.mv;
   if(v=='__new'){dlgBook(null,ids);return}
-  arts.forEach(a=>{if(v=='__out')delete a.book;else a.book=v});save();closeModal();exitSel();render();
+  arts.forEach(a=>{if(v=='__out')delete a.book;else a.book=v;delete a.ord});save();closeModal();exitSel();render();
   toast(v=='__out'?'Quitado del Libro/Revista':(arts.length==1?'Artículo movido':arts.length+' artículos movidos')+' a «'+bk(v).title+'»')})}
 
 function dlgAdd(id){const b=bk(id);if(!b)return;const L=S.arts.filter(a=>a.book!=id&&!a.doc);
@@ -3891,18 +3892,21 @@ function dlgAdd(id){const b=bk(id);if(!b)return;const L=S.arts.filter(a=>a.book!
  const ok=d.querySelector('[data-ok]'),sel=()=>[...d.querySelectorAll('input:checked')].map(x=>x.value);
  d.addEventListener('change',()=>{const n=sel().length;if(ok){ok.disabled=!n;ok.textContent=n?'Agregar ('+n+')':'Agregar'}});
  d.addEventListener('click',e=>{const t=e.target;if(t.closest('[data-bx]')){closeModal();return}
-  if(t.closest('[data-ok]')){const ids=sel();ids.forEach(i=>{const a=S.arts.find(x=>x.id==i);if(a&&!a.doc)a.book=id});save();closeModal();render();toast(ids.length==1?'Artículo agregado':ids.length+' artículos agregados')}})}
+  if(t.closest('[data-ok]')){const ids=sel();ids.forEach(i=>{const a=S.arts.find(x=>x.id==i);if(a&&!a.doc){a.book=id;delete a.ord}});save();closeModal();render();toast(ids.length==1?'Artículo agregado':ids.length+' artículos agregados')}})}
 
 /* botón «Mover» en la barra de selección (mantener pulsado un artículo) */
 {const bar=document.getElementById('lsb');if(bar){const b=document.createElement('button');b.type='button';b.dataset.bkm='1';b.innerHTML=BKM+'Mover';const del=bar.querySelector('.del');del?bar.insertBefore(b,del):bar.appendChild(b)}}
 
 /* clics */
 document.addEventListener('click',e=>{const t=e.target;if(!t.closest)return;let x;
- if(t.closest('[data-a="lbm"]'))LIBX.bk=null;
- if(x=t.closest('[data-a="bkopen"]')){stop(e);LIBX.tab='a';LIBX.bk=x.dataset.v;render();const sc=$('#sc');sc&&sc.scrollTo(0,0);return}
- if(t.closest('[data-a="bkback"]')){stop(e);LIBX.bk=null;render();return}
+ if(t.closest('[data-a="lbm"]')){LIBX.bk=null;LIBX.bke=false}
+ if(x=t.closest('[data-a="bkopen"]')){stop(e);LIBX.tab='a';LIBX.bk=x.dataset.v;LIBX.bke=false;render();const sc=$('#sc');sc&&sc.scrollTo(0,0);return}
+ if(t.closest('[data-a="bkback"]')){stop(e);LIBX.bk=null;LIBX.bke=false;render();return}
  if(t.closest('[data-a="bknewbk"]')){stop(e);dlgBook(null);return}
- if(t.closest('[data-a="bkedit"]')){stop(e);if(LIBX.bk)dlgBook(LIBX.bk);return}
+ if(t.closest('[data-a="bkedit"]')){stop(e);if(LIBX.bk){LIBX.bke=!LIBX.bke;if(LIBX.bke)bkNorm(LIBX.bk);render()}return}
+ if(t.closest('[data-a="bkdone"]')){stop(e);LIBX.bke=false;render();return}
+ if(t.closest('[data-a="bkdet"]')){stop(e);if(LIBX.bk)dlgBook(LIBX.bk);return}
+ if(x=t.closest('[data-bout]')){stop(e);const a=S.arts.find(z=>z.id==x.dataset.bout),id=LIBX.bk;if(a){delete a.book;delete a.ord;bkNorm(id);save();render();toast('Quitado del Libro/Revista')}return}
  if(t.closest('[data-a="bknewart"]')){stop(e);if(LIBX.bk)startNew(LIBX.bk);return}
  if(t.closest('[data-a="bkadd"]')){stop(e);if(LIBX.bk)dlgAdd(LIBX.bk);return}
  if(t.closest('[data-a="bkmv"]')){stop(e);const m=$('#mn');m&&m.classList.remove('on');if(cur)dlgMove([cur]);return}
@@ -3913,7 +3917,7 @@ document.addEventListener('click',e=>{const t=e.target;if(!t.closest)return;let 
 /* selector de Libro/Revista dentro del editor */
 document.addEventListener('change',e=>{const s=e.target;if(!s||s.id!='bksel')return;const a=A();if(!a||a.doc)return;const v=s.value;
  if(v=='__new'){s.value=a.book||'';dlgBook(null,[a.id]);return}
- if(v)a.book=v;else delete a.book;save();toast(v?'Movido a «'+bk(v).title+'»':'Quitado del Libro/Revista')});
+ if(v)a.book=v;else delete a.book;delete a.ord;save();toast(v?'Movido a «'+bk(v).title+'»':'Quitado del Libro/Revista')});
 addEventListener('keydown',e=>{if(e.key=='Escape'){closeModal();closePop()}});
 
 function fixDocs(){let ch=false;(S.arts||[]).forEach(a=>{if(a.doc&&a.book){delete a.book;ch=true}});if(ch)save()}
@@ -3933,8 +3937,72 @@ const _mn=main;main=function(){const r=_mn.apply(this,arguments);
  }catch(e){console.error(e)}
  return r};
 
+
+/* ---------- 4b · Lista de artículos, numeración y swipe (v10.0.4) ---------- */
+const bkArts=id=>S.arts.map((a,i)=>({a,i})).filter(x=>x.a.book==id&&!x.a.doc).sort((x,y)=>((x.a.ord==null?1e9:x.a.ord)-(y.a.ord==null?1e9:y.a.ord))||x.i-y.i).map(x=>x.a);
+const bkNorm=id=>{let ch=false;bkArts(id).forEach((a,i)=>{if(a.ord!==i+1){a.ord=i+1;ch=true}});if(ch)save()};
+const bkPad=n=>String(n).padStart(2,'0');
+const bkLbl=(a,n)=>{const l=(a.label||'').trim()||'Artículo';return /\d/.test(l)?l:l+' '+bkPad(n)};
+function bkMove(id,artId,pos){const L=bkArts(id),i=L.findIndex(a=>a.id==artId);if(i<0)return;const x=L.splice(i,1)[0];L.splice(Math.max(0,Math.min(L.length,pos-1)),0,x);L.forEach((a,k)=>a.ord=k+1);save();render()}
+const bkThumb=a=>`<span class="blt" style="--a:${E(a.accent||'#5b3c88')}">${a.cover?`<img src="${E(a.cover)}" alt="">`:''}</span>`;
+window.bkBar=()=>{const ed=!!LIBX.bke;return `<div class="bkrow0" style="grid-column:1/-1"><button class="btn" data-a="bknewart">${PLUS}Nuevo artículo</button><button class="btn s" data-a="bkadd">Agregar artículos</button></div>`+
+ (ed?`<div class="bkrow0" style="grid-column:1/-1"><button class="btn" data-a="bkdone">Listo</button><button class="btn s" data-a="bkdet">Título y portada</button></div><p class="hint" style="grid-column:1/-1;margin:0 0 6px">Modo edición: elige el número de cada artículo (del 1 al ${bkArts(LIBX.bk).length}). Ese orden define la lista y el swipe entre artículos.</p>`:'')};
+window.bkView=id=>{const L=bkArts(id),n=L.length,ed=!!LIBX.bke;
+ if(!n)return bkBar()+`<div class="eempty" style="grid-column:1/-1">Este Libro/Revista está vacío</div>`;
+ const rows=L.map((a,i)=>{const txt=`<span class="blx"><small>${E(bkLbl(a,i+1))}</small><b>${E(a.title)}</b></span>`;
+  if(!ed)return `<button type="button" class="card bli" data-a="open" data-v="${a.id}" aria-label="${E(a.title)}">${bkThumb(a)}${txt}</button>`;
+  let o='';for(let k=1;k<=n;k++)o+=`<option value="${k}"${k==i+1?' selected':''}>${k}</option>`;
+  return `<div class="card bli ed"><select class="bsel" data-bsel="${a.id}" aria-label="Número de «${E(a.title)}»">${o}</select>${bkThumb(a)}${txt}<button type="button" class="bout" data-bout="${a.id}" aria-label="Sacar del Libro/Revista" title="Sacar del Libro/Revista"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>`}).join('');
+ return bkBar()+`<div class="bkl2">${rows}</div>`};
+document.addEventListener('change',e=>{const s=e.target;if(!s||!s.matches||!s.matches('[data-bsel]')||!LIBX.bk)return;bkMove(LIBX.bk,s.dataset.bsel,+s.value)});
+{const st=document.createElement('style');st.textContent=`
+.bkl2{grid-column:1/-1;width:100%;max-width:760px;display:flex;flex-direction:column;gap:6px;padding:4px 0 24px}
+.card.bli{display:flex;align-items:flex-start;gap:14px;width:100%;margin:0;padding:6px 0;border:0;border-radius:0;background:none;box-shadow:none;text-align:left;color:inherit;transition:opacity .15s}
+.card.bli:active{opacity:.6}
+.bli .blt{flex:none;width:76px;height:76px;overflow:hidden;background:linear-gradient(155deg,var(--a),color-mix(in srgb,var(--a) 55%,#000));display:block}
+.bli .blt img{width:100%;height:100%;object-fit:cover;display:block}
+.bli .blx{min-width:0;flex:1;display:block;padding-top:4px}
+.bli .blx small{display:block;font-size:15px;line-height:1.3;letter-spacing:.01em;text-transform:uppercase;color:var(--mut)}
+.bli .blx b{display:block;margin-top:3px;font-weight:400;font-size:clamp(18px,4.6vw,22px);line-height:1.25;color:#4a6da7;overflow-wrap:anywhere}
+:root[data-theme="dark"] .bli .blx b{color:#8db0e6}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .bli .blx b{color:#8db0e6}}
+.card.bli.ed{align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.card.bli.ed .blx{padding-top:0}
+.bsel{flex:none;width:60px;height:46px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:700 18px Figtree,system-ui,sans-serif;text-align:center;text-align-last:center;appearance:none;-webkit-appearance:none;cursor:pointer}
+.bout{flex:none;width:40px;height:40px;border-radius:50%;background:var(--chip);color:var(--mut);display:grid;place-items:center}
+.bout svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+@keyframes bsl{from{opacity:0;transform:translateX(36px)}to{opacity:1;transform:none}}
+@keyframes bsr{from{opacity:0;transform:translateX(-36px)}to{opacity:1;transform:none}}
+.pg.bsl{animation:bsl .26s ease-out}.pg.bsr{animation:bsr .26s ease-out}
+@media(prefers-reduced-motion:reduce){.pg.bsl,.pg.bsr{animation:none}}`;document.head.appendChild(st)}
+
+/* posición dentro del Libro/Revista en la cabecera del artículo */
+const _hd3=header;header=function(){const r=_hd3.apply(this,arguments);
+ try{const a=A();if(a&&!ns&&inBk(a)){const L=bkArts(a.book),i=L.findIndex(x=>x.id==a.id),sm=document.querySelector('#hd .t small');if(sm&&i>=0)sm.textContent=(a.sub?a.sub+' · ':'')+(i+1)+' de '+L.length}}catch(e){}
+ return r};
+
+/* swipe entre artículos del mismo Libro/Revista */
+{const NO='input,textarea,select,[contenteditable],figure img,.bcard,.etb,#st,#hd,.menu,.bkd,.pm,.tb,#np';let T=null;
+ const open=id=>{const x=document.getElementById(id);return !!(x&&x.classList.contains('on'))};
+ const ok=()=>{if(!cur||ns||edit||S.gest===false)return false;const a=A();if(!a||a.doc||!inBk(a))return false;
+  if(isSmall()&&sOpen)return false;if(document.body.classList.contains('dm')||document.getElementById('bkd'))return false;
+  if(open('lb')||open('gs')||open('md'))return false;try{if(typeof SP!='undefined'&&SP)return false}catch(_){}return true};
+ const hs=t=>{const sc=document.getElementById('sc');for(let n=t;n&&n!==sc&&n.nodeType==1;n=n.parentElement){if(n.scrollWidth>n.clientWidth+2){const o=getComputedStyle(n).overflowX;if(o=='auto'||o=='scroll')return true}}return false};
+ function go(d){const a=A(),L=bkArts(a.book),n=L[L.findIndex(x=>x.id==a.id)+d];
+  if(!n){toast(d>0?'Es el último artículo':'Es el primer artículo');return}
+  cur=n.id;sv0=null;sOn=false;q='';edit=false;ns=false;render();
+  const sc=document.getElementById('sc'),pg=document.getElementById('pg');if(sc)sc.scrollTop=0;
+  pg.classList.remove('bsl','bsr');void pg.offsetWidth;pg.classList.add(d>0?'bsl':'bsr');if(navigator.vibrate)try{navigator.vibrate(8)}catch(_){}}
+ document.addEventListener('touchstart',e=>{T=null;if(e.touches.length!=1)return;const t=e.target;
+  if(!t||!t.closest||!t.closest('#sc')||t.closest(NO)||!ok()||hs(t))return;const p=e.touches[0];T={x:p.clientX,y:p.clientY,t:Date.now()}},{passive:true,capture:true});
+ document.addEventListener('touchmove',e=>{if(T&&e.touches.length>1)T=null},{passive:true});
+ document.addEventListener('touchcancel',()=>{T=null},{passive:true});
+ document.addEventListener('touchend',e=>{if(!T)return;const s=T;T=null;const p=e.changedTouches[0],dx=p.clientX-s.x,dy=p.clientY-s.y;
+  if(Date.now()-s.t>800||Math.abs(dx)<70||Math.abs(dy)>Math.abs(dx)*.55)return;
+  const g=getSelection();if(g&&!g.isCollapsed)return;if(!ok())return;go(dx<0?1:-1)},{passive:true,capture:true})}
+
 /* ---------- 5 · Compartir Libros/Revistas (v10.0.1) ---------- */
-window.APP_VERSION='10.0.2';
+window.APP_VERSION='10.0.4';
 {
 const st0=document.createElement('style');st0.textContent='.card.cv.bk[data-a="bkopen"]{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}.bkshb{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin:0 0 8px}.bkshb svg{width:20px;height:20px}';document.head.appendChild(st0);
 const clone=o=>JSON.parse(JSON.stringify(o));
@@ -3944,7 +4012,7 @@ function buildPkg(bookId,artId){
  if(bookId){book=clone(bk(bookId));arts=S.arts.filter(a=>a.book==bookId)}else arts=S.arts.filter(a=>a.id==artId);
  arts=clone(arts);if(!bookId)arts.forEach(a=>{delete a.book});
  const ids=new Set(arts.map(a=>a.id)),hl=clone(S.hl.filter(h=>ids.has(h.art)));
- return{app:'jwlpro-share',format:1,appVersion:'10.0.2',created:Date.now(),title:book?book.title:(arts[0]?arts[0].title:''),book,arts,hl}}
+ return{app:'jwlpro-share',format:1,appVersion:'10.0.4',created:Date.now(),title:book?book.title:(arts[0]?arts[0].title:''),book,arts,hl}}
 function saveBlob(blob,name){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
 async function sendFile(pkg){
  const name=fname(pkg.title),blob=new Blob([JSON.stringify(pkg)],{type:'application/json'});
